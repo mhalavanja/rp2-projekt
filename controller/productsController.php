@@ -17,13 +17,17 @@ class productsController extends BaseController
 
     function product()
     {
+        $userId = null;
+        if(isset($_SESSION["user"])) $userId = $_SESSION["user"]->getId();
+        else header('Location: ' . __SITE_URL . '/index.php');
         $product_id = null;
-        if(isset($_POST['product_id'])) $product_id = $_POST['product_id'];
-        elseif (isset($_SESSION['product_id'])) $product_id = $_SESSION['product_id'];
+        if (isset($_POST['product_id'])) $product_id = $_POST['product_id'];
+        elseif (isset($_SESSION['product_id'])) {
+            $product_id = $_SESSION['product_id'];
+            $_SESSION['product_id'] = null;
+        }
 
         if (!$product_id || !preg_match('/^product_[0-9]+$/', $product_id)) {
-//            header('Location: ' . __SITE_URL . '/index.php?rt=users');
-            echo $product_id;
             exit();
         }
 
@@ -39,12 +43,13 @@ class productsController extends BaseController
             $rating = $sale->getRating();
             $comment = $sale->getComment();
 
-            if ($id === $_SESSION["user"]->getId() &&
+            if ($id === $userId &&
                 $rating === null && $comment === null) {
                 $canReview = true;
                 $saleId = $sale->getId();
                 continue;
             }
+            if ($rating === null && $comment === null) continue;
 
             $review["username"] = $reviewer->getUsername();
             $review["rating"] = $rating;
@@ -53,7 +58,7 @@ class productsController extends BaseController
         }
         $this->registry->template->canReview = $canReview;
         $this->registry->template->reviews = $reviews;
-        $this->registry->template->productId = $productId;
+        $this->registry->template->product = Product::find($productId);
         $this->registry->template->saleId = $saleId;
 //        echo "<pre>";
 //        var_dump($reviews[0]["username"]);
@@ -106,5 +111,18 @@ class productsController extends BaseController
         $_SESSION["product_id"] = "product_" . $_POST["product_id"];
         Sale::save($sale);
         header('Location: ' . __SITE_URL . '/index.php?rt=products/product');
+    }
+
+    function processBuy()
+    {
+        $productId = isset($_POST["productId"]) ? $_POST["productId"] : null;
+        $userId = isset($_SESSION["user"]) ? $_SESSION["user"]->getId() : null;
+        if (!$userId) header('Location: ' . __SITE_URL . '/index.php');
+        if (!$productId ) exit();
+        $sale = new Sale();
+        $sale->setId_product($productId);
+        $sale->setId_user($userId);
+        Sale::save($sale);
+        header('Location: ' . __SITE_URL . '/index.php?rt=search');
     }
 }

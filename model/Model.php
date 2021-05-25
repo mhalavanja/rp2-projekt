@@ -61,22 +61,6 @@ abstract class Model
         }
     }
 
-//    public static function insert(Model $obj)
-//    {
-//        $db = DB::getConnection();
-//        $values = "";
-//        foreach ($obj as $col => $val) {
-//            $values .= ($val . ",");
-//        }
-//        $values = rtrim($values, ',');
-//        try {
-//            $st = $db->prepare("INSERT INTO " . static::$table . " VALUES (:values);");
-//            $st->execute(array(":values" => $values));
-//        } catch (PDOException $e) {
-//            exit("PDO error [insert " . static::$table . "]: " . $e->getMessage());
-//        }
-//    }
-
     public static function all()
     {
         $db = DB::getConnection();
@@ -108,7 +92,35 @@ abstract class Model
         } catch (PDOException $e) {
             exit("PDO error [select " . static::$table . "]: " . $e->getMessage());
         }
+//        echo "<pre>";
+//        $st->debugDumpParams();
+//        echo "<pre>";
+        $arr = [];
+        foreach ($st->fetchAll() as $row) {
+            $class = get_called_class();
+            $obj = new $class;
+            foreach (static::$columns as $key => $val) {
+                $setProperty = "set" . ucfirst($key);
+                $obj->$setProperty($row[$key]);
+            }
+            $arr[] = $obj;
+        }
+        return $arr;
+    }
 
+    public static function like($col, $val)
+    {
+        $db = DB::getConnection();
+        try {
+            $sql = "SELECT * FROM " . static::$table . " WHERE " . $col . " LIKE :val;";
+            $st = $db->prepare($sql);
+            $st->execute(array(":val" => $val));
+        } catch (PDOException $e) {
+            exit("PDO error [select " . static::$table . "]: " . $e->getMessage());
+        }
+//        echo "<pre>";
+//        $st->debugDumpParams();
+//        echo "<pre>";
         $arr = [];
         foreach ($st->fetchAll() as $row) {
             $class = get_called_class();
@@ -193,9 +205,6 @@ abstract class Model
         } catch (PDOException $e) {
             exit("PDO error [REPLACE " . static::$table . "]: " . $e->getMessage());
         }
-        echo "<pre>";
-        $st->debugDumpParams();
-        echo "<pre>";
         return true;
     }
 }

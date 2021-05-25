@@ -34,4 +34,10 @@ class loginController extends BaseController
             header('Location: ' . __SITE_URL . '/index.php?rt=products');
         }
     }
+
+    function processLogout()
+    {
+        $_SESSION["user"] = null;
+        header('Location: ' . __SITE_URL . '/index.php?');
+    }
 }
