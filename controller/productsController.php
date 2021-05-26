@@ -4,22 +4,18 @@ require_once __SITE_PATH . '/model/' . 'User.php';
 
 class productsController extends BaseController
 {
-
     function index()
     {
-
         $user = $_SESSION["user"];
         $products = Product::where("id_user", $user->getId());
         $this->registry->template->user = $user;
-        $this->registry->template->products = $products;
+        $this->registry->template->starProducts = $this->getAvgRatingForProducts($products);
         $this->registry->template->show("my-products");
     }
 
     function product()
     {
-        $userId = null;
-        if(isset($_SESSION["user"])) $userId = $_SESSION["user"]->getId();
-        else header('Location: ' . __SITE_URL . '/index.php');
+        $userId = $_SESSION["user"]->getId();
         $product_id = null;
         if (isset($_POST['product_id'])) $product_id = $_POST['product_id'];
         elseif (isset($_SESSION['product_id'])) {
@@ -36,6 +32,10 @@ class productsController extends BaseController
         $productId = substr($product_id, 8);
         $sales = Sale::where("id_product", $productId);
         $reviews = [];
+        $totalRating = 0;
+        $numOfRatings = 0;
+        $numOfSoldProducts = sizeof($sales);
+
         foreach ($sales as $sale) {
             $review = [];
             $id = $sale->getId_user();
@@ -43,6 +43,7 @@ class productsController extends BaseController
             $rating = $sale->getRating();
             $comment = $sale->getComment();
 
+            $numOfSoldProducts += 1;
             if ($id === $userId &&
                 $rating === null && $comment === null) {
                 $canReview = true;
@@ -50,19 +51,21 @@ class productsController extends BaseController
                 continue;
             }
             if ($rating === null && $comment === null) continue;
+            $totalRating += $rating;
+            $numOfRatings += 1;
 
             $review["username"] = $reviewer->getUsername();
             $review["rating"] = $rating;
             $review["comment"] = $comment;
             $reviews[] = $review;
         }
+        $avgRating = $numOfRatings !== 0 ? round(($totalRating / $numOfRatings) * 2) / 2 : 0;
         $this->registry->template->canReview = $canReview;
         $this->registry->template->reviews = $reviews;
         $this->registry->template->product = Product::find($productId);
         $this->registry->template->saleId = $saleId;
-//        echo "<pre>";
-//        var_dump($reviews[0]["username"]);
-//        echo "<pre>";
+        $this->registry->template->avgRating = $avgRating;
+        $this->registry->template->numOfSoldProducts = $numOfSoldProducts;
         $this->registry->template->show("product");
     }
 
@@ -94,7 +97,7 @@ class productsController extends BaseController
             $product = Product::find($sale->getId_product());
             $products[] = $product;
         }
-        $this->registry->template->products = $products;
+        $this->registry->template->starProducts = $this->getAvgRatingForProducts($products);
         $this->registry->template->show("shopping-history");
     }
 
@@ -116,9 +119,9 @@ class productsController extends BaseController
     function processBuy()
     {
         $productId = isset($_POST["productId"]) ? $_POST["productId"] : null;
-        $userId = isset($_SESSION["user"]) ? $_SESSION["user"]->getId() : null;
+        $userId = $_SESSION["user"]->getId();
         if (!$userId) header('Location: ' . __SITE_URL . '/index.php');
-        if (!$productId ) exit();
+        if (!$productId) exit();
         $sale = new Sale();
         $sale->setId_product($productId);
         $sale->setId_user($userId);

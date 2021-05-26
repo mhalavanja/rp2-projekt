@@ -1,7 +1,7 @@
 <?php
 
 // Učitaj definiciju bazne klase za controllere.
-require_once __SITE_PATH . '/app/' . 'BaseController.php';
+require_once __SITE_PATH . '/controller/' . 'BaseController.php';
 
 // Učitaj definiciju registry klase.
 require_once __SITE_PATH . '/app/' . 'Registry.php';

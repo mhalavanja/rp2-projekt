@@ -1,5 +1,5 @@
-<?php require_once __SITE_PATH . '/view/_header.php'; ?>
-
+<?php require_once __SITE_PATH . '/view/_header.php';
+    require_once __SITE_PATH . '/util/stars.php';?>
     <form method="post" action="<?php echo __SITE_URL . '/index.php?rt=search/processSearch' ?>">
         <div>
             <label for="search">Search product: </label>
@@ -8,7 +8,7 @@
         <button type="submit">Search!</button>
     </form>
 
-<?php if (isset($products)) { ?>
+<?php if (isset($starProducts)) { ?>
     <form method="post" action="<?php echo __SITE_URL . '/index.php?rt=search/searchDetails' ?>">
 
     <table>
@@ -16,15 +16,19 @@
         <th>Name</th>
         <th>Description</th>
         <th>Price</th>
+        <th>Stars</th>
         <th></th>
     </tr>
     <?php
-    foreach ($products as $product) {
+    foreach ($starProducts as $starProduct) {
+        $avgRating = $starProduct->getAvgRating();
         echo '<tr>' .
-            '<td>' . $product->getName() . '</td>' .
-            '<td>' . $product->getDescription() . '</td>' .
-            '<td>' . $product->getPrice() . '</td>' .
-            '<td><button type="submit" name="product_id" value="product_' . $product->getId() . '">Details</button></td>' .
+            '<td>' . $starProduct->getProduct()->getName() . '</td>' .
+            '<td>' . $starProduct->getProduct()->getDescription() . '</td>' .
+            '<td>' . $starProduct->getProduct()->getPrice() . '</td>' .
+            '<td>' . getStars($avgRating, true) . '</td>' .
+            '<td><button type="submit" name="product_id" value="product_' .
+                $starProduct->getProduct()->getId() . '">Details</button></td>' .
             '</tr>';
     }
 }

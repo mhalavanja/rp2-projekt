@@ -1,7 +1,16 @@
 <?php require_once __SITE_PATH . '/view/_header.php';
 if(isset($product)) echo "<h3>Product: " . $product->getName() . "</h3>";
-if (!isset($reviews) || sizeof($reviews) == 0)
-    echo "<p>This product has no reviews.</p>";
+if(isset($avgRating)){
+    $starSrc = __SITE_URL . "/static/star.png";
+    $halfStarSrc = __SITE_URL . "/static/half-star.png";
+    while ($avgRating > 0.5) {
+        echo "<img src='$starSrc'>";
+        $avgRating --;
+    }
+    if ($avgRating === 0.5) echo "<img src='$halfStarSrc'>";
+}
+if(isset($numOfSoldProducts)) echo "<p>This product has been sold " . $numOfSoldProducts . " times.";
+if (!isset($reviews) || sizeof($reviews) == 0) echo "<p>This product has no reviews.</p>";
 else { ?>
     <table>
     <tr>

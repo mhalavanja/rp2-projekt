@@ -1,5 +1,6 @@
 <?php require_once __SITE_PATH . '/view/_header.php';
-if (!isset($products) || sizeof($products) == 0) echo "<h2>You are not selling any product.</h2>";
+require_once __SITE_PATH . '/util/stars.php';
+if (!isset($starProducts) || sizeof($starProducts) == 0) echo "<h2>You are not selling any product.</h2>";
 else { ?>
     <form method="post" action="<?php echo __SITE_URL . '/index.php?rt=products/product' ?>">
     <table>
@@ -7,13 +8,16 @@ else { ?>
         <th>Name</th>
         <th>Description</th>
         <th>Price</th>
+        <th>Stars</th>
         <th></th>
     </tr>
-    <?php foreach ($products as $product) {
+    <?php foreach ($starProducts as $starProduct) {
+        $product = $starProduct->getProduct();
         echo '<tr>' .
             '<td>' . $product->getName() . '</td>' .
             '<td>' . $product->getDescription() . '</td>' .
             '<td>' . $product->getPrice() . '</td>' .
+            '<td>' . getStars($starProduct->getAvgRating(), true) . '</td>' .
             '<td><button type="submit" name="product_id" value="product_' . $product->getId() . '">Details</button></td>' .
             '</tr>';
     }

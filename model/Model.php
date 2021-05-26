@@ -157,29 +157,6 @@ abstract class Model
         return $obj;
     }
 
-    public function belongsTo($className, $foreign_key)
-    {
-        // TODO
-        // Objekt $this ima svojstvo $foreign_key koje predstavlja strani ključ. Taj strani ključ je id od objekta klase
-        // $className. Funkcija vraća taj objekt (tipa $className).
-    }
-
-    public function hasMany($className, $foreign_key)
-    {
-        // TODO
-        // Objekt $this ima puno objekata tipa $className.
-        // U tablici od $className postoji stupac s imenom $foreign_key sadrži id-ove objekata istog tipa kao što je $this.
-        // Objekti čiji je $foreign_key jednak $this->id su oni koji pripadaju $this-u.
-        // Funkcija vraća polje tih objekata (tipa $className).
-    }
-
-    public function hasOne($className, $foreign_key)
-    {
-        // TODO
-        // Kao hasMany, ali postoji samo jedan takav objekt.
-        // Funkcija vraća taj jedan objekt (a ne polje).
-    }
-
     public function save($obj)
     {
         // TODO

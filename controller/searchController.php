@@ -3,11 +3,10 @@
 
 class searchController extends BaseController
 {
-
     function index()
     {
-        $this->registry->template->products = isset($_SESSION["products"]) ? $_SESSION["products"] : null;
-        $_SESSION["products"] = null;
+        $this->registry->template->starProducts = isset($_SESSION["starProducts"]) ? $_SESSION["starProducts"] : null;
+        $_SESSION["starProducts"] = null;
         $this->registry->template->show("search");
     }
 
@@ -16,7 +15,8 @@ class searchController extends BaseController
         $searchTerm = isset($_POST["search"]) ? $_POST["search"] : null;
         $searchTerm = "%" . $searchTerm . "%";
         $products = Product::like("name", $searchTerm);
-        $_SESSION["products"] = $products;
+        $starProducts = $this->getAvgRatingForProducts($products);
+        $_SESSION["starProducts"] = $starProducts;
         header('Location: ' . __SITE_URL . '/index.php?rt=search');
     }
 
@@ -36,6 +36,7 @@ class searchController extends BaseController
         $sales = Sale::where("id_product", $productId);
         $reviews = [];
         if ( $product->getId_user() === $userId) $canBuy = false;
+        $numOfSoldProducts = sizeof($sales);
 
         foreach ($sales as $sale) {
             $review = [];
@@ -43,26 +44,28 @@ class searchController extends BaseController
             $buyer = User::find($buyerId);
             $rating = $sale->getRating();
             $comment = $sale->getComment();
+            $totalRating = 0;
+            $numOfRatings = 0;
 
             if ($buyerId === $userId) {
                 $canBuy = false;
                 continue;
             }
             if ($rating === null && $comment === null) continue;
+            $totalRating += $rating;
+            $numOfRatings += 1;
 
             $review["username"] = $buyer->getUsername();
             $review["rating"] = $rating;
             $review["comment"] = $comment;
             $reviews[] = $review;
         }
+        $avgRating = $numOfRatings !== 0 ? round(($totalRating / $numOfRatings) * 2) / 2 : 0;
         $this->registry->template->reviews = $reviews;
         $this->registry->template->canBuy = $canBuy;
         $this->registry->template->product = $product;
-//        echo "<pre>";
-//        var_dump($reviews[0]["username"]);
-//        echo "<pre>";
-//        echo $canBuy;
-//        echo "$canBuy";
+        $this->registry->template->avgRating = $avgRating;
+        $this->registry->template->numOfSoldProducts = $numOfSoldProducts;
         $this->registry->template->show("product");
     }
 }
