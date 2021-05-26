@@ -1,5 +1,5 @@
 <?php require_once __SITE_PATH . '/view/_header.php';
-require_once __SITE_PATH . '/util/stars.php';
+require_once __SITE_PATH . '/util/drawStarsUtil.php';
 if (!isset($starProducts) || sizeof($starProducts) == 0) echo "<h2>You are not selling any product.</h2>";
 else { ?>
     <form method="post" action="<?php echo __SITE_URL . '/index.php?rt=products/product' ?>">

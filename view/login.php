@@ -1,6 +1,6 @@
 <?php require_once __SITE_PATH . '/view/_header.php'; ?>
 
-<p <?php if (!$loginError) echo "hidden" ?>> Wrong username or password!</p>
+<p <?php if (!isset($loginError) ||  !$loginError) echo "hidden" ?>> Wrong username or password!</p>
 <form method="post" action="<?php echo __SITE_URL . '/index.php?rt=login/processLogin' ?>">
     <div>
         <label for="username">Username:</label>
@@ -13,8 +13,8 @@
     </div>
     <br>
     <div>
-        <button type="submit" name="Login">Login</button>
-        <button type="submit" name="Register">Register</button>
+        <input type="submit" name="Login" value="Login"/>
+        <input type="submit" name="Register" value="Register"/>
     </div>
 </form>
 

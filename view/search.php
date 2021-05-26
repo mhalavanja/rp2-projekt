@@ -1,5 +1,5 @@
 <?php require_once __SITE_PATH . '/view/_header.php';
-    require_once __SITE_PATH . '/util/stars.php';?>
+require_once __SITE_PATH . '/util/drawStarsUtil.php'; ?>
     <form method="post" action="<?php echo __SITE_URL . '/index.php?rt=search/processSearch' ?>">
         <div>
             <label for="search">Search product: </label>
@@ -9,6 +9,7 @@
     </form>
 
 <?php if (isset($starProducts)) { ?>
+    <br>
     <form method="post" action="<?php echo __SITE_URL . '/index.php?rt=search/searchDetails' ?>">
 
     <table>
@@ -28,7 +29,7 @@
             '<td>' . $starProduct->getProduct()->getPrice() . '</td>' .
             '<td>' . getStars($avgRating, true) . '</td>' .
             '<td><button type="submit" name="product_id" value="product_' .
-                $starProduct->getProduct()->getId() . '">Details</button></td>' .
+            $starProduct->getProduct()->getId() . '">Details</button></td>' .
             '</tr>';
     }
 }

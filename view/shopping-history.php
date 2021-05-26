@@ -1,5 +1,5 @@
 <?php require_once __SITE_PATH . '/view/_header.php';
-require_once __SITE_PATH . '/util/stars.php';
+require_once __SITE_PATH . '/util/drawStarsUtil.php';
 if (!isset($starProducts) || sizeof($starProducts) == 0) echo "<h2>You have not yes bought any product. Let's change that :)</h2>";
 else { ?>
 <h2>Products you have bought already:</h2>

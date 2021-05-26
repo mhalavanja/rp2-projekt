@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf8">
     <title><?php if (isset($title)) echo $title; else echo "ebuy"; ?></title>
-    <link rel="stylesheet" href="<?php echo __SITE_URL; ?>/css/style.css">
+    <link rel="stylesheet" href="<?php echo __SITE_URL; ?>/static/css/style.css">
 </head>
 <body>
 <img src="<?php echo __SITE_URL; ?>/static/logo.png" alt="logo">

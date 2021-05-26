@@ -1,5 +1,6 @@
 <?php
-require_once __SITE_PATH . '/model/' . 'User.php';
+require_once __SITE_PATH . '/util/starProductUtil.php';
+require_once __SITE_PATH . '/util/reviewUtil.php';
 
 
 class productsController extends BaseController
@@ -9,7 +10,7 @@ class productsController extends BaseController
         $user = $_SESSION["user"];
         $products = Product::where("id_user", $user->getId());
         $this->registry->template->user = $user;
-        $this->registry->template->starProducts = $this->getAvgRatingForProducts($products);
+        $this->registry->template->starProducts = getStarProducts($products);
         $this->registry->template->show("my-products");
     }
 
@@ -27,45 +28,16 @@ class productsController extends BaseController
             exit();
         }
 
-        $canReview = false;
-        $saleId = null;
         $productId = substr($product_id, 8);
+        $product = Product::find($productId);
         $sales = Sale::where("id_product", $productId);
-        $reviews = [];
-        $totalRating = 0;
-        $numOfRatings = 0;
-        $numOfSoldProducts = sizeof($sales);
+        $saleId = getSaleIdForUserIfTheyCanReview($userId, $sales);
 
-        foreach ($sales as $sale) {
-            $review = [];
-            $id = $sale->getId_user();
-            $reviewer = User::find($id);
-            $rating = $sale->getRating();
-            $comment = $sale->getComment();
-
-            $numOfSoldProducts += 1;
-            if ($id === $userId &&
-                $rating === null && $comment === null) {
-                $canReview = true;
-                $saleId = $sale->getId();
-                continue;
-            }
-            if ($rating === null && $comment === null) continue;
-            $totalRating += $rating;
-            $numOfRatings += 1;
-
-            $review["username"] = $reviewer->getUsername();
-            $review["rating"] = $rating;
-            $review["comment"] = $comment;
-            $reviews[] = $review;
-        }
-        $avgRating = $numOfRatings !== 0 ? round(($totalRating / $numOfRatings) * 2) / 2 : 0;
-        $this->registry->template->canReview = $canReview;
-        $this->registry->template->reviews = $reviews;
-        $this->registry->template->product = Product::find($productId);
+        $this->registry->template->canReview = (bool)$saleId;
+        $this->registry->template->reviews = getReviewsForProduct($sales);
         $this->registry->template->saleId = $saleId;
-        $this->registry->template->avgRating = $avgRating;
-        $this->registry->template->numOfSoldProducts = $numOfSoldProducts;
+        $this->registry->template->starProduct = getStarProduct($product);
+        $this->registry->template->numOfSoldProducts = sizeof($sales);
         $this->registry->template->show("product");
     }
 
@@ -97,7 +69,7 @@ class productsController extends BaseController
             $product = Product::find($sale->getId_product());
             $products[] = $product;
         }
-        $this->registry->template->starProducts = $this->getAvgRatingForProducts($products);
+        $this->registry->template->starProducts = getStarProducts($products);
         $this->registry->template->show("shopping-history");
     }
 

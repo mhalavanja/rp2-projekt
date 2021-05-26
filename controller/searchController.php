@@ -1,4 +1,6 @@
 <?php
+require_once __SITE_PATH . '/util/starProductUtil.php';
+require_once __SITE_PATH . '/util/reviewUtil.php';
 
 
 class searchController extends BaseController
@@ -15,7 +17,7 @@ class searchController extends BaseController
         $searchTerm = isset($_POST["search"]) ? $_POST["search"] : null;
         $searchTerm = "%" . $searchTerm . "%";
         $products = Product::like("name", $searchTerm);
-        $starProducts = $this->getAvgRatingForProducts($products);
+        $starProducts = getStarProducts($products);
         $_SESSION["starProducts"] = $starProducts;
         header('Location: ' . __SITE_URL . '/index.php?rt=search');
     }
@@ -28,44 +30,15 @@ class searchController extends BaseController
             exit();
         }
 
-        $canBuy = true;
         $userId = $_SESSION["user"]->getId();
         $productId = substr($product_id, 8);
         $product = Product::find($productId);
-        //ako je kupac vec kupio to ne moze vise ili ako je to produkt koji on prodaje
         $sales = Sale::where("id_product", $productId);
-        $reviews = [];
-        if ( $product->getId_user() === $userId) $canBuy = false;
-        $numOfSoldProducts = sizeof($sales);
 
-        foreach ($sales as $sale) {
-            $review = [];
-            $buyerId = $sale->getId_user();
-            $buyer = User::find($buyerId);
-            $rating = $sale->getRating();
-            $comment = $sale->getComment();
-            $totalRating = 0;
-            $numOfRatings = 0;
-
-            if ($buyerId === $userId) {
-                $canBuy = false;
-                continue;
-            }
-            if ($rating === null && $comment === null) continue;
-            $totalRating += $rating;
-            $numOfRatings += 1;
-
-            $review["username"] = $buyer->getUsername();
-            $review["rating"] = $rating;
-            $review["comment"] = $comment;
-            $reviews[] = $review;
-        }
-        $avgRating = $numOfRatings !== 0 ? round(($totalRating / $numOfRatings) * 2) / 2 : 0;
-        $this->registry->template->reviews = $reviews;
-        $this->registry->template->canBuy = $canBuy;
-        $this->registry->template->product = $product;
-        $this->registry->template->avgRating = $avgRating;
-        $this->registry->template->numOfSoldProducts = $numOfSoldProducts;
+        $this->registry->template->reviews = getReviewsForProduct($sales);
+        $this->registry->template->canBuy = !($product->getId_user() === $userId || alreadyBought($userId, $sales));
+        $this->registry->template->starProduct = getStarProduct($product);
+        $this->registry->template->numOfSoldProducts = sizeof($sales);
         $this->registry->template->show("product");
     }
 }
