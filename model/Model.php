@@ -61,7 +61,7 @@ abstract class Model
         }
     }
 
-    public static function all()
+    public static function all(): array
     {
         $db = DB::getConnection();
         try {
@@ -82,7 +82,7 @@ abstract class Model
         return $arr;
     }
 
-    public static function where($col, $val)
+    public static function where($col, $val): array
     {
         $db = DB::getConnection();
         try {
@@ -108,7 +108,7 @@ abstract class Model
         return $arr;
     }
 
-    public static function like($col, $val)
+    public static function like($col, $val): array
     {
         $db = DB::getConnection();
         try {
@@ -118,9 +118,7 @@ abstract class Model
         } catch (PDOException $e) {
             exit("PDO error [select " . static::$table . "]: " . $e->getMessage());
         }
-//        echo "<pre>";
-//        $st->debugDumpParams();
-//        echo "<pre>";
+
         $arr = [];
         foreach ($st->fetchAll() as $row) {
             $class = get_called_class();
@@ -157,7 +155,7 @@ abstract class Model
         return $obj;
     }
 
-    public function save($obj)
+    public static function save($obj): bool
     {
         // TODO
         // Funkcija sprema novi ili ažurira postojeći redak u tablici $table koji pripada objektu $this.
@@ -174,7 +172,6 @@ abstract class Model
         $sql = rtrim($sql, ',') . ")";
         $values = rtrim($values, ',') . ")";
         $sql .= $values;
-        echo $sql;
         $db = DB::getConnection();
         try {
             $st = $db->prepare($sql);

@@ -48,9 +48,11 @@ class productsController extends BaseController
 
     function processNewProduct()
     {
-        if (!isset($_POST['name']) || !isset($_POST['description']) || !isset($_POST['price'])) {
+        if (!isset($_POST['name']) || !isset($_POST['description']) || !isset($_POST['price']) ||
+            empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price'])) {
             $this->registry->template->error = true;
             $this->registry->template->show("new-product");
+            return;
         }
         $product = new Product();
         $product->setName($_POST['name']);
@@ -75,8 +77,8 @@ class productsController extends BaseController
 
     function processReview()
     {
-        $rating = isset($_POST["rating"]) ? $_POST["rating"] : null;
-        $comment = isset($_POST["comment"]) ? $_POST["comment"] : null;
+        $rating = $_POST["rating"] ?? null;
+        $comment = $_POST["comment"] ?? null;
         $sale = new Sale();
         $sale->setId_user($_SESSION["user"]->getId());
         $sale->setId($_POST["saleId"]);
@@ -90,7 +92,7 @@ class productsController extends BaseController
 
     function processBuy()
     {
-        $productId = isset($_POST["productId"]) ? $_POST["productId"] : null;
+        $productId = $_POST["productId"] ?? null;
         $userId = $_SESSION["user"]->getId();
         if (!$userId) header('Location: ' . __SITE_URL . '/index.php');
         if (!$productId) exit();
