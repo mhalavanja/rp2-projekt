@@ -5,11 +5,12 @@ class User extends Model
 {
     private $id;
     private $username;
+    private $is_admin;
     private $password_hash;
     private $email;
     private $registration_sequence;
     private $has_registered;
-    protected static $table = "dz2_users";
+    protected static $table = "projekt_users";
     protected static $columns = [];
 
     public function __construct(){}
@@ -37,6 +38,16 @@ class User extends Model
     public function setUsername($username)
     {
         $this->username = $username;
+    }
+
+    public function getIsAdmin()
+    {
+        return $this->is_admin;
+    }
+
+    public function setIsAdmin($is_admin): void
+    {
+        $this->is_admin = $is_admin;
     }
 
     public function getPassword_hash()

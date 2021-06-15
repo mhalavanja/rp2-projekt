@@ -16,7 +16,7 @@ class searchController extends BaseController
     {
         $searchTerm = $_POST["search"] ?? null;
         $searchTerm = "%" . $searchTerm . "%";
-        $products = Product::like("name", $searchTerm);
+        $products = Hotel::like("name", $searchTerm);
         $starProducts = getStarProducts($products);
         $_SESSION["starProducts"] = $starProducts;
         header('Location: ' . __SITE_URL . '/index.php?rt=search');
@@ -32,8 +32,8 @@ class searchController extends BaseController
 
         $userId = $_SESSION["user"]->getId();
         $productId = substr($product_id, 8);
-        $product = Product::find($productId);
-        $sales = Sale::where("id_product", $productId);
+        $product = Hotel::find($productId);
+        $sales = Booking::where("id_product", $productId);
 
         $this->registry->template->reviews = getReviewsForProduct($sales);
         $this->registry->template->canBuy = !($product->getId_user() === $userId || alreadyBought($userId, $sales));

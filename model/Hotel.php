@@ -1,21 +1,20 @@
 <?php
 
 
-class Product extends Model
+class Hotel extends Model
 {
     private $id;
-    private $id_user;
     private $name;
-    private $description;
-    private $price;
-    protected static $table = "dz2_products";
+    private $city;
+    private $distance_from_city_centre;
+    protected static $table = "projekt_hotels";
     protected static $columns = [];
 
     public function __construct(){}
 
     public static function staticInit()
     {
-        Product::setColumns();
+        Hotel::setColumns();
     }
 
     public function getId()
@@ -48,25 +47,25 @@ class Product extends Model
         $this->name = $name;
     }
 
-    public function getDescription()
+    public function getCity()
     {
-        return $this->description;
+        return $this->city;
     }
 
-    public function setDescription($description)
+    public function setCity($city): void
     {
-        $this->description = $description;
+        $this->city = $city;
     }
 
-    public function getPrice()
+    public function getDistanceFromCityCentre()
     {
-        return $this->price;
+        return $this->distance_from_city_centre;
     }
 
-    public function setPrice($price)
+    public function setDistanceFromCityCentre($distance_from_city_centre): void
     {
-        $this->price = $price;
+        $this->distance_from_city_centre = $distance_from_city_centre;
     }
 }
 
-Product::staticInit();
+Hotel::staticInit();

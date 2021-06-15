@@ -3,7 +3,7 @@ require_once __SITE_PATH . '/util/drawStarsUtil.php';
 
 if(isset($starProduct)){
     $product = $starProduct->getProduct();
-    if ($product) echo "<h3>Product: " . $product->getName() . "</h3>";
+    if ($product) echo "<h3>Hotel: " . $product->getName() . "</h3>";
     echo getStars($starProduct->getAvgRating(), false);
 }
 if (isset($numOfSoldProducts)) echo "<p>This product has been sold " . $numOfSoldProducts . " times.";

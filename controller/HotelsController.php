@@ -3,12 +3,12 @@ require_once __SITE_PATH . '/util/starProductUtil.php';
 require_once __SITE_PATH . '/util/reviewUtil.php';
 
 
-class productsController extends BaseController
+class hotelsController extends BaseController
 {
     function index()
     {
         $user = $_SESSION["user"];
-        $products = Product::where("id_user", $user->getId());
+        $products = Hotel::where("id_user", $user->getId());
         $this->registry->template->user = $user;
         $this->registry->template->starProducts = getStarProducts($products);
         $this->registry->template->show("my-products");
@@ -29,8 +29,8 @@ class productsController extends BaseController
         }
 
         $productId = substr($product_id, 8);
-        $product = Product::find($productId);
-        $sales = Sale::where("id_product", $productId);
+        $product = Hotel::find($productId);
+        $sales = Booking::where("id_product", $productId);
         $saleId = getSaleIdForUserIfTheyCanReview($userId, $sales);
 
         $this->registry->template->canReview = (bool)$saleId;
@@ -54,21 +54,21 @@ class productsController extends BaseController
             $this->registry->template->show("new-product");
             return;
         }
-        $product = new Product();
+        $product = new Hotel();
         $product->setName($_POST['name']);
         $product->setDescription($_POST['description']);
         $product->setPrice($_POST['price']);
         $product->setId_user($_SESSION["user"]->getId());
-        Product::save($product);
+        Hotel::save($product);
         header('Location: ' . __SITE_URL . '/index.php?rt=products');
     }
 
     function shoppingHistory()
     {
-        $sales = Sale::where("id_user", $_SESSION["user"]->getId());
+        $sales = Booking::where("id_user", $_SESSION["user"]->getId());
         $products = [];
         foreach ($sales as $sale) {
-            $product = Product::find($sale->getId_product());
+            $product = Hotel::find($sale->getId_product());
             $products[] = $product;
         }
         $this->registry->template->starProducts = getStarProducts($products);
@@ -79,14 +79,14 @@ class productsController extends BaseController
     {
         $rating = $_POST["rating"] ?? null;
         $comment = $_POST["comment"] ?? null;
-        $sale = new Sale();
+        $sale = new Booking();
         $sale->setId_user($_SESSION["user"]->getId());
         $sale->setId($_POST["saleId"]);
         $sale->setId_product($_POST["product_id"]);
         $sale->setRating($rating);
         $sale->setComment($comment);
         $_SESSION["product_id"] = "product_" . $_POST["product_id"];
-        Sale::save($sale);
+        Booking::save($sale);
         header('Location: ' . __SITE_URL . '/index.php?rt=products/product');
     }
 
@@ -96,10 +96,10 @@ class productsController extends BaseController
         $userId = $_SESSION["user"]->getId();
         if (!$userId) header('Location: ' . __SITE_URL . '/index.php');
         if (!$productId) exit();
-        $sale = new Sale();
+        $sale = new Booking();
         $sale->setId_product($productId);
         $sale->setId_user($userId);
-        Sale::save($sale);
+        Booking::save($sale);
         header('Location: ' . __SITE_URL . '/index.php?rt=search');
     }
 }

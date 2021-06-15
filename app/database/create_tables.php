@@ -35,76 +35,104 @@ function create_table_users()
 {
     $db = DB::getConnection();
 
-    if( has_table( 'dz2_users' ) )
-        exit( 'Tablica dz2_users vec postoji. Obrisite ju pa probajte ponovno.' );
+    if( has_table( 'projekt_users' ) )
+        exit( 'Tablica projekt_users vec postoji. Obrisite ju pa probajte ponovno.' );
 
     try
     {
         $st = $db->prepare(
-            'CREATE TABLE IF NOT EXISTS dz2_users (' .
-            'id int NOT NULL PRIMARY KEY AUTO_INCREMENT,' .
-            'username varchar(50) NOT NULL,' .
-            'password_hash varchar(255) NOT NULL,'.
-            'email varchar(50) NOT NULL,' .
-            'registration_sequence varchar(20) NOT NULL,' .
-            'has_registered int)'
+            'CREATE TABLE IF NOT EXISTS projekt_users (' .
+            'id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,' .
+            'username VARCHAR(50) NOT NULL,' .
+            'is_admin int NOT NULL,' .
+            'password_hash VARCHAR(255) NOT NULL,'.
+            'email VARCHAR(50) NOT NULL,' .
+            'registration_sequence VARCHAR(20) NOT NULL,' .
+            'has_registered INT)'
         );
 
         $st->execute();
     }
-    catch( PDOException $e ) { exit( "PDO error [create dz2_users]: " . $e->getMessage() ); }
+    catch( PDOException $e ) { exit( "PDO error [create projekt_users]: " . $e->getMessage() ); }
 
-    echo "Napravio tablicu dz2_users.<br />";
+    echo "Napravio tablicu projekt_users.<br />";
 }
 
 
-function create_table_products()
+function create_table_hotels()
 {
     $db = DB::getConnection();
 
-    if( has_table( 'dz2_products' ) )
-        exit( 'Tablica dz2_products vec postoji. Obrisite ju pa probajte ponovno.' );
+    if( has_table( 'projekt_hotels' ) )
+        exit( 'Tablica projekt_hotels vec postoji. Obrisite ju pa probajte ponovno.' );
 
     try
     {
         $st = $db->prepare(
-            'CREATE TABLE IF NOT EXISTS dz2_products (' .
-            'id int NOT NULL PRIMARY KEY AUTO_INCREMENT,' .
-            'id_user int NOT NULL,' .
-            'name varchar(100) NOT NULL,' .
-            'description varchar(1000) NOT NULL,' .
-            'price decimal(15,2) NOT NULL)'
+            'CREATE TABLE IF NOT EXISTS projekt_hotels (' .
+            'id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,' .
+            'name VARCHAR(100) NOT NULL,' .
+            'city VARCHAR(100) NOT NULL,' .
+            'distance_from_city_centre DECIMAL(15,2) NOT NULL)'
         );
 
         $st->execute();
     }
-    catch( PDOException $e ) { exit( "PDO error [create dz2_products]: " . $e->getMessage() ); }
+    catch( PDOException $e ) { exit( "PDO error [create projekt_hotels]: " . $e->getMessage() ); }
 
-    echo "Napravio tablicu dz2_products.<br />";
+    echo "Napravio tablicu projekt_hotels.<br />";
 }
 
-
-function create_table_sales()
+function create_table_rooms()
 {
     $db = DB::getConnection();
 
-    if( has_table( 'dz2_sales' ) )
-        exit( 'Tablica dz2_sales vec postoji. Obrisite ju pa probajte ponovno.' );
+    if( has_table( 'projekt_rooms' ) )
+        exit( 'Tablica projekt_rooms vec postoji. Obrisite ju pa probajte ponovno.' );
 
     try
     {
         $st = $db->prepare(
-            'CREATE TABLE IF NOT EXISTS dz2_sales (' .
+            'CREATE TABLE IF NOT EXISTS projekt_rooms (' .
+            'id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,' .
+            'id_hotel INT NOT NULL,' .
+            'capacity INT NOT NULL,' .
+            'view INT NOT NULL,' .
+            'price DECIMAL(15,2) NOT NULL,' .
+            'image LONGBLOB)'
+        );
+
+        $st->execute();
+    }
+    catch( PDOException $e ) { exit( "PDO error [create projekt_rooms]: " . $e->getMessage() ); }
+
+    echo "Napravio tablicu projekt_rooms.<br />";
+}
+
+function create_table_bookings()
+{
+    $db = DB::getConnection();
+
+    if( has_table( 'projekt_bookings' ) )
+        exit( 'Tablica projekt_bookings vec postoji. Obrisite ju pa probajte ponovno.' );
+
+    try
+    {
+        $st = $db->prepare(
+            'CREATE TABLE IF NOT EXISTS projekt_bookings (' .
             'id int NOT NULL PRIMARY KEY AUTO_INCREMENT,' .
-            'id_product INT NOT NULL,' .
             'id_user INT NOT NULL,' .
+            'id_hotel INT NOT NULL,' .
+            'room_number INT NOT NULL,' .
+            'from_date DATE NOT NULL,' .
+            'to_date DATE NOT NULL,' .
             'rating INT,' .
-            'comment varchar(1000))'
+            'comment VARCHAR(1000))'
         );
 
         $st->execute();
     }
-    catch( PDOException $e ) { exit( "PDO error [create dz2_sales]: " . $e->getMessage() ); }
+    catch( PDOException $e ) { exit( "PDO error [create projekt_bookings]: " . $e->getMessage() ); }
 
-    echo "Napravio tablicu dz2_sales.<br />";
+    echo "Napravio tablicu projekt_bookings.<br />";
 }
