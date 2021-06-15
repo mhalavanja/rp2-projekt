@@ -4,12 +4,12 @@
 require_once __DIR__ . '/db.class.php';
 
 create_table_users();
-create_table_products();
-create_table_sales();
+create_table_hotels();
+create_table_rooms();
+create_table_bookings();
 
 exit( 0 );
 
-// --------------------------
 function has_table( $tblname )
 {
     $db = DB::getConnection();

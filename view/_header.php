@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="<?php echo __SITE_URL; ?>/static/bootstrap/css/bootstrap.css">
     <script type="text/javascript" src="<?php echo __SITE_URL; ?>/static/jquery-min.js"></script></head>
 <body>
+<br>
 <h1>Welcome, <?php if (isset($_SESSION["user"])) echo $_SESSION["user"] -> getUsername(); else echo " please login or register!"; ?></h1>
 
 <?php

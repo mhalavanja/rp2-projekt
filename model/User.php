@@ -40,12 +40,12 @@ class User extends Model
         $this->username = $username;
     }
 
-    public function getIsAdmin()
+    public function getIs_admin()
     {
         return $this->is_admin;
     }
 
-    public function setIsAdmin($is_admin): void
+    public function setIs_admin($is_admin): void
     {
         $this->is_admin = $is_admin;
     }

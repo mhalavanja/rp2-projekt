@@ -1,9 +1,6 @@
 <?php
-require_once __SITE_PATH . '/util/starProductUtil.php';
-require_once __SITE_PATH . '/util/reviewUtil.php';
 
-
-class searchController extends BaseController
+class SearchController extends BaseController
 {
     function index()
     {
@@ -19,7 +16,7 @@ class searchController extends BaseController
         $products = Hotel::like("name", $searchTerm);
         $starProducts = getStarProducts($products);
         $_SESSION["starProducts"] = $starProducts;
-        header('Location: ' . __SITE_URL . '/index.php?rt=search');
+        header('Location: ' . __SITE_URL . 'search');
     }
 
     function searchDetails()

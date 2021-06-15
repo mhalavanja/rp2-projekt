@@ -2,16 +2,16 @@
 require_once __SITE_PATH . '/util/starProductUtil.php';
 require_once __SITE_PATH . '/util/reviewUtil.php';
 
-
-class hotelsController extends BaseController
+//TODO: Ovaj i sve ostale controllere i viewove treba promijeniti
+class HotelsController extends BaseController
 {
     function index()
     {
-        $user = $_SESSION["user"];
-        $products = Hotel::where("id_user", $user->getId());
-        $this->registry->template->user = $user;
-        $this->registry->template->starProducts = getStarProducts($products);
-        $this->registry->template->show("my-products");
+        if(!$_SESSION["user"]) header('Location: ' . __SITE_URL . 'login');
+        $hotels = Hotel::all();
+        $this->registry->template->hotels = $hotels;
+//        $this->registry->template->starProducts = getStarProducts($products);
+        $this->registry->template->show("hotels");
     }
 
     function product()
@@ -60,7 +60,7 @@ class hotelsController extends BaseController
         $product->setPrice($_POST['price']);
         $product->setId_user($_SESSION["user"]->getId());
         Hotel::save($product);
-        header('Location: ' . __SITE_URL . '/index.php?rt=products');
+        header('Location: ' . __SITE_URL . 'products');
     }
 
     function shoppingHistory()
@@ -87,19 +87,19 @@ class hotelsController extends BaseController
         $sale->setComment($comment);
         $_SESSION["product_id"] = "product_" . $_POST["product_id"];
         Booking::save($sale);
-        header('Location: ' . __SITE_URL . '/index.php?rt=products/product');
+        header('Location: ' . __SITE_URL . 'products/product');
     }
 
     function processBuy()
     {
         $productId = $_POST["productId"] ?? null;
         $userId = $_SESSION["user"]->getId();
-        if (!$userId) header('Location: ' . __SITE_URL . '/index.php');
+        if (!$userId) header('Location: ' . __SITE_URL);
         if (!$productId) exit();
         $sale = new Booking();
         $sale->setId_product($productId);
         $sale->setId_user($userId);
         Booking::save($sale);
-        header('Location: ' . __SITE_URL . '/index.php?rt=search');
+        header('Location: ' . __SITE_URL . 'search');
     }
 }
