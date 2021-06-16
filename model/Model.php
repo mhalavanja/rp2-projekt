@@ -72,7 +72,8 @@ abstract class Model
         }
         $arr = [];
         foreach ($st->fetchAll() as $row) {
-            $obj = new get_called_class();
+            $class = get_called_class();
+            $obj = new $class;
             foreach (static::$columns as $key => $val) {
                 $setProperty = "set" . ucfirst($key);
                 $obj->$setProperty($row);

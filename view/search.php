@@ -1,16 +1,16 @@
 <?php require_once __SITE_PATH . '/view/_header.php';
 require_once __SITE_PATH . '/util/drawStarsUtil.php'; ?>
-    <form method="post" action="<?php echo __SITE_URL . '/index.php?rt=search/processSearch' ?>">
+    <form method="post" action="<?php echo __SITE_URL . '/search/processSearch' ?>">
         <div>
-            <label for="search">Search product: </label>
+            <label for="search">Search hotels: </label>
             <input type="text" id="search" name="search">
         </div>
         <button type="submit">Search!</button>
     </form>
 
-<?php if (isset($starProducts)) { ?>
+<?php if (isset($starHotels)) { ?>
     <br>
-    <form method="post" action="<?php echo __SITE_URL . '/index.php?rt=search/searchDetails' ?>">
+    <form method="post" action="<?php echo __SITE_URL . '/search/searchDetails' ?>">
 
     <table>
     <tr>
@@ -21,15 +21,15 @@ require_once __SITE_PATH . '/util/drawStarsUtil.php'; ?>
         <th></th>
     </tr>
     <?php
-    foreach ($starProducts as $starProduct) {
-        $avgRating = $starProduct->getAvgRating();
+    foreach ($starHotels as $starHotel) {
+        $avgRating = $starHotel->getAvgRating();
         echo '<tr>' .
-            '<td>' . $starProduct->getProduct()->getName() . '</td>' .
-            '<td>' . $starProduct->getProduct()->getDescription() . '</td>' .
-            '<td>' . $starProduct->getProduct()->getPrice() . '</td>' .
+            '<td>' . $starHotel->getHotel()->getName() . '</td>' .
+//            '<td>' . $starHotel->getHotel()->getDescription() . '</td>' .
+//            '<td>' . $starHotel->getHotel()->getPrice() . '</td>' .
             '<td>' . getStars($avgRating, true) . '</td>' .
-            '<td><button type="submit" name="product_id" value="product_' .
-            $starProduct->getProduct()->getId() . '">Details</button></td>' .
+            '<td><button type="submit" name="hotel_id" value="hotel_' .
+            $starHotel->getHotel()->getId() . '">Details</button></td>' .
             '</tr>';
     }
 }

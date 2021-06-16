@@ -9,7 +9,7 @@ class LoginController extends BaseController
             $this->registry->template->error = false;
             $this->registry->template->show("login");
         } else {
-            header('Location: ' . __SITE_URL . '/hotels/index');
+            header('Location: ' . __SITE_URL . '/search/index');
         }
     }
 

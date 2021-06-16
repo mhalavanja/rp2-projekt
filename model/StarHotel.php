@@ -1,21 +1,21 @@
 <?php
 
 
-class StarProduct
+class StarHotel
 {
-    private $product;
+    private $hotel;
     private $avgRating;
 
     public function __construct(){}
 
-    public function getProduct()
+    public function getHotel()
     {
-        return $this->product;
+        return $this->hotel;
     }
 
-    public function setProduct($product)
+    public function setHotel($hotel)
     {
-        $this->product = $product;
+        $this->hotel = $hotel;
     }
 
     public function getAvgRating()

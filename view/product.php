@@ -1,13 +1,13 @@
 <?php require_once __SITE_PATH . '/view/_header.php';
 require_once __SITE_PATH . '/util/drawStarsUtil.php';
 
-if(isset($starProduct)){
-    $product = $starProduct->getProduct();
-    if ($product) echo "<h3>Hotel: " . $product->getName() . "</h3>";
-    echo getStars($starProduct->getAvgRating(), false);
+if(isset($starHotel)){
+    $hotel = $starHotel->getHotel();
+    if ($hotel) echo "<h3>Hotel: " . $hotel->getName() . "</h3>";
+    echo getStars($starHotel->getAvgRating(), false);
 }
-if (isset($numOfSoldProducts)) echo "<p>This product has been sold " . $numOfSoldProducts . " times.";
-if (!isset($reviews) || sizeof($reviews) === 0) echo "<p>This product has no reviews.</p>";
+if (isset($numOfSoldHotels)) echo "<p>This hotel has been sold " . $numOfSoldHotels . " times.";
+if (!isset($reviews) || sizeof($reviews) === 0) echo "<p>This hotel has no reviews.</p>";
 else { ?>
     <table>
     <tr>

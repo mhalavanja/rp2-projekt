@@ -41,42 +41,42 @@ class Booking extends Model
         $this->id_user = $id_user;
     }
 
-    public function getIdHotel()
+    public function getId_hotel()
     {
         return $this->id_hotel;
     }
 
-    public function setIdHotel($id_hotel): void
+    public function setId_hotel($id_hotel): void
     {
         $this->id_hotel = $id_hotel;
     }
 
-    public function getRoomNumber()
+    public function getRoom_number()
     {
         return $this->room_number;
     }
 
-    public function setRoomNumber($room_number): void
+    public function setRoom_number($room_number): void
     {
         $this->room_number = $room_number;
     }
 
-    public function getFromDate()
+    public function getFrom_date()
     {
         return $this->from_date;
     }
 
-    public function setFromDate($from_date): void
+    public function setFrom_date($from_date): void
     {
         $this->from_date = $from_date;
     }
 
-    public function getToDate()
+    public function getTo_date()
     {
         return $this->to_date;
     }
 
-    public function setToDate($to_date): void
+    public function setTo_date($to_date): void
     {
         $this->to_date = $to_date;
     }

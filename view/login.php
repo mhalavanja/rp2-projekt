@@ -2,7 +2,7 @@
 
 <?php if (isset($error) && isset($errorMessage) && $error) echo '<p class="alert alert-danger">' . $errorMessage . "</p>"; ?>
 
-    <form method="post" action="<?php echo __SITE_URL . '/index.php?rt=login/processLoginForm' ?>">
+    <form method="post" action="<?php echo __SITE_URL . '/login/processLoginForm' ?>">
         <div class="form-group">
             <label for="username">Username:</label>
             <input class="form-control" id="username" name="username" type="text">

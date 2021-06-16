@@ -1,5 +1,5 @@
 <?php
-require_once __SITE_PATH . '/util/starProductUtil.php';
+require_once __SITE_PATH . '/util/starHotelUtil.php';
 require_once __SITE_PATH . '/util/reviewUtil.php';
 
 //TODO: Ovaj i sve ostale controllere i viewove treba promijeniti
@@ -10,68 +10,66 @@ class HotelsController extends BaseController
         if(!$_SESSION["user"]) header('Location: ' . __SITE_URL . 'login');
         $hotels = Hotel::all();
         $this->registry->template->hotels = $hotels;
-//        $this->registry->template->starProducts = getStarProducts($products);
+//        $this->registry->template->starHotels = getStarHotels($hotels);
         $this->registry->template->show("hotels");
     }
 
-    function product()
+    function hotel()
     {
         $userId = $_SESSION["user"]->getId();
-        $product_id = null;
-        if (isset($_POST['product_id'])) $product_id = $_POST['product_id'];
-        elseif (isset($_SESSION['product_id'])) {
-            $product_id = $_SESSION['product_id'];
-            $_SESSION['product_id'] = null;
+        $hotel_id = null;
+        if (isset($_POST['hotel_id'])) $hotel_id = $_POST['hotel_id'];
+        elseif (isset($_SESSION['hotel_id'])) {
+            $hotel_id = $_SESSION['hotel_id'];
+            $_SESSION['hotel_id'] = null;
         }
 
-        if (!$product_id || !preg_match('/^product_[0-9]+$/', $product_id)) {
+        if (!$hotel_id || !preg_match('/^hotel_[0-9]+$/', $hotel_id)) {
             exit();
         }
 
-        $productId = substr($product_id, 8);
-        $product = Hotel::find($productId);
-        $sales = Booking::where("id_product", $productId);
-        $saleId = getSaleIdForUserIfTheyCanReview($userId, $sales);
+        $hotelId = substr($hotel_id, 8);
+        $hotel = Hotel::find($hotelId);
+        $bookings = Booking::where("id_hotel", $hotelId);
+        $bookingId = getSaleIdForUserIfTheyCanReview($userId, $bookings);
 
-        $this->registry->template->canReview = (bool)$saleId;
-        $this->registry->template->reviews = getReviewsForProduct($sales);
-        $this->registry->template->saleId = $saleId;
-        $this->registry->template->starProduct = getStarProduct($product);
-        $this->registry->template->numOfSoldProducts = sizeof($sales);
-        $this->registry->template->show("product");
+        $this->registry->template->canReview = (bool)$bookingId;
+        $this->registry->template->reviews = getReviewsForHotel($bookings);
+        $this->registry->template->bookingId = $bookingId;
+        $this->registry->template->starHotel = getStarHotel($hotel);
+        $this->registry->template->numOfSoldHotels = sizeof($bookings);
+        $this->registry->template->show("hotel");
     }
 
-    function newProduct()
+    function newHotel()
     {
-        $this->registry->template->show("new-product");
+        $this->registry->template->show("new-hotel");
     }
 
-    function processNewProduct()
+    function processNewHotel()
     {
         if (!isset($_POST['name']) || !isset($_POST['description']) || !isset($_POST['price']) ||
             empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price'])) {
             $this->registry->template->error = true;
-            $this->registry->template->show("new-product");
+            $this->registry->template->show("new-hotel");
             return;
         }
-        $product = new Hotel();
-        $product->setName($_POST['name']);
-        $product->setDescription($_POST['description']);
-        $product->setPrice($_POST['price']);
-        $product->setId_user($_SESSION["user"]->getId());
-        Hotel::save($product);
-        header('Location: ' . __SITE_URL . 'products');
+        $hotel = new Hotel();
+        $hotel->setName($_POST['name']);
+        $hotel->setId_user($_SESSION["user"]->getId());
+        Hotel::save($hotel);
+        header('Location: ' . __SITE_URL . '/hotels');
     }
 
     function shoppingHistory()
     {
-        $sales = Booking::where("id_user", $_SESSION["user"]->getId());
-        $products = [];
-        foreach ($sales as $sale) {
-            $product = Hotel::find($sale->getId_product());
-            $products[] = $product;
+        $bookings = Booking::where("id_user", $_SESSION["user"]->getId());
+        $hotels = [];
+        foreach ($bookings as $booking) {
+            $hotel = Hotel::find($booking->getId_hotel());
+            $hotels[] = $hotel;
         }
-        $this->registry->template->starProducts = getStarProducts($products);
+        $this->registry->template->starHotels = getStarHotels($hotels);
         $this->registry->template->show("shopping-history");
     }
 
@@ -79,27 +77,27 @@ class HotelsController extends BaseController
     {
         $rating = $_POST["rating"] ?? null;
         $comment = $_POST["comment"] ?? null;
-        $sale = new Booking();
-        $sale->setId_user($_SESSION["user"]->getId());
-        $sale->setId($_POST["saleId"]);
-        $sale->setId_product($_POST["product_id"]);
-        $sale->setRating($rating);
-        $sale->setComment($comment);
-        $_SESSION["product_id"] = "product_" . $_POST["product_id"];
-        Booking::save($sale);
-        header('Location: ' . __SITE_URL . 'products/product');
+        $booking = new Booking();
+        $booking->setId_user($_SESSION["user"]->getId());
+        $booking->setId($_POST["bookingId"]);
+        $booking->setId_hotel($_POST["hotel_id"]);
+        $booking->setRating($rating);
+        $booking->setComment($comment);
+        $_SESSION["hotel_id"] = "hotel_" . $_POST["hotel_id"];
+        Booking::save($booking);
+        header('Location: ' . __SITE_URL . '/hotels/hotel');
     }
 
     function processBuy()
     {
-        $productId = $_POST["productId"] ?? null;
+        $hotelId = $_POST["hotelId"] ?? null;
         $userId = $_SESSION["user"]->getId();
         if (!$userId) header('Location: ' . __SITE_URL);
-        if (!$productId) exit();
-        $sale = new Booking();
-        $sale->setId_product($productId);
-        $sale->setId_user($userId);
-        Booking::save($sale);
-        header('Location: ' . __SITE_URL . 'search');
+        if (!$hotelId) exit();
+        $booking = new Booking();
+        $booking->setId_hotel($hotelId);
+        $booking->setId_user($userId);
+        Booking::save($booking);
+        header('Location: ' . __SITE_URL . '/search');
     }
 }

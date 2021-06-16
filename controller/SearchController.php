@@ -1,11 +1,12 @@
 <?php
+require_once __SITE_PATH . '/util/starHotelUtil.php';
 
 class SearchController extends BaseController
 {
     function index()
     {
-        $this->registry->template->starProducts = $_SESSION["starProducts"] ?? null;
-        $_SESSION["starProducts"] = null;
+        $this->registry->template->starHotels = $_SESSION["starHotels"] ?? null;
+        $_SESSION["starHotels"] = null;
         $this->registry->template->show("search");
     }
 
@@ -13,29 +14,27 @@ class SearchController extends BaseController
     {
         $searchTerm = $_POST["search"] ?? null;
         $searchTerm = "%" . $searchTerm . "%";
-        $products = Hotel::like("name", $searchTerm);
-        $starProducts = getStarProducts($products);
-        $_SESSION["starProducts"] = $starProducts;
-        header('Location: ' . __SITE_URL . 'search');
+        $hotels = Hotel::like("name", $searchTerm);
+        $starHotels = getStarHotels($hotels);
+        $_SESSION["starHotels"] = $starHotels;
+        header('Location: ' . __SITE_URL . '/search');
     }
 
     function searchDetails()
     {
-        $product_id = $_POST['product_id'] ?? null;
+        $hotel_id = $_POST['hotel_id'] ?? null;
 
-        if (!$product_id || !preg_match('/^product_[0-9]+$/', $product_id)) {
+        if (!$hotel_id || !preg_match('/^hotel_[0-9]+$/', $hotel_id)) {
             exit();
         }
 
-        $userId = $_SESSION["user"]->getId();
-        $productId = substr($product_id, 8);
-        $product = Hotel::find($productId);
-        $sales = Booking::where("id_product", $productId);
+        $hotelId = substr($hotel_id, 8);
+        $hotel = Hotel::find($hotelId);
+        $bookings = Booking::where("id_hotel", $hotelId);
 
-        $this->registry->template->reviews = getReviewsForProduct($sales);
-        $this->registry->template->canBuy = !($product->getId_user() === $userId || alreadyBought($userId, $sales));
-        $this->registry->template->starProduct = getStarProduct($product);
-        $this->registry->template->numOfSoldProducts = sizeof($sales);
-        $this->registry->template->show("product");
+        $this->registry->template->reviews = getReviewsForHotel($bookings);
+        $this->registry->template->starHotel = getStarHotel($hotel);
+        $this->registry->template->numOfSoldHotels = sizeof($bookings);
+        $this->registry->template->show("hotel");
     }
 }

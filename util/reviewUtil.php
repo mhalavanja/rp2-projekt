@@ -1,14 +1,14 @@
 <?php
 
-function getReviewsForProduct($sales)
+function getReviewsForHotel($bookings)
 {
     $reviews = [];
-    foreach ($sales as $sale) {
+    foreach ($bookings as $booking) {
         $review = [];
-        $id = $sale->getId_user();
+        $id = $booking->getId_user();
         $reviewer = User::find($id);
-        $rating = $sale->getRating();
-        $comment = $sale->getComment();
+        $rating = $booking->getRating();
+        $comment = $booking->getComment();
 
         if ($rating === null && $comment === null) continue;
 
@@ -20,23 +20,17 @@ function getReviewsForProduct($sales)
     return $reviews;
 }
 
-function getSaleIdForUserIfTheyCanReview($userId, $sales)
+function getSaleIdForUserIfTheyCanReview($userId, $bookings)
 {
-    foreach ($sales as $sale) {
-        $id = $sale->getId_user();
-        $rating = $sale->getRating();
-        $comment = $sale->getComment();
+    foreach ($bookings as $booking) {
+        $id = $booking->getId_user();
+        $rating = $booking->getRating();
+        $comment = $booking->getComment();
 
         if ($id === $userId &&
             $rating === null && $comment === null) {
-            return $sale->getId();
+            return $booking->getId();
         }
     }
     return null;
-}
-
-function alreadyBought($userId, $sales)
-{
-    foreach ($sales as $sale) if ($sale->getId_user() === $userId) return true;
-    return false;
 }

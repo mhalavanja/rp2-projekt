@@ -57,12 +57,12 @@ class Hotel extends Model
         $this->city = $city;
     }
 
-    public function getDistanceFromCityCentre()
+    public function getDistance_from_city_centre()
     {
         return $this->distance_from_city_centre;
     }
 
-    public function setDistanceFromCityCentre($distance_from_city_centre): void
+    public function setDistance_from_city_centre($distance_from_city_centre): void
     {
         $this->distance_from_city_centre = $distance_from_city_centre;
     }
