@@ -7,11 +7,11 @@ class HotelsController extends BaseController
 {
     function index()
     {
-        if(!$_SESSION["user"]) header('Location: ' . __SITE_URL . 'login');
+//        if(!$_SESSION["user"]) header('Location: ' . __SITE_URL . 'login');
         $hotels = Hotel::all();
         $this->registry->template->hotels = $hotels;
 //        $this->registry->template->starHotels = getStarHotels($hotels);
-        $this->registry->template->show("hotels");
+        $this->registry->template->show("landing");
     }
 
     function hotel()

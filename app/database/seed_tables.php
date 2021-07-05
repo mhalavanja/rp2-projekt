@@ -32,12 +32,14 @@ function seed_table_hotels()
     $db = DB::getConnection();
 
     try {
-        $st = $db->prepare( 'INSERT INTO projekt_hotels(name, city, distance_from_city_centre) VALUES (:name, :city, :distance_from_city_centre)' );
-
-        $st->execute( array( 'name' => 'Hilbert', "city" => "Berlin", "distance_from_city_centre" => 1) );
-        $st->execute( array( 'name' => 'Dijkstra', "city" => "Amsterdam", "distance_from_city_centre" => 1.2) );
-        $st->execute( array( 'name' => 'Lamport', "city" => "New York", "distance_from_city_centre" => 1.35) );
-        $st->execute( array( 'name' => 'Torvalds', "city" => "Helsinki", "distance_from_city_centre" => 0.2) );
+        $st = $db->prepare( "INSERT INTO projekt_hotels(name, city, distance_from_city_centre, price) VALUES (:name, :city, :distance_from_city_centre, :price)" );
+//        echo "<pre>";
+//        var_dump($st);
+//        echo "<pre>";
+        $st->execute( array( 'name' => 'Hilbert', "city" => "Berlin", "distance_from_city_centre" => 1, "price" => 1000.99) );
+        $st->execute( array( 'name' => 'Dijkstra', "city" => "Amsterdam", "distance_from_city_centre" => 1.2, "price" => 1000.99) );
+        $st->execute( array( 'name' => 'Lamport', "city" => "New York", "distance_from_city_centre" => 1.35, "price" => 1000.99) );
+        $st->execute( array( 'name' => 'Torvalds', "city" => "Helsinki", "distance_from_city_centre" => 0.2, "price" => 1000.99) );
     } catch (PDOException $e) {
         exit("PDO error [projekt_hotels]: " . $e->getMessage());
     }

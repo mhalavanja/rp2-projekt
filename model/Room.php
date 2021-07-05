@@ -6,7 +6,7 @@ class Room extends Model
     private $id;
     private $id_hotel;
     private $capacity;
-    private $view;
+    private $room_type;
     private $price;
     private $image;
     protected static $table = "projekt_rooms";
@@ -49,14 +49,14 @@ class Room extends Model
         $this->capacity = $capacity;
     }
 
-    public function getView()
+    public function getRoomType()
     {
-        return $this->view;
+        return $this->room_type;
     }
 
-    public function setView($view): void
+    public function setRoomType($room_type): void
     {
-        $this->view = $view;
+        $this->room_type = $room_type;
     }
 
     public function getPrice()

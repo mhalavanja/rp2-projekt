@@ -11,15 +11,6 @@ spl_autoload_register(function ($class_name) {
 
 abstract class Model
 {
-    // Zadatak (srednje-dosta težak.)
-// Ovo je samo kostur apstraktne klase Model.
-// Trebate sami napisati implementaciju svih funkcija tako da rade kao što je opisano.
-// Uputa: trebat ćete koristiti funkcije poput get_called_class(), kao i stvari poput $obj = new $className();
-//
-// Pogledajte i moguće dodatne funkcije i relacije ovdje:
-// https://laravel.com/docs/master/eloquent
-// https://laravel.com/docs/master/eloquent-relationships
-
     // Tablica u bazi podataka pridružena modelu. Svaka izvedena klase će definirati svoju.
     protected static $table = null;
 
@@ -87,15 +78,37 @@ abstract class Model
     {
         $db = DB::getConnection();
         try {
-            $sql = "SELECT * FROM " . static::$table . " WHERE " . $col . " = :val;";
-            $st = $db->prepare($sql);
-            $st->execute(array(":val" => $val));
+            if(!is_array($col) and !is_array($val)){
+                $sql = "SELECT * FROM " . static::$table . " WHERE " . $col . " = :val;";
+                $st = $db->prepare($sql);
+                $st->execute(array(":val" => $val));
+            }
+            else if(is_array($col) and is_array($val) and sizeof($col) === sizeof($val)){
+                $len = sizeof($col);
+                if ($len === 1){
+                    $col = $col[0];
+                    $val = $val[0];
+                    $sql = "SELECT * FROM " . static::$table . " WHERE " . $col . " = :val;";
+                    $st = $db->prepare($sql);
+                    $st->execute(array(":val" => $val));
+                }
+                else{
+                    $sql = "SELECT * FROM " . static::$table . " WHERE ";
+                    $values = [];
+                    for ($i = 0; $i < $len; $i++){
+                        $curVal = ":val" . $i;
+                        $sql .= ($col[$i] . " = " . $curVal );
+                        $values[$curVal] = $val[$i];
+                        if($i < $len-1) $sql.= " ADD ";
+                    }
+                    $st = $db->prepare($sql);
+                    $st->execute($values);
+                }
+            }
         } catch (PDOException $e) {
             exit("PDO error [select " . static::$table . "]: " . $e->getMessage());
         }
-//        echo "<pre>";
-//        $st->debugDumpParams();
-//        echo "<pre>";
+
         $arr = [];
         foreach ($st->fetchAll() as $row) {
             $class = get_called_class();
@@ -150,17 +163,12 @@ abstract class Model
             $setProperty = "set" . ucfirst($key);
             $obj->$setProperty($row[$key]);
         }
-//        echo "<pre>";
-//        var_dump(static::$columns);
-//        echo "<pre>";
+
         return $obj;
     }
 
     public static function save($obj): bool
     {
-        // TODO
-        // Funkcija sprema novi ili ažurira postojeći redak u tablici $table koji pripada objektu $this.
-        // ($this->id je ključ u tablici $table).
         $sql = "REPLACE INTO " . static::$table . "(";
         $values = "VALUES(";
         foreach (static::$columns as $key => $val) {

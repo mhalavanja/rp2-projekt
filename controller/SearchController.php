@@ -1,5 +1,6 @@
 <?php
 require_once __SITE_PATH . '/util/starHotelUtil.php';
+require_once __SITE_PATH . '/service/HotelService.php';
 
 class SearchController extends BaseController
 {
@@ -12,11 +13,19 @@ class SearchController extends BaseController
 
     function processSearch()
     {
-        $searchTerm = $_POST["search"] ?? null;
-        $searchTerm = "%" . $searchTerm . "%";
-        $hotels = Hotel::like("name", $searchTerm);
-        $starHotels = getStarHotels($hotels);
-        $_SESSION["starHotels"] = $starHotels;
+        if(!isset($_POST["city"]) || $_POST["city"] === null || empty($_POST["city"])){
+            echo "Grad je obavezno polje za pretragu hotela";
+            $this->registry->template->show("landing");
+        }
+        $city = $_POST["city"];
+        $fromDate = $_POST["fromDate"] ?? null;
+        $toDate = $_POST["toDate"] ?? null;
+        $price = $_POST["price"] ?? null;
+        $rating = $_POST["rating"] ?? null;
+        $hotels = HotelService::searchHotels($city, $fromDate, $toDate, $price, $rating);
+        //        $starHotels = getStarHotels($hotels);
+//        $_SESSION["starHotels"] = $starHotels;
+        $_SESSION["hotels"] = $hotels;
         header('Location: ' . __SITE_URL . '/search');
     }
 

@@ -36,7 +36,7 @@ function create_table_users()
     $db = DB::getConnection();
 
     if( has_table( 'projekt_users' ) )
-        exit( 'Tablica projekt_users vec postoji. Obrisite ju pa probajte ponovno.' );
+        $db->exec("DROP TABLE projekt_users;");
 
     try
     {
@@ -64,8 +64,7 @@ function create_table_hotels()
     $db = DB::getConnection();
 
     if( has_table( 'projekt_hotels' ) )
-        exit( 'Tablica projekt_hotels vec postoji. Obrisite ju pa probajte ponovno.' );
-
+        $db->exec("DROP TABLE projekt_hotels;");
     try
     {
         $st = $db->prepare(
@@ -73,7 +72,9 @@ function create_table_hotels()
             'id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,' .
             'name VARCHAR(100) NOT NULL,' .
             'city VARCHAR(100) NOT NULL,' .
-            'distance_from_city_centre DECIMAL(15,2) NOT NULL)'
+            'distance_from_city_centre DECIMAL(4,2) NOT NULL,'.
+            'price DECIMAL(10,2) NOT NULL,'.
+            'rating DECIMAL(2,2))'
         );
 
         $st->execute();
@@ -88,8 +89,7 @@ function create_table_rooms()
     $db = DB::getConnection();
 
     if( has_table( 'projekt_rooms' ) )
-        exit( 'Tablica projekt_rooms vec postoji. Obrisite ju pa probajte ponovno.' );
-
+        $db->exec("DROP TABLE projekt_rooms;");
     try
     {
         $st = $db->prepare(
@@ -97,8 +97,8 @@ function create_table_rooms()
             'id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,' .
             'id_hotel INT NOT NULL,' .
             'capacity INT NOT NULL,' .
-            'view INT NOT NULL,' .
-            'price DECIMAL(15,2) NOT NULL,' .
+            'room_type INT NOT NULL,' .
+            'price DECIMAL(10,2) NOT NULL,' .
             'image LONGBLOB)'
         );
 
@@ -114,8 +114,7 @@ function create_table_bookings()
     $db = DB::getConnection();
 
     if( has_table( 'projekt_bookings' ) )
-        exit( 'Tablica projekt_bookings vec postoji. Obrisite ju pa probajte ponovno.' );
-
+        $db->exec("DROP TABLE projekt_bookings;");
     try
     {
         $st = $db->prepare(
@@ -123,7 +122,7 @@ function create_table_bookings()
             'id int NOT NULL PRIMARY KEY AUTO_INCREMENT,' .
             'id_user INT NOT NULL,' .
             'id_hotel INT NOT NULL,' .
-            'room_number INT NOT NULL,' .
+            'room_id INT NOT NULL,' .
             'from_date DATE NOT NULL,' .
             'to_date DATE NOT NULL,' .
             'rating INT,' .

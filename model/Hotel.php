@@ -7,6 +7,8 @@ class Hotel extends Model
     private $name;
     private $city;
     private $distance_from_city_centre;
+    private $price;
+    private $rating;
     protected static $table = "projekt_hotels";
     protected static $columns = [];
 
@@ -65,6 +67,26 @@ class Hotel extends Model
     public function setDistance_from_city_centre($distance_from_city_centre): void
     {
         $this->distance_from_city_centre = $distance_from_city_centre;
+    }
+
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    public function setPrice($price): void
+    {
+        $this->price = $price;
+    }
+
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    public function setRating($rating): void
+    {
+        $this->rating = $rating;
     }
 }
 
