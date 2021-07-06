@@ -10,7 +10,7 @@ class Room extends Model
     private $price;
     private $image;
     protected static $table = "projekt_rooms";
-    protected static $columns = [];
+    public static $columns = [];
 
     public function __construct(){}
 

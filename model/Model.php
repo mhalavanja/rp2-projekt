@@ -17,7 +17,7 @@ abstract class Model
     // Asocijativno polje $columns:
     // - ključevi = imena stupaca u bazi podataka u tablici $table;
     // - svakom ključu je pridružena vrijednost koja u bazi piše za objekt $this (onaj čiji je id jedak $this->id).
-    protected static $columns = [];
+    public static $columns = [];
 
     public function __get($col)
     {

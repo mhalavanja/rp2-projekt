@@ -10,7 +10,7 @@ class Hotel extends Model
     private $price;
     private $rating;
     protected static $table = "projekt_hotels";
-    protected static $columns = [];
+    public static $columns = [];
 
     public function __construct(){}
 

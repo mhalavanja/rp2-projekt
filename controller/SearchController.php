@@ -23,27 +23,14 @@ class SearchController extends BaseController
         $price = $_POST["price"] ?? null;
         $rating = $_POST["rating"] ?? null;
         $hotels = HotelService::searchHotels($city, $fromDate, $toDate, $price, $rating);
-        //        $starHotels = getStarHotels($hotels);
-//        $_SESSION["starHotels"] = $starHotels;
         $_SESSION["hotels"] = $hotels;
-        header('Location: ' . __SITE_URL . '/search');
+        header('Location: ' . __SITE_URL . '/search/hotels');
     }
 
-    function searchDetails()
+    function hotels()
     {
-        $hotel_id = $_POST['hotel_id'] ?? null;
-
-        if (!$hotel_id || !preg_match('/^hotel_[0-9]+$/', $hotel_id)) {
-            exit();
-        }
-
-        $hotelId = substr($hotel_id, 8);
-        $hotel = Hotel::find($hotelId);
-        $bookings = Booking::where("id_hotel", $hotelId);
-
-        $this->registry->template->reviews = getReviewsForHotel($bookings);
-        $this->registry->template->starHotel = getStarHotel($hotel);
-        $this->registry->template->numOfSoldHotels = sizeof($bookings);
-        $this->registry->template->show("hotel");
+        $hotels = $_SESSION["hotels"];
+        $this->registry->template->hotels = $hotels;
+        $this->registry->template->show("hotels");
     }
 }

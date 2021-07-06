@@ -12,7 +12,7 @@ class Booking extends Model
     private $rating;
     private $comment;
     protected static $table = "projekt_bookings";
-    protected static $columns = [];
+    public static $columns = [];
 
     public function __construct(){}
 
