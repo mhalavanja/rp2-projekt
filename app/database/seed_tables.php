@@ -2,7 +2,7 @@
 require_once __DIR__ . '/db.class.php';
 
 //TODO: Ovo nije napravljeno, podatke mozemo seedat nakon sto smo sigurni oko modela
-//seed_table_users();
+seed_table_users();
 seed_table_hotels();
 seed_table_rooms();
 seed_table_bookings();
@@ -32,14 +32,14 @@ function seed_table_hotels()
     $db = DB::getConnection();
 
     try {
-        $st = $db->prepare( "INSERT INTO projekt_hotels(name, city, distance_from_city_centre, price) VALUES (:name, :city, :distance_from_city_centre, :price)" );
+        $st = $db->prepare( "INSERT INTO projekt_hotels(name, city, distance_from_city_centre, price, rating) VALUES (:name, :city, :distance_from_city_centre, :price, :rating)" );
 //        echo "<pre>";
 //        var_dump($st);
 //        echo "<pre>";
-        $st->execute( array( 'name' => 'Hilbert', "city" => "Berlin", "distance_from_city_centre" => 1, "price" => 1000.99) );
-        $st->execute( array( 'name' => 'Dijkstra', "city" => "Amsterdam", "distance_from_city_centre" => 1.2, "price" => 1000.99) );
-        $st->execute( array( 'name' => 'Lamport', "city" => "New York", "distance_from_city_centre" => 1.35, "price" => 1000.99) );
-        $st->execute( array( 'name' => 'Torvalds', "city" => "Helsinki", "distance_from_city_centre" => 0.2, "price" => 1000.99) );
+        $st->execute( array( 'name' => 'Hilbert', "city" => "Berlin", "distance_from_city_centre" => 1, "price" => 1000.99, "rating" => 0.00) );
+        $st->execute( array( 'name' => 'Dijkstra', "city" => "Amsterdam", "distance_from_city_centre" => 1.2, "price" => 1000.99, "rating" => 0.00) );
+        $st->execute( array( 'name' => 'Lamport', "city" => "New York", "distance_from_city_centre" => 1.35, "price" => 1000.99, "rating" => 0.00) );
+        $st->execute( array( 'name' => 'Torvalds', "city" => "Helsinki", "distance_from_city_centre" => 0.2, "price" => 1000.99, "rating" => 0.00) );
     } catch (PDOException $e) {
         exit("PDO error [projekt_hotels]: " . $e->getMessage());
     }

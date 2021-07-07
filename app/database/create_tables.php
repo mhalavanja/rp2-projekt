@@ -44,7 +44,7 @@ function create_table_users()
             'CREATE TABLE IF NOT EXISTS projekt_users (' .
             'id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,' .
             'username VARCHAR(50) NOT NULL,' .
-            'is_admin int NOT NULL,' .
+            'is_admin int DEFAULT 0 NOT NULL,' .
             'password_hash VARCHAR(255) NOT NULL,'.
             'email VARCHAR(50) NOT NULL,' .
             'registration_sequence VARCHAR(20) NOT NULL,' .
@@ -74,7 +74,7 @@ function create_table_hotels()
             'city VARCHAR(100) NOT NULL,' .
             'distance_from_city_centre DECIMAL(4,2) NOT NULL,'.
             'price DECIMAL(10,2) NOT NULL,'.
-            'rating DECIMAL(2,2))'
+            'rating DECIMAL(2,2) NOT NULL)'
         );
 
         $st->execute();

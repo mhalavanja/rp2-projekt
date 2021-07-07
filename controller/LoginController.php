@@ -27,21 +27,21 @@ class LoginController extends BaseController
         if (!$user || sizeof($user) > 1) {
             $this->registry->template->error = true;
             $this->registry->template->errorMessage = "Wrong username or password!";
-            $this->registry->template->show("login");
+            $this->registry->template->show("landing");
             return;
         }
         $user = $user[0];
         if (!password_verify($password, $user->getPassword_hash())) {
             $this->registry->template->error = true;
             $this->registry->template->errorMessage = "Wrong username or password!";
-            $this->registry->template->show("login");
+            $this->registry->template->show("landing");
         } elseif (!$user->getHas_registered()) {
             $this->registry->template->error = true;
             $this->registry->template->errorMessage = "You have to finish the registration first!";
-            $this->registry->template->show("login");
+            $this->registry->template->show("landing");
         } else {
             $_SESSION["user"] = $user;
-            header('Location: ' . __SITE_URL . '/hotels/index');
+            header('Location: ' . __SITE_URL . '/hotels/landing');
         }
     }
 
@@ -60,12 +60,12 @@ class LoginController extends BaseController
         if (!$email || !$username || !$password) {
             $this->registry->template->error = true;
             $this->registry->template->errorMessage = "Enter all the fields!";
-            $this->registry->template->show("login");
+            $this->registry->template->show("landing");
 
         } elseif (User::where("username", $username)) {
             $this->registry->template->error = true;
             $this->registry->template->errorMessage = "Username already exists!";
-            $this->registry->template->show("login");
+            $this->registry->template->show("landing");
         } else {
             $user = new User();
             $user->setUsername($username);
