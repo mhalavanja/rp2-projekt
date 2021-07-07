@@ -1,25 +1,27 @@
 <?php require_once __SITE_PATH . '/view/_header.php'; ?>
-<form method="post" action="<?php echo __SITE_URL . '/search/processSearch' ?>">
+<form method="post" action="<?php echo __SITE_URL . '/search/processSearch' ?>"> 
     <div>
         <label for="city">City:</label>
         <input name="city" id="city" type="text"/>
     </div>
     <div>
         <label for="fromDate">From:</label>
-        <input name="fromDate" id="fromDate" type="date"/>
+        <input name="fromDate" id="fromDate" type="date" value="<?php echo date('Y-m-d'); ?>" min="<?php echo date('Y-m-d'); ?>" oninput="toDate.min = this.value"/>
     </div>
     <div>
         <label for="toDate">Until:</label>
-        <input name="toDate" id="toDate" type="date"/>
+        <input name="toDate" id="toDate" type="date" min="<?php echo date('Y-m-d'); ?>" value="<?php echo date('Y-m-d'); ?>"/>
     </div>
     <div>
         <label for="price">Price:</label>
-        <input name="price" id="price" type="number"/>
+        <input name="price" id="price" type="number" min = "0" value = "0"/>
     </div>
     <div>
         <label for="rating">Rating:</label>
-        <input name="rating" id="rating" type="number"/>
+        <input name="rating" id="rating" type="range" min ="0" max ="5"  value ="0" step = "1" oninput="this.nextElementSibling.value = this.value"/>
+        <output name="starRating" for="rating">0</output>
     </div>
+    <br>
     <button type="submit">Search</button>
 </form>
 <br>
