@@ -14,8 +14,9 @@ class SearchController extends BaseController
     function processSearch()
     {
         if(!isset($_POST["city"]) || $_POST["city"] === null || empty($_POST["city"])){
-            echo "Grad je obavezno polje za pretragu hotela";
+            $this->registry->template->error = "Grad je obavezno polje za pretragu hotela!";
             $this->registry->template->show("landing");
+            return;
         }
         $city = $_POST["city"];
         $fromDate = $_POST["fromDate"] ?? null;
@@ -23,6 +24,11 @@ class SearchController extends BaseController
         $price = $_POST["price"] ?? null;
         $rating = $_POST["rating"] ?? null;
         $hotels = HotelService::searchHotels($city, $fromDate, $toDate, $price, $rating);
+        if (empty($hotels)){
+            $this->registry->template->error = "Ne postoji hotel s traženim parametrima!";
+            $this->registry->template->show("landing");
+            return;
+        }
         $_SESSION["hotels"] = $hotels;
         header('Location: ' . __SITE_URL . '/search/hotels');
     }

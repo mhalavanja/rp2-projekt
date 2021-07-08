@@ -9,75 +9,85 @@
     <script type="text/javascript" src="<?php echo __SITE_URL; ?>/static/jquery-min.js"></script>
 </head>
 <body>
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <h2 class="">HOTEL BOOKING</h2>
+        <div class="navbar">
+            <?php
+            if (isset($_SESSION["user"])) {
+//                echo "<p class='me-3'>Pozdrav " . $_SESSION["user"]->getUsername() . "</p>"; ?>
+                <form action="<?php echo __SITE_URL; ?>/login/processLogout">
+                    <input class="btn btn-outline-danger" type="submit" value="Logout"/>
+                </form>
+                <?php
+            } else {
+                ?>
+                <button class="btn btn-outline-primary me-1" id="loginbtn">Log in</button>
+
+                <div id="login" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <?php if (isset($error) && isset($errorMessage) && $error) {
+                            echo '<p class="alert alert-danger">' . $errorMessage . "</p>";
+                            ?>
+                            <script>document.getElementById("login").style.display = "block";</script><?php } ?>
+
+                        <form method="post" action="<?php echo __SITE_URL . '/login/processLoginForm' ?>">
+                            <div class="form-group">
+                                <label for="username">Username:</label>
+                                <input class="form-control" id="username" name="username" type="text"
+                                       required="required">
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                <input class="form-control" id="password" name="password" type="password"
+                                       required="required">
+                            </div>
+                            <br>
+                            <div class="float-end">
+                                <input class="btn btn-primary" type="submit" name="login" value="Login"/>
+                            </div>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+
+                <button class="float-end btn btn-outline-primary" id="joinbtn">Join us</button>
+
+                <div id="join" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times</span>
+                        <form method="post" action="<?php echo __SITE_URL . '/login/processRegister' ?>">
+                            <div class="form-group">
+                                <br>
+                                <label for="email">Email adress:</label>
+                                <input class="form-control" id="email" name="email" type="email" required="required">
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="username">Username:</label>
+                                <input class="form-control" id="username" name="username" type="text"
+                                       required="required">
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                <input class="form-control" id="password" name="password" type="password"
+                                       required="required">
+                            </div>
+                            <br>
+                            <div class="float-end">
+                                <input class="btn btn-primary" type="submit" name="register" value="Register"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+</nav>
 <br>
-<h1>HOTEL BOOKING</h1>
-<h2><?php if (isset($_SESSION["user"])) {
-        echo "Pozdrav " . $_SESSION["user"]->getUsername(); ?>
-        <form action="<?php echo __SITE_URL; ?>/login/processLogout">
-            <input type="submit" value="Logout"/>
-        </form>
-        <?php
-    }
-    else{
-    ?>
-    <button id="loginbtn">Log in</button>
-
-    <div id="login" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <?php if (isset($error) && isset($errorMessage) && $error){
-                    echo '<p class="alert alert-danger">' . $errorMessage . "</p>"; 
-                    ?><script>document.getElementById("login").style.display = "block";</script><?php } ?>
-
-            <form method="post" action="<?php echo __SITE_URL . '/login/processLoginForm' ?>">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input class="form-control" id="username" name="username" type="text" required="required">
-                </div>
-                <br>
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input class="form-control" id="password" name="password" type="password" required="required">
-                </div>
-                <br>
-                <div class="float-end">
-                    <input class="btn btn-primary" type="submit" name="login" value="Login"/>
-                </div>
-                <br>
-            </form>
-        </div>
-    </div>
-
-    <button id="joinbtn">Join us</button>
-
-    <div id="join" class="modal">
-        <div class="modal-content">
-            <span class="close">&times</span>
-            <form method="post" action="<?php echo __SITE_URL . '/login/processRegister' ?>">
-                <div class="form-group">
-                <br>
-                <label for="email">Email adress:</label>
-                    <input class="form-control" id="email" name="email" type="email" required="required">
-                </div>
-                <br>
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input class="form-control" id="username" name="username" type="text" required="required">
-                </div>
-                <br>
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input class="form-control" id="password" name="password" type="password" required="required">
-                </div>
-                <br>
-                <div class="float-end">
-                    <input class="btn btn-primary" type="submit" name="register" value="Register"/>
-                </div>
-            </form>
-        </div>
-    </div>
-</h2>
-<?php } ?>
 
 <script>
 
@@ -118,6 +128,3 @@
         }
     }
 </script>
-
-<?php
-if (isset($_SESSION["user"])) require "_navBar.php";
