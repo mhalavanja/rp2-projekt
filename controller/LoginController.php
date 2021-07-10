@@ -25,19 +25,19 @@ class LoginController extends BaseController
         $password = $_POST["password"];
         $user = User::where("username", $username);
         if (!$user || sizeof($user) > 1) {
-            $this->registry->template->error = true;
-            $this->registry->template->errorMessage = "Wrong username or password!";
+            $this->registry->template->loginError = true;
+            $this->registry->template->loginErrorMessage = "Wrong username or password!";
             $this->registry->template->show("landing");
             return;
         }
         $user = $user[0];
         if (!password_verify($password, $user->getPassword_hash())) {
-            $this->registry->template->error = true;
-            $this->registry->template->errorMessage = "Wrong username or password!";
+            $this->registry->template->loginError = true;
+            $this->registry->template->loginErrorMessage = "Wrong username or password!";
             $this->registry->template->show("landing");
         } elseif (!$user->getHas_registered()) {
-            $this->registry->template->error = true;
-            $this->registry->template->errorMessage = "You have to finish the registration first!";
+            $this->registry->template->loginError = true;
+            $this->registry->template->loginErrorMessage = "You have to finish the registration first!";
             $this->registry->template->show("landing");
         } else {
             $_SESSION["user"] = $user;
@@ -58,13 +58,13 @@ class LoginController extends BaseController
         $username = $_POST["username"] ?? null;
         $password = $_POST["password"] ?? null;
         if (!$email || !$username || !$password) {
-            $this->registry->template->error = true;
-            $this->registry->template->errorMessage = "Enter all the fields!";
+            $this->registry->template->registerError = true;
+            $this->registry->template->registerErrorMessage = "Enter all the fields!";
             $this->registry->template->show("landing");
 
         } elseif (User::where("username", $username)) {
-            $this->registry->template->error = true;
-            $this->registry->template->errorMessage = "Username already exists!";
+            $this->registry->template->registerError = true;
+            $this->registry->template->registerErrorMessage = "Username already exists!";
             $this->registry->template->show("landing");
         } else {
             $user = new User();

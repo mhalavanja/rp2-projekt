@@ -5,7 +5,6 @@
     <title><?php if (isset($title)) echo $title; else echo "ebuy"; ?></title>
     <link rel="stylesheet" href="<?php echo __SITE_URL; ?>/static/bootstrap/bootstrap.min.css">
     <script rel="stylesheet" src="<?php echo __SITE_URL; ?>/static/bootstrap/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="<?php echo __SITE_URL; ?>/static/header.css">
     <script type="text/javascript" src="<?php echo __SITE_URL; ?>/static/jquery-min.js"></script>
 </head>
 <body>
@@ -25,62 +24,74 @@
                 <button class="btn btn-outline-primary me-1" id="loginbtn">Log in</button>
 
                 <div id="login" class="modal">
-                    <div class="modal-content">
-                        <span class="close">&times;</span>
-                        <?php if (isset($error) && isset($errorMessage) && $error) {
-                            echo '<p class="alert alert-danger">' . $errorMessage . "</p>";
-                            ?>
-                            <script>document.getElementById("login").style.display = "block";</script><?php } ?>
-
-                        <form method="post" action="<?php echo __SITE_URL . '/login/processLoginForm' ?>">
-                            <div class="form-group">
-                                <label for="username">Username:</label>
-                                <input class="form-control" id="username" name="username" type="text"
-                                       required="required">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Login</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <br>
-                            <div class="form-group">
-                                <label for="password">Password:</label>
-                                <input class="form-control" id="password" name="password" type="password"
-                                       required="required">
+                            <div class="modal-body">
+                                <?php if (isset($loginError) && isset($loginErrorMessage) && $loginError) {
+                                    echo '<p class="alert alert-danger">' . $loginErrorMessage . "</p>";
+                                ?>
+                                <script>document.getElementById("login").style.display = "block";</script><?php } ?>
+                                <form method="post" action="<?php echo __SITE_URL . '/login/processLoginForm' ?>">
+                                    <div class="form-group">
+                                        <label for="username">Username:</label>
+                                        <input class="form-control" id="username" name="username" type="text"
+                                            required="required">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password:</label>
+                                        <input class="form-control" id="password" name="password" type="password"
+                                            required="required">
+                                    </div>
+                                    <br>
+                                    <div class="float-end">
+                                        <input class="btn btn-primary" type="submit" name="login" value="Login"/>
+                                    </div>
+                                </form>
                             </div>
-                            <br>
-                            <div class="float-end">
-                                <input class="btn btn-primary" type="submit" name="login" value="Login"/>
-                            </div>
-                            <br>
-                        </form>
+                        </div>
                     </div>
                 </div>
 
                 <button class="float-end btn btn-outline-primary" id="joinbtn">Join us</button>
 
                 <div id="join" class="modal">
-                    <div class="modal-content">
-                        <span class="close">&times</span>
-                        <form method="post" action="<?php echo __SITE_URL . '/login/processRegister' ?>">
-                            <div class="form-group">
-                                <br>
-                                <label for="email">Email adress:</label>
-                                <input class="form-control" id="email" name="email" type="email" required="required">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Register</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <br>
-                            <div class="form-group">
-                                <label for="username">Username:</label>
-                                <input class="form-control" id="username" name="username" type="text"
-                                       required="required">
+                            <div class="modal-body">
+                                <?php if (isset($registerError) && isset($registerErrorMessage) && $registerError) {
+                                    echo '<p class="alert alert-danger">' . $registerErrorMessage . "</p>";
+                                ?>
+                                <script>document.getElementById("join").style.display = "block";</script><?php } ?>
+                                <form method="post" action="<?php echo __SITE_URL . '/login/processRegister' ?>">
+                                    <div class="form-group">
+                                        <label for="email">Email adress:</label>
+                                        <input class="form-control" id="email" name="email" type="email" required="required">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="username">Username:</label>
+                                        <input class="form-control" id="username" name="username" type="text"
+                                            required="required">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password:</label>
+                                        <input class="form-control" id="password" name="password" type="password"
+                                            required="required">
+                                    </div>
+                                    <br>
+                                    <div class="float-end">
+                                        <input class="btn btn-primary" type="submit" name="register" value="Register"/>
+                                    </div>
+                                </form>
                             </div>
-                            <br>
-                            <div class="form-group">
-                                <label for="password">Password:</label>
-                                <input class="form-control" id="password" name="password" type="password"
-                                       required="required">
-                            </div>
-                            <br>
-                            <div class="float-end">
-                                <input class="btn btn-primary" type="submit" name="register" value="Register"/>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             <?php } ?>
@@ -99,8 +110,8 @@
 
     var joinBtn = document.getElementById("joinbtn");
 
-    var loginSpan = document.getElementsByClassName("close")[0];
-    var joinSpan = document.getElementsByClassName("close")[1];
+    var loginSpan = document.getElementsByClassName("btn-close")[0];
+    var joinSpan = document.getElementsByClassName("btn-close")[1];
 
 
     loginBtn.onclick = function () {
@@ -113,18 +124,22 @@
 
     loginSpan.onclick = function () {
         loginModal.style.display = "none";
+        <?php unset($loginError); ?>
     }
 
     joinSpan.onclick = function () {
         joinModal.style.display = "none";
+        <?php unset($registerError); ?>
     }
 
     window.onclick = function (event) {
         if (event.target == loginModal) {
             loginModal.style.display = "none";
+            <?php unset($loginError); ?>
         }
         if (event.target == joinModal) {
             joinModal.style.display = "none";
+            <?php unset($registerError); ?>
         }
     }
 </script>
