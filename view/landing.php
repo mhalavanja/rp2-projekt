@@ -1,11 +1,13 @@
 <?php
 require_once __SITE_PATH . '/view/_header.php';
+require_once __SITE_PATH . '/view/_navBar.php';
 if (isset($error)) {
     echo '<div class="alert alert-danger" role="alert">
             ' . $error . '
           </div>';
 }
 ?>
+<br>
 <form class="d-flex justify-content-center" method="post" action="<?php echo __SITE_URL . '/search/processSearch' ?>">
     <div class="col-auto me-1">
         <label class="form-label" for="city">City:</label>

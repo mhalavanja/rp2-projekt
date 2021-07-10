@@ -61,7 +61,7 @@ class HotelsController extends BaseController
         header('Location: ' . __SITE_URL . '/hotels');
     }
 
-    function shoppingHistory()
+    function visited()
     {
         $bookings = Booking::where("id_user", $_SESSION["user"]->getId());
         $hotels = [];
@@ -70,7 +70,7 @@ class HotelsController extends BaseController
             $hotels[] = $hotel;
         }
         $this->registry->template->starHotels = getStarHotels($hotels);
-        $this->registry->template->show("shopping-history");
+        $this->registry->template->show("visited");
     }
 
     function processReview()

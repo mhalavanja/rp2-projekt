@@ -2,23 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="utf8">
-    <title><?php if (isset($title)) echo $title; else echo "ebuy"; ?></title>
+    <title><?php if (isset($title)) echo $title; else echo "Hotel booking"; ?></title>
     <link rel="stylesheet" href="<?php echo __SITE_URL; ?>/static/bootstrap/bootstrap.min.css">
     <script rel="stylesheet" src="<?php echo __SITE_URL; ?>/static/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="<?php echo __SITE_URL; ?>/static/jquery-min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-light" style="background-color: SkyBlue;">
     <div class="container-fluid">
-        <h2 class="">HOTEL BOOKING</h2>
+        <h1 class="nav-item"><a class="nav-link link-dark" href="<?php echo __SITE_URL; ?>/hotels">HOTEL BOOKING</a></h1>
         <div class="navbar">
             <?php
             if (isset($_SESSION["user"])) {
-//                echo "<p class='me-3'>Pozdrav " . $_SESSION["user"]->getUsername() . "</p>"; ?>
+                echo '<div class="d-flex">';
+                echo '<span class="me-3 h3" href=" ">' . $_SESSION["user"]->getUsername() . '</span>'; ?>
                 <form action="<?php echo __SITE_URL; ?>/login/processLogout">
                     <input class="btn btn-outline-danger" type="submit" value="Logout"/>
                 </form>
                 <?php
+                echo '</div>';
             } else {
                 ?>
                 <button class="btn btn-outline-primary me-1" id="loginbtn">Log in</button>
@@ -98,7 +100,6 @@
         </div>
     </div>
 </nav>
-<br>
 
 <script>
 

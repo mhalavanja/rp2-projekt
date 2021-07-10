@@ -1,8 +1,21 @@
-<nav>
-    <ul id="menu">
-        <li><a href="<?php echo __SITE_URL; ?>/hotels">Visited hotels (my products)</a></li>
-        <li><a href="<?php echo __SITE_URL; ?>/hotels/ShoppingHistory">Visited hotels (shopping hitory)</a></li>
-        <li><a href="<?php echo __SITE_URL; ?>/search">Search hotels</a></li>
-        <li <?php if (!$_SESSION["user"]->getIs_admin()) echo "hidden"?> ><a href="<?php echo __SITE_URL; ?>/hotels/newHotel">Add new information about hotel</a></li>
+<style>
+.navbar-nav .nav-item:hover .nav-link {
+    background-color: SkyBlue;
+    color: white;
+}
+</style>
+
+<?php if(isset ($_SESSION["user"])) {?>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+    <div class="container-fluid ">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-fill w-100" id="menu">
+        <li class="nav-item"><a class="nav-link" href="<?php echo __SITE_URL; ?>/hotels/bookings">Bookings</a></li>
+        <li class="nav-item"><a class="nav-link" href="<?php echo __SITE_URL; ?>/hotels/visited">Visited hotels</a></li>
+        <li class="nav-item"><a class="nav-link" href="<?php echo __SITE_URL; ?>/user">Profile</a></li>
+        <li class="nav-item" <?php if ($_SESSION["user"]->getIs_admin() == null) echo "hidden"?> >
+            <a class="nav-link" href="<?php echo __SITE_URL; ?>/hotels/newHotel">Add new information about hotel</a>
+        </li>
     </ul>
+    </div>
 </nav>
+<?php } ?>

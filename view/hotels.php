@@ -1,5 +1,6 @@
 <?php
 require_once __SITE_PATH . '/view/_header.php';
+require_once __SITE_PATH . '/view/_navBar.php';
 if(!isset($hotels)) exit(1);
     foreach ($hotels as $hotel) {
         echo '<div class="card mb-3" style="max-width: 540px">

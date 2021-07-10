@@ -13,15 +13,15 @@ function seed_table_users()
 {
     $db = DB::getConnection();
     try {
-        $st = $db->prepare('INSERT INTO projekt_users(username, is_admin, password_hash, email, registration_sequence, has_registered) VALUES (:username, :is_admin, :password, \'a@b.com\', \'abc\', \'1\')');
+        $st = $db->prepare('INSERT INTO projekt_users(username, name, lastname, is_admin, password_hash, email, registration_sequence, has_registered) VALUES (:username, :name, :lastname, :is_admin, :password, \'a@b.com\', \'abc\', \'1\')');
 
-        $st->execute(array('username' => 'mirko', 'is_admin' => '1', 'password' => password_hash('mirkovasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'slavko', 'is_admin' => '0', 'password' => password_hash('slavkovasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'ana', 'is_admin' => null, 'password' => password_hash('aninasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'maja', 'is_admin' => null, 'password' => password_hash('majinasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'pero', 'is_admin' => null, 'password' => password_hash('perinasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'toni', 'is_admin' => '3', 'password' => password_hash('tonijevaasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'vinko', 'is_admin' => '2', 'password' => password_hash('vinkovasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'mirko','name' => 'Mirko','lastname' => 'Mirković', 'is_admin' => '1', 'password' => password_hash('mirkovasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'slavko','name' => 'Slavko','lastname' => 'Slaviček', 'is_admin' => '0', 'password' => password_hash('slavkovasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'ana','name' => 'Ana','lastname' => 'Perić', 'is_admin' => null, 'password' => password_hash('aninasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'maja','name' => 'Maja','lastname' => 'Marić', 'is_admin' => null, 'password' => password_hash('majinasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'pero','name' => 'Pero','lastname' => 'Perić', 'is_admin' => null, 'password' => password_hash('perinasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'toni','name' => 'Antonio','lastname' => 'Banderas', 'is_admin' => '3', 'password' => password_hash('tonijevasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'vinko','name' => 'Vinko','lastname' => 'De Loris', 'is_admin' => '2', 'password' => password_hash('vinkovasifra', PASSWORD_DEFAULT)));
     } catch (PDOException $e) {
         exit("PDO error [insert projekt_users]: " . $e->getMessage());
     }

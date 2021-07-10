@@ -44,6 +44,8 @@ function create_table_users()
             'CREATE TABLE IF NOT EXISTS projekt_users (' .
             'id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,' .
             'username VARCHAR(50) NOT NULL,' .
+            'name VARCHAR(50),' .
+            'lastname VARCHAR(50),' .
             'is_admin int,' .
             'password_hash VARCHAR(255) NOT NULL,'.
             'email VARCHAR(50) NOT NULL,' .

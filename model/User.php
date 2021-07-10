@@ -5,6 +5,8 @@ class User extends Model
 {
     private $id;
     private $username;
+    private $name;
+    private $lastname;
     private $is_admin;
     private $password_hash;
     private $email;
@@ -38,6 +40,26 @@ class User extends Model
     public function setUsername($username)
     {
         $this->username = $username;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
     }
 
     public function getIs_admin()
