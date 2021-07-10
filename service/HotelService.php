@@ -10,9 +10,9 @@ class HotelService
         try {
             $execArray = array(":city" => $city);
             $sql = "SELECT h.* FROM projekt_hotels h";
-            if ($fromDate != null && $toDate != null) {
-                $sql .= " JOIN projekt_bookings b ON h.id = b.id_hotel";
-            }
+//            if ($fromDate != null && $toDate != null) {
+//                $sql .= " JOIN projekt_bookings b ON h.id = b.id_hotel";
+//            }
             $sql .= " WHERE city = :city";
             if ($price !== null) {
                 $sql .= " AND price <= :price";
@@ -22,11 +22,11 @@ class HotelService
                 $sql .= " AND (h.rating IS NULL OR h.rating >= :rating)";
                 $execArray[":rating"] = $rating;
             }
-            if ($fromDate != null && $toDate != null) {
-                $sql .= " AND NOT (:fromDate < b.to_date OR :toDate > b.from_date)";
-                $execArray[":fromDate"] = $fromDate;
-                $execArray[":toDate"] = $toDate;
-            }
+//            if ($fromDate != null && $toDate != null) {
+//                $sql .= " AND NOT (:fromDate < b.to_date OR :toDate > b.from_date)";
+//                $execArray[":fromDate"] = $fromDate;
+//                $execArray[":toDate"] = $toDate;
+//            }
             $sql .= " GROUP BY h.id";
             $st = $db->prepare($sql);
             $st->execute($execArray);
