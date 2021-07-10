@@ -16,10 +16,12 @@ function seed_table_users()
         $st = $db->prepare('INSERT INTO projekt_users(username, is_admin, password_hash, email, registration_sequence, has_registered) VALUES (:username, :is_admin, :password, \'a@b.com\', \'abc\', \'1\')');
 
         $st->execute(array('username' => 'mirko', 'is_admin' => '1', 'password' => password_hash('mirkovasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'slavko', 'is_admin' => '1', 'password' => password_hash('slavkovasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'ana', 'is_admin' => '1', 'password' => password_hash('aninasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'maja', 'is_admin' => '1', 'password' => password_hash('majinasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'pero', 'is_admin' => '1', 'password' => password_hash('perinasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'slavko', 'is_admin' => '0', 'password' => password_hash('slavkovasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'ana', 'is_admin' => null, 'password' => password_hash('aninasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'maja', 'is_admin' => null, 'password' => password_hash('majinasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'pero', 'is_admin' => null, 'password' => password_hash('perinasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'toni', 'is_admin' => '3', 'password' => password_hash('tonijevaasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'vinko', 'is_admin' => '2', 'password' => password_hash('vinkovasifra', PASSWORD_DEFAULT)));
     } catch (PDOException $e) {
         exit("PDO error [insert projekt_users]: " . $e->getMessage());
     }
