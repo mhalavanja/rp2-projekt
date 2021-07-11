@@ -15,11 +15,16 @@ class UserController extends BaseController
     function processProfile()
     {
         $user = $_SESSION["user"];
-        $oldUsername = $user->getUsername();
+        if($user->getUsername() === $_POST["username"] && $user->getName() === $_POST["name"] && $user->getLastname() === $_POST["lastname"] && $user->getEmail() === $_POST["email"]){
+            $this->registry->template->proccessInfo = true;
+            $this->registry->template->proccessInfoMessage = "Nothing to change!";
+            $this->registry->template->show("profile");
+            return;
+        }
         $newUsername = $_POST["username"];
-        if ($newUsername !== $oldUsername && UserService::getUserByProperty("username", $newUsername)) {
-            $this->registry->template->error = true;
-            $this->registry->template->errorMessage = "Username already exists!";
+        if ($newUsername !== $user->getUsername() && UserService::getUserByUsername($newUsername)) {
+            $this->registry->template->proccessError = true;
+            $this->registry->template->proccessErrorMessage = "Username already exists!";
             $this->registry->template->show("profile");
             return;
         }
@@ -29,6 +34,10 @@ class UserController extends BaseController
         $user->setEmail($_POST["email"]);
 
         UserService::updateUser($user);
-        header('Location: ' . __SITE_URL . '/index.php?rt=users/index');
+        $this->registry->template->proccessSuccess = true;
+        $this->registry->template->proccessSuccessMessage = "Profile updated successfully!";
+        $this->registry->template->show("profile");
+        return;
+        //header('Location: ' . __SITE_URL . '/user');
     }
 }

@@ -4,9 +4,12 @@ require_once __SITE_PATH . '/view/_navBar.php';
 if (!isset($_SESSION["user"])) return;
 else $user = $_SESSION["user"];
 ?>
-    <?php if (isset($error) && isset($errorMessage) && $error) echo '<p class="alert alert-danger">' . $errorMessage . "</p>"; ?>
+    <br>
+    <?php if (isset($proccessError) && isset($proccessErrorMessage) && $proccessError) echo '<p class="alert alert-danger">' . $proccessErrorMessage . "</p>"; ?>
+    <?php if (isset($proccessSuccess) && isset($proccessSuccessMessage) && $proccessSuccess) echo '<p class="alert alert-success">' . $proccessSuccessMessage . "</p>"; ?>
+    <?php if (isset($proccessInfo) && isset($proccessInfoMessage) && $proccessInfo) echo '<p class="alert alert-info">' . $proccessInfoMessage . "</p>"; ?>
     <div class="justify-content-center d-flex">
-        <form method="post" class="w-25" action="<?php echo __SITE_URL . '/index.php?rt=users/processProfile' ?>">
+        <form method="post" class="w-25" action="<?php echo __SITE_URL . '/index.php?rt=user/processProfile' ?>">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input class="form-control" id="name" type="text" name="name"

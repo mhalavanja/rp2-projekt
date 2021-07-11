@@ -112,25 +112,32 @@
     var joinBtn = document.getElementById("joinbtn");
 
     var loginSpan = document.getElementsByClassName("btn-close")[0];
-    var joinSpan = document.getElementsByClassName("btn-close")[1];
+    var joinSpan = document.getElementsByClassName("btn-close")[1]
 
-
-    loginBtn.onclick = function () {
-        loginModal.style.display = "block";
+    if(loginBtn !== null){
+        loginBtn.onclick = function () {
+            loginModal.style.display = "block";
+        }
     }
 
-    joinBtn.onclick = function () {
-        joinModal.style.display = "block";
+    if(joinBtn !== null){
+        joinBtn.onclick = function () {
+            joinModal.style.display = "block";
+        }
     }
 
-    loginSpan.onclick = function () {
-        loginModal.style.display = "none";
-        <?php unset($loginError); ?>
+    if(loginSpan !== null){
+        loginSpan.onclick = function () {
+            loginModal.style.display = "none";
+            <?php unset($loginError); ?>
+        }
     }
-
-    joinSpan.onclick = function () {
-        joinModal.style.display = "none";
-        <?php unset($registerError); ?>
+    
+    if(joinSpan !== null){
+        joinSpan.onclick = function () {
+            joinModal.style.display = "none";
+            <?php unset($registerError); ?>
+        }
     }
 
     window.onclick = function (event) {
