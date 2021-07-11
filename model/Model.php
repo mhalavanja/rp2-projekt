@@ -17,7 +17,7 @@ abstract class Model
     // Asocijativno polje $columns:
     // - ključevi = imena stupaca u bazi podataka u tablici $table;
     // - svakom ključu je pridružena vrijednost koja u bazi piše za objekt $this (onaj čiji je id jedak $this->id).
-    public static $columns = [];
+    protected static $columns = [];
 
     public function __get($col)
     {
@@ -159,8 +159,22 @@ abstract class Model
         $row = $st->fetch();
         $class = get_called_class();
         $obj = new $class;
+//        print_r($st);
         foreach (static::$columns as $key => $val) {
             $setProperty = "set" . ucfirst($key);
+//            echo "<pre>";
+//            print_r($obj);
+//            echo "<br>";
+//            $st->debugDumpParams();
+//            echo "<br>";
+//            print_r($row);
+//            echo "<br>";
+//            print_r($setProperty);
+//            echo "<br>";
+//            print_r($key);
+//            echo "<br>";
+//            echo "<pre>";
+//            exit();
             $obj->$setProperty($row[$key]);
         }
 

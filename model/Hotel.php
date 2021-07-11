@@ -10,7 +10,7 @@ class Hotel extends Model
     private $price;
     private $rating;
     protected static $table = "projekt_hotels";
-    public static $columns = [];
+    protected static $columns = [];
 
     public function __construct(){}
 
@@ -87,6 +87,11 @@ class Hotel extends Model
     public function setRating($rating): void
     {
         $this->rating = $rating;
+    }
+
+    public static function getColumns(): array
+    {
+        return self::$columns;
     }
 }
 

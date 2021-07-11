@@ -13,7 +13,7 @@ class User extends Model
     private $registration_sequence;
     private $has_registered;
     protected static $table = "projekt_users";
-    public static $columns = [];
+    protected static $columns = [];
 
     public function __construct(){}
 

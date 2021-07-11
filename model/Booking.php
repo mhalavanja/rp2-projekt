@@ -12,7 +12,7 @@ class Booking extends Model
     private $rating;
     private $comment;
     protected static $table = "projekt_bookings";
-    public static $columns = [];
+    protected static $columns = [];
 
     public function __construct(){}
 
@@ -99,6 +99,11 @@ class Booking extends Model
     public function setComment($comment)
     {
         $this->comment = $comment;
+    }
+
+    public static function getColumns(): array
+    {
+        return self::$columns;
     }
 }
 

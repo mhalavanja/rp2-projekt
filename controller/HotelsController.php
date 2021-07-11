@@ -16,49 +16,27 @@ class HotelsController extends BaseController
 
     function hotel()
     {
-        $userId = $_SESSION["user"]->getId();
-        $hotel_id = null;
-        if (isset($_POST['hotel_id'])) $hotel_id = $_POST['hotel_id'];
-        elseif (isset($_SESSION['hotel_id'])) {
-            $hotel_id = $_SESSION['hotel_id'];
-            $_SESSION['hotel_id'] = null;
+        $hotel = null;
+        $rooms = null;
+        if (isset($_GET['hotelId'])) {
+            $hotelId = $_GET['hotelId'];
+            $hotel = Hotel::find($hotelId);
+            $rooms = Room::where("id_hotel", $hotelId);
         }
-
-        if (!$hotel_id || !preg_match('/^hotel_[0-9]+$/', $hotel_id)) {
-            exit();
+        else {
+            echo "AAAAAAAAAA";
+            exit(1);
         }
-
-        $hotelId = substr($hotel_id, 8);
-        $hotel = Hotel::find($hotelId);
-        $bookings = Booking::where("id_hotel", $hotelId);
-        $bookingId = getSaleIdForUserIfTheyCanReview($userId, $bookings);
-
-        $this->registry->template->canReview = (bool)$bookingId;
-        $this->registry->template->reviews = getReviewsForHotel($bookings);
-        $this->registry->template->bookingId = $bookingId;
-        $this->registry->template->starHotel = getStarHotel($hotel);
-        $this->registry->template->numOfSoldHotels = sizeof($bookings);
+//        else if (isset($_SESSION['hotel']) && isset($_SESSION['rooms'])) {
+//            $hotel = $_SESSION['hotel'];
+//            $rooms = $_SESSION['rooms'];
+////            $_SESSION['hotel'] = null;
+//        }
+        $_SESSION['hotel'] = $hotel;
+        $_SESSION['rooms'] = $rooms;
+        $this->registry->template->hotel = $hotel;
+        $this->registry->template->rooms = $rooms;
         $this->registry->template->show("hotel");
-    }
-
-    function newHotel()
-    {
-        $this->registry->template->show("new-hotel");
-    }
-
-    function processNewHotel()
-    {
-        if (!isset($_POST['name']) || !isset($_POST['description']) || !isset($_POST['price']) ||
-            empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price'])) {
-            $this->registry->template->error = true;
-            $this->registry->template->show("new-hotel");
-            return;
-        }
-        $hotel = new Hotel();
-        $hotel->setName($_POST['name']);
-        $hotel->setId_user($_SESSION["user"]->getId());
-        Hotel::save($hotel);
-        header('Location: ' . __SITE_URL . '/hotels');
     }
 
     function visited()
@@ -86,18 +64,5 @@ class HotelsController extends BaseController
         $_SESSION["hotel_id"] = "hotel_" . $_POST["hotel_id"];
         Booking::save($booking);
         header('Location: ' . __SITE_URL . '/hotels/hotel');
-    }
-
-    function processBuy()
-    {
-        $hotelId = $_POST["hotelId"] ?? null;
-        $userId = $_SESSION["user"]->getId();
-        if (!$userId) header('Location: ' . __SITE_URL);
-        if (!$hotelId) exit();
-        $booking = new Booking();
-        $booking->setId_hotel($hotelId);
-        $booking->setId_user($userId);
-        Booking::save($booking);
-        header('Location: ' . __SITE_URL . '/search');
     }
 }

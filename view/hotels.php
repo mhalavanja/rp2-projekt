@@ -1,9 +1,9 @@
 <?php
 require_once __SITE_PATH . '/view/_header.php';
 require_once __SITE_PATH . '/view/_navBar.php';
-if(!isset($hotels)) exit(1);
-    foreach ($hotels as $hotel) {
-        echo '<div class="card mb-3" style="max-width: 540px">
+if (!isset($hotels)) exit(1);
+foreach ($hotels as $hotel) {
+    echo '<div class=" card mb-3" style="max-width: 540px">
     <div>
         <div >
             <img src="' . __SITE_URL . '/static/images/hotel' . $hotel->getId() . '.jpg" class="img-fluid rounded-start">
@@ -15,7 +15,10 @@ if(!isset($hotels)) exit(1);
                 <p class="card-text">Distance from centre: ' . $hotel->getDistance_from_city_centre() . '</p>
                 <p class="card-text">Price: ' . $hotel->getPrice() . '</p>
                 <p class="card-text">Rating: ' . $hotel->getRating() . '</p>
-                <a href="#" class="btn btn-primary">Book</a>
+                <form method="get" action="' . __SITE_URL . '/hotels/hotel">
+                <input name="hotelId" type="hidden" value="' . $hotel->getId() . '">
+                <button type="submit" class="btn btn-primary">Book</button>
+                </form>
             </div>
         </div>
     </div>

@@ -25,7 +25,7 @@ if (isset($error)) {
     </div>
     <div class="col-auto me-1">
         <label class="form-label" for="price">Price:</label>
-        <input class="form-control" name="price" id="price" type="number" min="0" value="0"/>
+        <input class="form-control" name="price" id="price" type="number" min="0"/>
     </div>
     <div class="col-auto me-1">
         <label class="form-label" for="rating">Rating:</label>
@@ -40,40 +40,64 @@ if (isset($error)) {
 </form>
 <br>
 <div class="d-flex justify-content-center">
-<div id="carouselExampleIndicators" class="carousel slide w-50 " data-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    </ol>
-
-    <div id="carouselExampleControls" class="carousel slide " data-bs-ride="carousel">
+    <div id="carousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators"></ol>
+        <!-- Wrapper for slides -->
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="<?php echo __SITE_URL ?>/static/images/hotel1.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="<?php echo __SITE_URL ?>/static/images/hotel2.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="<?php echo __SITE_URL ?>/static/images/hotel3.jpg" class="d-block w-100" alt="...">
-            </div>
+            <!-- Controls -->
+            <a id="prev" class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a id="next" class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
     </div>
+
 </div>
-    <?php require_once __SITE_PATH . '/view/_footer.php'; ?>
-    <script>
-        $('.carousel').carousel({
-            interval: 500
-        })
-    </script>
+<script>
+    $(document).ready(function () {
+        let number = 10;
+        let activeLi = 0;
+        for (let j = 0; j < number; j++) {
+            $('<div class="carousel-item">' +
+                '<img class="" src="<?php echo __SITE_URL ?>/static/images/hotel' + (j + 1) + '.jpg"></div>')
+                .appendTo('.carousel-inner');
+            $('<li data-target="#carousel" data-slide-to="' + j + '"></li>').appendTo('.carousel-indicators')
+
+        }
+        $('.carousel-item').first().addClass('active');
+        $('.carousel-indicators > li').eq(activeLi).addClass('active');
+        activeLi = (activeLi + 1) % number;
+        $('#carousel').carousel({
+            interval: 2000
+        });
+
+        $('#carousel').on('slide.bs.carousel', function () {
+            activeLi = (activeLi + 1) % number;
+            $('.carousel-indicators > li').eq(activeLi).addClass('active');
+        });
+
+        $("#prev").on("click", function (){
+            console.log(activeLi);
+            $('.carousel-indicators > li').eq(activeLi).removeClass('active');
+            $('.carousel-item').eq(activeLi).removeClass('active');
+            activeLi = (activeLi - 1) % number;
+            $('.carousel-indicators > li').eq(activeLi).addClass('active');
+            $('.carousel-item').eq(activeLi).addClass('active');
+        });
+
+        $("#next").on("click", function (){
+            console.log(activeLi);
+            $('.carousel-indicators > li').eq(activeLi).removeClass('active');
+            $('.carousel-item').eq(activeLi).removeClass('active');
+            activeLi = (activeLi + 1) % number;
+            $('.carousel-indicators > li').eq(activeLi).addClass('active');
+            $('.carousel-item').eq(activeLi).addClass('active');
+
+        });
+    });
+</script>
+
+<?php require_once __SITE_PATH . '/view/_footer.php'; ?>

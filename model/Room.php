@@ -5,12 +5,13 @@ class Room extends Model
 {
     private $id;
     private $id_hotel;
+    private $num_of_rooms;
     private $capacity;
     private $room_type;
     private $price;
     private $image;
     protected static $table = "projekt_rooms";
-    public static $columns = [];
+    protected static $columns = [];
 
     public function __construct(){}
 
@@ -29,14 +30,24 @@ class Room extends Model
         $this->id = $id;
     }
 
-    public function getIdHotel()
+    public function getId_hotel()
     {
         return $this->id_hotel;
     }
 
-    public function setIdHotel($id_hotel): void
+    public function setId_hotel($id_hotel): void
     {
         $this->id_hotel = $id_hotel;
+    }
+
+    public function getNum_of_rooms()
+    {
+        return $this->num_of_rooms;
+    }
+
+    public function setNum_of_rooms($num_of_rooms): void
+    {
+        $this->num_of_rooms = $num_of_rooms;
     }
 
     public function getCapacity()
@@ -49,12 +60,12 @@ class Room extends Model
         $this->capacity = $capacity;
     }
 
-    public function getRoomType()
+    public function getRoom_type()
     {
         return $this->room_type;
     }
 
-    public function setRoomType($room_type): void
+    public function setRoom_type($room_type): void
     {
         $this->room_type = $room_type;
     }
@@ -77,6 +88,11 @@ class Room extends Model
     public function setImage($image): void
     {
         $this->image = $image;
+    }
+
+    public static function getColumns(): array
+    {
+        return self::$columns;
     }
 }
 

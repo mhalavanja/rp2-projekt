@@ -4,17 +4,10 @@ require_once __SITE_PATH . '/service/HotelService.php';
 
 class SearchController extends BaseController
 {
-    function index()
-    {
-        $this->registry->template->starHotels = $_SESSION["starHotels"] ?? null;
-        $_SESSION["starHotels"] = null;
-        $this->registry->template->show("search");
-    }
-
     function processSearch()
     {
         if(!isset($_POST["city"]) || $_POST["city"] === null || empty($_POST["city"])){
-            $this->registry->template->error = "Grad je obavezno polje za pretragu hotela!";
+            $this->registry->template->error = "You have to select a city!";
             $this->registry->template->show("landing");
             return;
         }
@@ -25,11 +18,13 @@ class SearchController extends BaseController
         $rating = $_POST["rating"] ?? null;
         $hotels = HotelService::searchHotels($city, $fromDate, $toDate, $price, $rating);
         if (empty($hotels)){
-            $this->registry->template->error = "Ne postoji hotel s traženim parametrima!";
+            $this->registry->template->error = "There is no such hotel!";
             $this->registry->template->show("landing");
             return;
         }
         $_SESSION["hotels"] = $hotels;
+        $_SESSION["fromDate"] = $fromDate;
+        $_SESSION["toDate"] = $toDate;
         header('Location: ' . __SITE_URL . '/search/hotels');
     }
 

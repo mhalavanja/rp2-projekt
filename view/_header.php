@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="utf8">
-    <title><?php if (isset($title)) echo $title; else echo "Hotel booking"; ?></title>
-    <link rel="stylesheet" href="<?php echo __SITE_URL; ?>/static/bootstrap/bootstrap.min.css">
-    <script rel="stylesheet" src="<?php echo __SITE_URL; ?>/static/bootstrap/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="<?php echo __SITE_URL; ?>/static/jquery-min.js"></script>
+    <title>Hotel Booking</title>
+    <link rel="stylesheet" href="<?php echo __SITE_URL; ?>/static/bootstrap/bootstrap.css">
+    <script rel="stylesheet" src="<?php echo __SITE_URL; ?>/static/bootstrap/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" href="<?php echo __SITE_URL; ?>/static/header.css">
+    <script type="text/javascript" src="<?php echo __SITE_URL; ?>/static/jquery.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-light" style="background-color: SkyBlue;">

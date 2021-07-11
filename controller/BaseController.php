@@ -11,7 +11,4 @@ abstract class BaseController
     {
         $this->registry = $registry;
     }
-
-    // Svaki kontroller mora imati barem funkciju index.
-    abstract function index();
 }

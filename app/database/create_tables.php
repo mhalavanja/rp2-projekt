@@ -98,10 +98,10 @@ function create_table_rooms()
             'CREATE TABLE IF NOT EXISTS projekt_rooms (' .
             'id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,' .
             'id_hotel INT NOT NULL,' .
+            'num_of_rooms INT NOT NULL,' .
             'capacity INT NOT NULL,' .
-            'room_type INT NOT NULL,' .
-            'price DECIMAL(10,2) NOT NULL,' .
-            'image LONGBLOB)'
+            'room_type TEXT NOT NULL,' .
+            'price DECIMAL(10,2) NOT NULL)'
         );
 
         $st->execute();
