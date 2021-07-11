@@ -46,7 +46,7 @@ function create_table_users()
             'username VARCHAR(50) NOT NULL,' .
             'name VARCHAR(50),' .
             'lastname VARCHAR(50),' .
-            'is_admin int,' .
+            'isAdmin int,' .
             'password_hash VARCHAR(255) NOT NULL,'.
             'email VARCHAR(50) NOT NULL,' .
             'registration_sequence VARCHAR(20) NOT NULL,' .

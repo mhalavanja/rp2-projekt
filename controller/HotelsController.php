@@ -51,6 +51,15 @@ class HotelsController extends BaseController
         $this->registry->template->show("visited");
     }
 
+    function info()
+    {
+        $_SESSION['hotelInfo'] = Hotel::where("id", $_SESSION["user"]->getisAdmin());
+        $_SESSION['hotelRooms'] = Room::where("id_hotel", $_SESSION["user"]->getisAdmin());
+        $_SESSION['hotelBookings'] = Booking::where("id_hotel", $_SESSION["user"]->getisAdmin());
+        //$hotelComments = Cooments::where("id_hotel",$_SESSION["user"]->getisAdmin());
+        $this->registry->template->show("info");
+    }
+
     function processReview()
     {
         $rating = $_POST["rating"] ?? null;

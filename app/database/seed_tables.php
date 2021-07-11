@@ -12,15 +12,15 @@ function seed_table_users()
 {
     $db = DB::getConnection();
     try {
-        $st = $db->prepare('INSERT INTO projekt_users(username, name, lastname, is_admin, password_hash, email, registration_sequence, has_registered) VALUES (:username, :name, :lastname, :is_admin, :password, \'a@b.com\', \'abc\', \'1\')');
+        $st = $db->prepare('INSERT INTO projekt_users(username, name, lastname, isAdmin, password_hash, email, registration_sequence, has_registered) VALUES (:username, :name, :lastname, :isAdmin, :password, \'a@b.com\', \'abc\', \'1\')');
 
-        $st->execute(array('username' => 'mirko','name' => 'Mirko','lastname' => 'Mirković', 'is_admin' => '1', 'password' => password_hash('mirkovasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'slavko','name' => 'Slavko','lastname' => 'Slaviček', 'is_admin' => '0', 'password' => password_hash('slavkovasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'ana','name' => 'Ana','lastname' => 'Perić', 'is_admin' => null, 'password' => password_hash('aninasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'maja','name' => 'Maja','lastname' => 'Marić', 'is_admin' => null, 'password' => password_hash('majinasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'pero','name' => 'Pero','lastname' => 'Perić', 'is_admin' => null, 'password' => password_hash('perinasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'toni','name' => 'Antonio','lastname' => 'Banderas', 'is_admin' => '3', 'password' => password_hash('tonijevasifra', PASSWORD_DEFAULT)));
-        $st->execute(array('username' => 'vinko','name' => 'Vinko','lastname' => 'De Loris', 'is_admin' => '2', 'password' => password_hash('vinkovasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'mirko','name' => 'Mirko','lastname' => 'Mirković', 'isAdmin' => '1', 'password' => password_hash('mirkovasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'slavko','name' => 'Slavko','lastname' => 'Slaviček', 'isAdmin' => '4', 'password' => password_hash('slavkovasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'ana','name' => 'Ana','lastname' => 'Perić', 'isAdmin' => null, 'password' => password_hash('aninasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'maja','name' => 'Maja','lastname' => 'Marić', 'isAdmin' => null, 'password' => password_hash('majinasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'pero','name' => 'Pero','lastname' => 'Perić', 'isAdmin' => null, 'password' => password_hash('perinasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'toni','name' => 'Antonio','lastname' => 'Banderas', 'isAdmin' => '3', 'password' => password_hash('tonijevasifra', PASSWORD_DEFAULT)));
+        $st->execute(array('username' => 'vinko','name' => 'Vinko','lastname' => 'De Loris', 'isAdmin' => '2', 'password' => password_hash('vinkovasifra', PASSWORD_DEFAULT)));
     } catch (PDOException $e) {
         exit("PDO error [insert projekt_users]: " . $e->getMessage());
     }
@@ -92,7 +92,23 @@ function seed_table_bookings()
     $db = DB::getConnection();
 
     try {
-
+        $st = $db->prepare('INSERT INTO projekt_bookings(id_user, id_hotel, room_id, from_date, to_date) VALUES (:id_user, :id_hotel, :room_id, :from_date, :to_date)');
+        $st->execute(array('id_user' => 1, 'id_hotel' => 1, 'room_id' => 11, 'from_date' => "2000-01-01", 'to_date' => "2000-01-07" ));
+        $st->execute(array('id_user' => 2, 'id_hotel' => 1, 'room_id' => 11, 'from_date' => "2000-01-01", 'to_date' => "2000-06-07" ));
+        $st->execute(array('id_user' => 3, 'id_hotel' => 1, 'room_id' => 11, 'from_date' => "2000-11-21", 'to_date' => "2000-12-01" ));
+        $st->execute(array('id_user' => 4, 'id_hotel' => 1, 'room_id' => 11, 'from_date' => "2000-01-31", 'to_date' => "2000-02-15" ));
+        $st->execute(array('id_user' => 5, 'id_hotel' => 1, 'room_id' => 11, 'from_date' => "2001-01-01", 'to_date' => "2001-12-31" ));
+        $st->execute(array('id_user' => 6, 'id_hotel' => 1, 'room_id' => 1, 'from_date' => "2002-01-04", 'to_date' => "2002-01-07" ));
+        $st->execute(array('id_user' => 7, 'id_hotel' => 1, 'room_id' => 11, 'from_date' => "2020-01-01", 'to_date' => "2020-01-02" ));
+        $st->execute(array('id_user' => 4, 'id_hotel' => 1, 'room_id' => 1, 'from_date' => "2020-12-25", 'to_date' => "2021-01-02" ));
+        $st->execute(array('id_user' => 3, 'id_hotel' => 1, 'room_id' => 11, 'from_date' => "2030-01-01", 'to_date' => "2030-03-03" ));
+        $st->execute(array('id_user' => 1, 'id_hotel' => 2, 'room_id' => 12, 'from_date' => "2000-01-01", 'to_date' => "2000-11-17" ));
+        $st->execute(array('id_user' => 5, 'id_hotel' => 2, 'room_id' => 12, 'from_date' => "2000-01-01", 'to_date' => "2001-01-07" ));
+        $st->execute(array('id_user' => 2, 'id_hotel' => 2, 'room_id' => 2, 'from_date' => "2005-07-10", 'to_date' => "2006-01-01" ));
+        $st->execute(array('id_user' => 1, 'id_hotel' => 3, 'room_id' => 13, 'from_date' => "2030-01-01", 'to_date' => "2030-01-17" ));
+        $st->execute(array('id_user' => 4, 'id_hotel' => 3, 'room_id' => 3, 'from_date' => "2030-02-01", 'to_date' => "2030-02-20" ));
+        $st->execute(array('id_user' => 2, 'id_hotel' => 3, 'room_id' => 3, 'from_date' => "2030-01-11", 'to_date' => "2030-11-01" ));
+        $st->execute(array('id_user' => 5, 'id_hotel' => 3, 'room_id' => 3, 'from_date' => "2030-01-13", 'to_date' => "2030-02-14" ));
     } catch (PDOException $e) {
         exit("PDO error [projekt_bookings]: " . $e->getMessage());
     }

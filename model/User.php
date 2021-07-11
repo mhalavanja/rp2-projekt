@@ -7,7 +7,7 @@ class User extends Model
     private $username;
     private $name;
     private $lastname;
-    private $is_admin;
+    private $isAdmin;
     private $password_hash;
     private $email;
     private $registration_sequence;
@@ -62,14 +62,14 @@ class User extends Model
         $this->lastname = $lastname;
     }
 
-    public function getIs_admin()
+    public function getisAdmin()
     {
-        return $this->is_admin;
+        return $this->isAdmin;
     }
 
-    public function setIs_admin($is_admin): void
+    public function setisAdmin($isAdmin): void
     {
-        $this->is_admin = $is_admin;
+        $this->isAdmin = $isAdmin;
     }
 
     public function getPassword_hash()

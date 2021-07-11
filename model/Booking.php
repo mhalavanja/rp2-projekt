@@ -6,7 +6,7 @@ class Booking extends Model
     private $id;
     private $id_user;
     private $id_hotel;
-    private $room_number;
+    private $room_id;
     private $from_date;
     private $to_date;
     private $rating;
@@ -51,14 +51,14 @@ class Booking extends Model
         $this->id_hotel = $id_hotel;
     }
 
-    public function getRoom_number()
+    public function getRoom_id()
     {
-        return $this->room_number;
+        return $this->room_id;
     }
 
-    public function setRoom_number($room_number): void
+    public function setRoom_id($room_id): void
     {
-        $this->room_number = $room_number;
+        $this->room_id = $room_id;
     }
 
     public function getFrom_date()

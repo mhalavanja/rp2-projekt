@@ -12,8 +12,8 @@
         <li class="nav-item"><a class="nav-link" href="<?php echo __SITE_URL; ?>/hotels/bookings">Bookings</a></li>
         <li class="nav-item"><a class="nav-link" href="<?php echo __SITE_URL; ?>/hotels/visited">Visited hotels</a></li>
         <li class="nav-item"><a class="nav-link" href="<?php echo __SITE_URL; ?>/user">Profile</a></li>
-        <li class="nav-item" <?php if ($_SESSION["user"]->getIs_admin() == null) echo "hidden"?> >
-            <a class="nav-link" href="<?php echo __SITE_URL; ?>/hotels/newHotel">Add new information about hotel</a>
+        <li class="nav-item" <?php if ($_SESSION["user"]->getisAdmin() == null) echo "hidden"?> >
+            <a class="nav-link" href="<?php echo __SITE_URL; ?>/hotels/info">Add new information about hotel</a>
         </li>
     </ul>
     </div>

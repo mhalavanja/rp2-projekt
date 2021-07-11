@@ -5,7 +5,6 @@
     <title>Hotel Booking</title>
     <link rel="stylesheet" href="<?php echo __SITE_URL; ?>/static/bootstrap/bootstrap.css">
     <script rel="stylesheet" src="<?php echo __SITE_URL; ?>/static/bootstrap/bootstrap.bundle.js"></script>
-    <link rel="stylesheet" href="<?php echo __SITE_URL; ?>/static/header.css">
     <script type="text/javascript" src="<?php echo __SITE_URL; ?>/static/jquery.js"></script>
 </head>
 <body>
