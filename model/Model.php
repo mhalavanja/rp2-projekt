@@ -200,6 +200,9 @@ abstract class Model
             $st = $db->prepare($sql);
             $st->execute();
         } catch (PDOException $e) {
+            echo "<pre>";
+            $st->debugDumpParams();
+            echo "<pre>";
             exit("PDO error [REPLACE " . static::$table . "]: " . $e->getMessage());
         }
         return true;

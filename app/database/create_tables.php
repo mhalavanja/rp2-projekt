@@ -126,9 +126,7 @@ function create_table_bookings()
             'id_hotel INT NOT NULL,' .
             'room_id INT NOT NULL,' .
             'from_date DATE NOT NULL,' .
-            'to_date DATE NOT NULL,' .
-            'rating INT,' .
-            'comment VARCHAR(1000))'
+            'to_date DATE NOT NULL)'
         );
 
         $st->execute();
@@ -136,4 +134,28 @@ function create_table_bookings()
     catch( PDOException $e ) { exit( "PDO error [create projekt_bookings]: " . $e->getMessage() ); }
 
     echo "Napravio tablicu projekt_bookings.<br />";
+}
+
+function create_table_reviews()
+{
+    $db = DB::getConnection();
+
+    if( has_table( 'projekt_reviews' ) )
+        $db->exec("DROP TABLE projekt_reviews;");
+    try
+    {
+        $st = $db->prepare(
+            'CREATE TABLE IF NOT EXISTS projekt_reviews (' .
+            'id int NOT NULL PRIMARY KEY AUTO_INCREMENT,' .
+            'id_user INT NOT NULL,' .
+            'id_hotel INT NOT NULL,' .
+            'rating INT,' .
+            'comment VARCHAR(1000))'
+        );
+
+        $st->execute();
+    }
+    catch( PDOException $e ) { exit( "PDO error [create projekt_reviews]: " . $e->getMessage() ); }
+
+    echo "Napravio tablicu projekt_reviews.<br />";
 }

@@ -1,15 +1,14 @@
 <?php
 
 
-class Booking extends Model
+class Review extends Model
 {
     private $id;
     private $id_user;
     private $id_hotel;
-    private $room_id;
-    private $from_date;
-    private $to_date;
-    protected static $table = "projekt_bookings";
+    private $rating;
+    private $comment;
+    protected static $table = "projekt_reviews";
     protected static $columns = [];
 
     public function __construct(){}
@@ -49,34 +48,24 @@ class Booking extends Model
         $this->id_hotel = $id_hotel;
     }
 
-    public function getRoom_id()
+    public function getRating()
     {
-        return $this->room_id;
+        return $this->rating;
     }
 
-    public function setRoom_id($room_id): void
+    public function setRating($rating)
     {
-        $this->room_id = $room_id;
+        $this->rating = $rating;
     }
 
-    public function getFrom_date()
+    public function getComment()
     {
-        return $this->from_date;
+        return $this->comment;
     }
 
-    public function setFrom_date($from_date): void
+    public function setComment($comment)
     {
-        $this->from_date = $from_date;
-    }
-
-    public function getTo_date()
-    {
-        return $this->to_date;
-    }
-
-    public function setTo_date($to_date): void
-    {
-        $this->to_date = $to_date;
+        $this->comment = $comment;
     }
 
     public static function getColumns(): array

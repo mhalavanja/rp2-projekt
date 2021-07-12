@@ -6,6 +6,12 @@ if (isset($error)) {
             ' . $error . '
           </div>';
 }
+if (isset($_SESSION["booked"])) {
+    echo '<div class="alert alert-success" role="alert">
+            ' . $_SESSION["booked"] . '
+          </div>';
+    $_SESSION["booked"] = null;
+}
 ?>
 <br>
 <form class="d-flex justify-content-center" method="post" action="<?php echo __SITE_URL . '/search/processSearch' ?>">
