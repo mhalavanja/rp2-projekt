@@ -80,8 +80,8 @@ class RoomController extends BaseController
             if(isset($_POST[$bookings->getId()])) $booking = $bookings;
         RoomService::deleteReservation($booking);
         $_SESSION['hotelBookings'] = Booking::where("id_hotel", $_SESSION["user"]->getisAdmin());
-        $this->registry->template->roomSuccess = true;
-        $this->registry->template->roomSuccessMessage = "Booking deleted successfully!";
+        $this->registry->template->bookingSuccess = true;
+        $this->registry->template->bookingSuccessMessage = "Booking deleted successfully!";
         $this->registry->template->show("info");
         return;
     }

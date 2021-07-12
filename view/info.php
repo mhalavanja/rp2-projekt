@@ -92,6 +92,7 @@ $imeHotela = "hotel". $hotelInfo->getId() .".jpg"; ?>
         <h2 class="justify-content-center d-flex w-100"> BOOKINGS </h2>
     </div>
 <hr>
+<?php if (isset($bookingSuccess) && isset($bookingSuccessMessage) && $bookingSuccess) echo '<p class="alert alert-success">' . $bookingSuccessMessage . "</p>"; ?>
 <form method="post" action="<?php echo __SITE_URL . '/room/deleteBooking' ?>">
     <div class="justify-content-around pb-4 d-flex flex-wrap">
         <?php foreach($hotelBookings as $booking){ ?>
