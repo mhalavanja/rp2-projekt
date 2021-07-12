@@ -37,7 +37,7 @@
                                     echo '<p class="alert alert-danger">' . $loginErrorMessage . "</p>";
                                 ?>
                                 <script>document.getElementById("login").style.display = "block";</script><?php } ?>
-                                <form method="post" action="<?php echo __SITE_URL . '/login/processLoginForm' ?>">
+                                <form method="post" action="<?php echo __SITE_URL . '/login/processLogin' ?>">
                                     <div class="form-group">
                                         <label for="username">Username:</label>
                                         <input class="form-control" id="username" name="username" type="text"
