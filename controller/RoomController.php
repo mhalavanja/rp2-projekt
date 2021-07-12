@@ -1,8 +1,45 @@
 <?php
 
+require __SITE_PATH . "/service/RoomService.php";
 
 class RoomController extends BaseController
 {
+    function save(){
+        if( RoomService::getRoomByTypeFromHotel($_POST["type"], $_SESSION["hotelInfo"][0]->getId() ) ){
+            $this->registry->template->roomError = true;
+            $this->registry->template->roomErrorMessage = "Room type already exist!";
+            $this->registry->template->show("info");
+            return;
+        }
+        RoomService::saveRoom($_SESSION["hotelInfo"][0]->getId() ,$_POST["type"],$_POST["capacity"],$_POST["number_of_rooms"],$_POST["price"]);
+        $_SESSION['hotelRooms'] = Room::where("id_hotel", $_SESSION["user"]->getisAdmin());
+        $this->registry->template->roomSuccess = true;
+        $this->registry->template->roomSuccessMessage = "Room created successfully!";
+        $this->registry->template->show("info");
+        return;
+    }
+
+    function changeInfo(){
+        $room = null;
+        foreach($_SESSION["hotelRooms"] as $rooms)
+            if(isset($_POST[$rooms->getId()])) $room = $rooms;
+
+        if($room->getCapacity() === $_POST["capacity"] && $room->getNum_of_rooms() === $_POST["number_of_rooms"] && $room->getPrice() === $_POST["price"] ){
+            $this->registry->template->roomInfo = true;
+            $this->registry->template->roomInfoMessage = "No new information added!";
+            $this->registry->template->show("info");
+            return;
+        }
+        $room->setCapacity($_POST["capacity"]);
+        $room->setNum_of_rooms($_POST["number_of_rooms"]);
+        $room->setPrice($_POST["price"]);
+
+        RoomService::updateRoom($room);
+        $this->registry->template->roomSuccess = true;
+        $this->registry->template->roomSuccessMessage = "Room info updated successfully!";
+        $this->registry->template->show("info");
+        return;
+    }
 
     function processBookRoom()
     {

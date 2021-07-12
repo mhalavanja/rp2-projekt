@@ -42,7 +42,7 @@ class UserService
             $st->execute(array('username' => $user->getUsername(),'name' => $user->getName(),'lastname' => $user->getLastname(), 'email' => $user->getEmail(), 'id' => $user->getId() ));
             $st->execute();
         } catch (PDOException $e) {
-            exit("PDO error [select projekt_hotels]: " . $e->getMessage());
+            exit("PDO error [UPDATE projekt_hotels]: " . $e->getMessage());
         }
     }
 }

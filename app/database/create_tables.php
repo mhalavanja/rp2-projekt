@@ -75,7 +75,7 @@ function create_table_hotels()
             'name VARCHAR(100) NOT NULL,' .
             'city VARCHAR(100) NOT NULL,' .
             'distance_from_city_centre DECIMAL(4,2) NOT NULL,'.
-            'price DECIMAL(10,2) NOT NULL,'.
+            'price INT NOT NULL,'.
             'rating DECIMAL(2,2) NOT NULL)'
         );
 
@@ -101,7 +101,7 @@ function create_table_rooms()
             'num_of_rooms INT NOT NULL,' .
             'capacity INT NOT NULL,' .
             'room_type TEXT NOT NULL,' .
-            'price DECIMAL(10,2) NOT NULL)'
+            'price INT NOT NULL)'
         );
 
         $st->execute();
