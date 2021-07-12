@@ -90,6 +90,7 @@ class loginController extends BaseController
     function finishRegistration()
     {
         $sequence = $_GET["sequence"] ?? null;
+        $sequence = rtrim($sequence, "/");
         $user = User::where("registration_sequence", $sequence);
         if ($user) $user = $user[0];
         $user->setHas_registered(true);
