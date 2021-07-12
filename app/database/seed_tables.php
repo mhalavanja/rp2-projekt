@@ -59,7 +59,7 @@ function seed_table_rooms()
     try {
         $st = $db->prepare('INSERT INTO projekt_rooms(id_hotel, num_of_rooms, capacity, room_type, price) VALUES (:id_hotel, :num_of_rooms, :capacity, :room_type, :price)');
 
-        $st->execute(array('id_hotel' => 1, 'num_of_rooms' => 5, 'capacity' => 6, 'room_type' => 'presidential suite', 'price' => 1999));
+        $st->execute(array('id_hotel' => 1, 'num_of_rooms' => 1, 'capacity' => 6, 'room_type' => 'presidential suite', 'price' => 1999));
         $st->execute(array('id_hotel' => 2, 'num_of_rooms' => 5, 'capacity' => 6, 'room_type' => 'presidential suite', 'price' => 2999));
         $st->execute(array('id_hotel' => 3, 'num_of_rooms' => 2, 'capacity' => 6, 'room_type' => 'presidential suite', 'price' => 3999));
         $st->execute(array('id_hotel' => 4, 'num_of_rooms' => 3, 'capacity' => 6, 'room_type' => 'presidential suite', 'price' => 4999));
@@ -69,7 +69,7 @@ function seed_table_rooms()
         $st->execute(array('id_hotel' => 8, 'num_of_rooms' => 4, 'capacity' => 6, 'room_type' => 'presidential suite', 'price' => 8999));
         $st->execute(array('id_hotel' => 9, 'num_of_rooms' => 2, 'capacity' => 6, 'room_type' => 'presidential suite', 'price' => 9999));
         $st->execute(array('id_hotel' => 10,'num_of_rooms' => 1, 'capacity' => 6, 'room_type' => 'presidential suite', 'price' => 10999));
-        $st->execute(array('id_hotel' => 1,'num_of_rooms' => 50, 'capacity' => 1, 'room_type' => 'single', 'price' => 19));
+//        $st->execute(array('id_hotel' => 1,'num_of_rooms' => 50, 'capacity' => 1, 'room_type' => 'single', 'price' => 19));
         $st->execute(array('id_hotel' => 2,'num_of_rooms' => 50, 'capacity' => 1, 'room_type' => 'single', 'price' => 29));
         $st->execute(array('id_hotel' => 3,'num_of_rooms' => 20, 'capacity' => 1, 'room_type' => 'single', 'price' => 39));
         $st->execute(array('id_hotel' => 4,'num_of_rooms' => 30, 'capacity' => 1, 'room_type' => 'single', 'price' => 49));
