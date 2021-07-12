@@ -14,7 +14,7 @@ class SearchController extends BaseController
         $city = $_POST["city"];
         $fromDate = $_POST["fromDate"] ?? null;
         $toDate = $_POST["toDate"] ?? null;
-        $price = $_POST["price"] ?? null;
+        $price = isset($_POST["price"]) && !empty($_POST["price"]) ? $_POST["price"] : null;
         $rating = $_POST["rating"] ?? null;
         $hotels = HotelService::searchHotels($city, $fromDate, $toDate, $price, $rating);
         if (empty($hotels)){

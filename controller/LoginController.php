@@ -1,6 +1,8 @@
 <?php
 
-class LoginController extends BaseController
+require_once(__SITE_PATH . "/service/UserService.php");
+
+class loginController extends BaseController
 {
     function index()
     {
@@ -25,23 +27,20 @@ class LoginController extends BaseController
         $password = $_POST["password"];
         $user = User::where("username", $username);
         if (!$user || sizeof($user) > 1) {
-            $this->registry->template->loginError = true;
-            $this->registry->template->loginErrorMessage = "Wrong username or password!";
+            $this->registry->template->error = "Wrong username or password!";
             $this->registry->template->show("landing");
             return;
         }
         $user = $user[0];
         if (!password_verify($password, $user->getPassword_hash())) {
-            $this->registry->template->loginError = true;
-            $this->registry->template->loginErrorMessage = "Wrong username or password!";
+            $this->registry->template->error = "Wrong username or password!";
             $this->registry->template->show("landing");
         } elseif (!$user->getHas_registered()) {
-            $this->registry->template->loginError = true;
-            $this->registry->template->loginErrorMessage = "You have to finish the registration first!";
+            $this->registry->template->error = "You have to finish the registration first!";
             $this->registry->template->show("landing");
         } else {
             $_SESSION["user"] = $user;
-            header('Location: ' . __SITE_URL . '/hotels/landing');
+            header('Location: ' . __SITE_URL);
         }
     }
 
@@ -58,13 +57,11 @@ class LoginController extends BaseController
         $username = $_POST["username"] ?? null;
         $password = $_POST["password"] ?? null;
         if (!$email || !$username || !$password) {
-            $this->registry->template->registerError = true;
-            $this->registry->template->registerErrorMessage = "Enter all the fields!";
+            $this->registry->template->error = "Enter all the fields!";
             $this->registry->template->show("landing");
 
         } elseif (User::where("username", $username)) {
-            $this->registry->template->registerError = true;
-            $this->registry->template->registerErrorMessage = "Username already exists!";
+            $this->registry->template->error = "Username already exists!";
             $this->registry->template->show("landing");
         } else {
             $user = new User();
@@ -93,12 +90,12 @@ class LoginController extends BaseController
     function finishRegistration()
     {
         $sequence = $_GET["sequence"] ?? null;
-        echo $sequence;
+        $sequence = rtrim($sequence, "/");
         $user = User::where("registration_sequence", $sequence);
         if ($user) $user = $user[0];
         $user->setHas_registered(true);
         User::save($user);
         $_SESSION["user"] = $user;
-        header('Location: ' . __SITE_URL);
+        header('Location: ' . __SITE_URL . '/user');
     }
 }

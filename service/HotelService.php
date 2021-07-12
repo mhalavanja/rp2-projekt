@@ -8,33 +8,45 @@ class HotelService
     {
         $db = DB::getConnection();
         try {
+//            $db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
             $execArray = array(":city" => $city);
-            $sql = "SELECT h.* FROM projekt_hotels h";
+            $sql = "SELECT DISTINCT h1.* FROM projekt_hotels h1";
             if ($fromDate != null && $toDate != null) {
-                $sql .= " LEFT OUTER JOIN projekt_bookings b ON h.id = b.id_hotel";
+                $sql .= " LEFT OUTER JOIN projekt_rooms r ON h1.id = r.id_hotel ";
             }
             $sql .= " WHERE city = :city";
-            if ($price !== "") {
-                $sql .= " AND price <= :price";
+            if ($price !== null) {
+                $sql .= " AND h1.price <= :price";
                 $execArray[":price"] = $price;
             }
             if ($rating !== null) {
-                $sql .= " AND (h.rating IS NULL OR h.rating >= :rating)";
+                $sql .= " AND (h1.rating IS NULL OR h1.rating >= :rating)";
                 $execArray[":rating"] = $rating;
             }
             if ($fromDate != null && $toDate != null) {
-                $sql .= " AND (:fromDate > b.to_date OR b.to_date IS NULL) AND (:toDate < b.from_date OR b.from_date IS NULL)";
+                $sql .= " AND r.num_of_rooms - (
+                            SELECT COUNT(b.id)
+                            FROM projekt_bookings b
+                            JOIN projekt_hotels h2 ON b.id_hotel = h2.id
+                            WHERE h2.id = h1.id
+                            AND (h2.rating IS NULL OR h2.rating >= '0')
+                            AND (
+                                :fromDate BETWEEN b.from_date
+                                 AND b.to_date OR :toDate BETWEEN b.from_date
+                                 AND b.to_date OR b.from_date BETWEEN :fromDate AND :toDate
+                                )
+                        ) > 0;";
                 $execArray[":fromDate"] = $fromDate;
                 $execArray[":toDate"] = $toDate;
             }
-            $sql .= " GROUP BY h.id";
             $st = $db->prepare($sql);
             $st->execute($execArray);
-            $st->execute();
             $ret = propToModel($st, "Hotel");
 //            echo "<pre>";
 //            print_r($st->debugDumpParams());
+//            print_r($ret);
 //            echo "<pre>";
+//            exit();
             return $ret;
         } catch (PDOException $e) {
             exit("PDO error [select projekt_hotels]: " . $e->getMessage());
