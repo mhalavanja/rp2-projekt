@@ -14,7 +14,7 @@ class HotelService
                 $sql .= " LEFT OUTER JOIN projekt_bookings b ON h.id = b.id_hotel";
             }
             $sql .= " WHERE city = :city";
-            if ($price !== null) {
+            if ($price !== "") {
                 $sql .= " AND price <= :price";
                 $execArray[":price"] = $price;
             }
