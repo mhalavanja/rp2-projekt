@@ -207,4 +207,18 @@ abstract class Model
         }
         return true;
     }
+
+    public static function delete($col, $val): bool
+    {
+        $db = DB::getConnection();
+        try {
+            $sql = "DELETE FROM " . static::$table . " WHERE " . $col . " = :val;";
+            echo "<script>console.log(' " . $sql . "' );</script>";
+            $st = $db->prepare($sql);
+            $st->execute(array(":val" => $val));
+        } catch (PDOException $e) {
+            exit("PDO error [DELETE " . static::$table . "]: " . $e->getMessage());
+        }
+        return 1;
+    }
 }

@@ -72,4 +72,17 @@ class RoomController extends BaseController
         $_SESSION["booked"] = "You have succesfully booked a " . $_GET["roomType"] . " at " . $hotel->getName();
         header('Location: ' . __SITE_URL);
     }
+
+    function deleteBooking()
+    {
+        $booking = null;
+        foreach($_SESSION["hotelBookings"] as $bookings)
+            if(isset($_POST[$bookings->getId()])) $booking = $bookings;
+        RoomService::deleteReservation($booking);
+        $_SESSION['hotelBookings'] = Booking::where("id_hotel", $_SESSION["user"]->getisAdmin());
+        $this->registry->template->roomSuccess = true;
+        $this->registry->template->roomSuccessMessage = "Booking deleted successfully!";
+        $this->registry->template->show("info");
+        return;
+    }
 }

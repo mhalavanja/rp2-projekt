@@ -49,4 +49,15 @@ class RoomService
             exit("PDO error [UPDATE projekt_rooms]: " . $e->getMessage());
         }
     }
+
+    static function deleteReservation($booking){
+        $db = DB::getConnection();
+        try {
+            $sql = "DELETE FROM projekt_bookings WHERE id = :id;";
+            $st = $db->prepare($sql);
+            $st->execute(array(":id" => $booking->getId()));
+        } catch (PDOException $e) {
+            exit("PDO error [DELETE " . static::$table . "]: " . $e->getMessage());
+        }
+    }
 }

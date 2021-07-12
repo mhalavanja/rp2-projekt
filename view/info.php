@@ -18,15 +18,15 @@ else $hotelBookings = $_SESSION["hotelBookings"];
 $imeHotela = "hotel". $hotelInfo->getId() .".jpg"; ?>
 <div class="justify-content-center d-flex pb-4">
     <div class="card w-25 p-2" >
-            <h2 class="card-header">Hotel <?php echo $hotelInfo->getName() ?> </h2>
-            <div class="card-body">
-                <h5 class="card-text" >City: <?php echo $hotelInfo->getCity() ?> </h5>
-                <h5 class="card-text">Distance from centre: <?php echo $hotelInfo->getDistance_from_city_centre() ?> </h5>
-                <h5 class="card-text">Rating: <?php echo $hotelInfo->getRating() ?> </h5>
-            </div>
+        <h2 class="card-header">Hotel <?php echo $hotelInfo->getName() ?> </h2>
+        <div class="card-body">
+            <h5 class="card-text" >City: <?php echo $hotelInfo->getCity() ?> </h5>
+            <h5 class="card-text">Distance from centre: <?php echo $hotelInfo->getDistance_from_city_centre() ?> </h5>
+            <h5 class="card-text">Rating: <?php echo $hotelInfo->getRating() ?> </h5>
         </div>
-        <img src= <?php echo "../static/images/". $imeHotela ?> alt=<?php echo $hotelInfo->getName() ?> class="p-2">
     </div>
+    <img src= <?php echo "../static/images/". $imeHotela ?> alt=<?php echo $hotelInfo->getName() ?> class="p-2">
+</div>
 
 <hr style="height:3px">
     <div class="d-flex">
@@ -38,9 +38,9 @@ $imeHotela = "hotel". $hotelInfo->getId() .".jpg"; ?>
 <?php if (isset($roomSuccess) && isset($roomSuccessMessage) && $roomSuccess) echo '<p class="alert alert-success">' . $roomSuccessMessage . "</p>"; ?>
 <?php if (isset($roomInfo) && isset($roomInfoMessage) && $roomInfo) echo '<p class="alert alert-info">' . $roomInfoMessage . "</p>"; ?>
 
-<div class="justify-content-around d-flex pb-4">
+<div class="justify-content-around d-flex pb-4 flex-wrap">
     <?php foreach($hotelRooms as $room){ ?>
-                <div class="card w-25" >
+                <div class="card w-25 m-2" >
                     <h2 class="card-header"> <?php echo $room->getRoom_type() ?> </h2>
                     <div class="card-body">
                         <h5 class="card-text" >Capacity: <?php echo $room->getCapacity() ?></h5>
@@ -87,6 +87,33 @@ $imeHotela = "hotel". $hotelInfo->getId() .".jpg"; ?>
     <?php } ?>
 </div>
 
+<hr style="height:3px">
+    <div class="d-flex">
+        <h2 class="justify-content-center d-flex w-100"> BOOKINGS </h2>
+    </div>
+<hr>
+<form method="post" action="<?php echo __SITE_URL . '/room/deleteBooking' ?>">
+    <div class="justify-content-around pb-4 d-flex flex-wrap">
+        <?php foreach($hotelBookings as $booking){ ?>
+                <div class="card p-2 m-2 w-25" >
+                    <h2 class="card-header d-flex justify-content-between"> 
+                        <div><?php echo Room::find($booking->getRoom_id())->getRoom_type(); ?>
+                        </div>
+                        <div>
+                        <input class="btn btn-danger" type="submit" name="<?php echo "".$booking->getId() ?>" value="Cancel" />
+                        </div>
+                    </h2>
+                    <div class="card-body d-flex justify-content-around">
+                        <h5 class="card-text" >From: <?php echo $booking->getFrom_date(); ?></h5>
+                        <h5 class="card-text">Until: <?php echo $booking->getTo_date(); ?></h5>
+                    </div>
+                </div>
+        <?php } ?>
+    </div>
+</form>
+
+
+
 
 <div id="newRoom" class="modal">
     <div class="modal-dialog">
@@ -129,26 +156,24 @@ $imeHotela = "hotel". $hotelInfo->getId() .".jpg"; ?>
 
 
 <script>
+    function openModal(id){
+        var modalName = "room"+id;
+        var btnName = "btn"+id;
+        var btnCloseName = "btnclose"+id;
 
-function openModal(id){
-    var modalName = "room"+id;
-    var btnName = "btn"+id;
-    var btnCloseName = "btnclose"+id;
+        var roomModal = document.getElementById(modalName);
 
-    var roomModal = document.getElementById(modalName);
+        var roomBtn = document.getElementById(btnName);
 
-    var roomBtn = document.getElementById(btnName);
+        var roomBtnClose = document.getElementById(btnCloseName);
+        roomModal.style.display = "block";
 
-    var roomBtnClose = document.getElementById(btnCloseName);
-    roomModal.style.display = "block";
-
-    if(roomBtnClose !== null){
-        roomBtnClose.onclick = function () {
-            roomModal.style.display = "none";
+        if(roomBtnClose !== null){
+            roomBtnClose.onclick = function () {
+                roomModal.style.display = "none";
+            }
         }
     }
-}
-
 
     var createModal = document.getElementById("newRoom");
     var createBtn = document.getElementById("newRoombtn");
@@ -171,7 +196,6 @@ function openModal(id){
             <?php unset($loginError); ?>
         }
     }
-
 </script>
 
 
