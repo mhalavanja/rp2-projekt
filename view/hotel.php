@@ -32,8 +32,10 @@ foreach ($rooms as $room) {
                 <p class="card-title">Capacity: ' . $room->getCapacity() . '</p>
                 <p class="card-text">Price: ' . $room->getPrice() . '</p>
                 <form method="get" action="' . __SITE_URL . '/room/processBookRoom">
-                <input name="hotelId" type="hidden" value="' . $room->getId() . '">
-                <button type="submit" class="btn btn-primary">Book</button>
+                    <input name="roomId" type="hidden" value="' . $room->getId() . '">
+                    <input name="roomType" type="hidden" value="' . $room->getRoom_type() . '">
+                    <input name="hotelId" type="hidden" value="' . $hotel->getId() . '">
+                    <button type="submit" class="btn btn-primary">Book</button>
                 </form>
             </div>
         </div>
