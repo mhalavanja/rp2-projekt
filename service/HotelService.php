@@ -52,6 +52,16 @@ class HotelService
             exit("PDO error [select projekt_hotels]: " . $e->getMessage());
         }
     }
+
+    function updateReview($bookingId,$hotelId,$rating,$comment){
+        $db = DB::getConnection();
+    try {
+        $st = $db->prepare('INSERT INTO projekt_reviews(id_booking, id_user, name_user, id_hotel, name_hotel, rating, comment) VALUES (:id_booking, :id_user, :name_user, :id_hotel, :name_hotel, :rating, :comment)');
+        $st->execute(array('id_booking'=>$bookingId, 'id_user'=> $_SESSION['user']->getId(), 'name_user'=> $_SESSION['user']->getName(), 'id_hotel'=>$hotelId, 'name_hotel'=>Hotel::find($hotelId)->getName(), 'rating'=>$rating, 'comment'=>$comment));
+    } catch (PDOException $e) {
+        exit("PDO error [insert projekt_users]: " . $e->getMessage());
+    }
+    }
 }
 
 function propToModel($st, $class)

@@ -79,4 +79,14 @@ class RoomController extends BaseController
         header('Location: ' . __SITE_URL .'/hotels/info');
         return;
     }
+
+    function userDeleteBookings()
+    {
+        $booking = null;
+        foreach($_SESSION["bookings"] as $bookings)
+            if(isset($_POST[$bookings->getId()])) $booking = $bookings;
+        RoomService::deleteReservation($booking);
+        $_SESSION["bookingUserDeleteMessage"] = "Booking deleted successfully!";
+        header('Location: ' . __SITE_URL .'/hotels/userBookings');
+    }
 }

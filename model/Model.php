@@ -108,7 +108,6 @@ abstract class Model
         } catch (PDOException $e) {
             exit("PDO error [select " . static::$table . "]: " . $e->getMessage());
         }
-
         $arr = [];
         foreach ($st->fetchAll() as $row) {
             $class = get_called_class();

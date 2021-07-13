@@ -4,6 +4,7 @@
 class Review extends Model
 {
     private $id;
+    private $id_booking;
     private $id_user;
     private $name_user;
     private $id_hotel;
@@ -13,13 +14,38 @@ class Review extends Model
     protected static $table = "projekt_reviews";
     protected static $columns = [];
 
+    public function getByBookingId($bookingId){
+        $db = DB::getConnection();
+        try{
+            $sql = "SELECT * FROM projekt_reviews WHERE id_booking = :val;";
+                $st = $db->prepare($sql);
+                $st->execute(array(":val" => $bookingId));
+            } catch (PDOException $e) {
+                exit("PDO error [select " . static::$table . "]: " . $e->getMessage());
+            }
+        $arr = [];
+        foreach ($st->fetchAll() as $row) {
+            $obj = new Review;
+            $obj->setId($row['id']);
+            $obj->setId_booking($row['id_booking']);
+            $obj->setId_user($row['id_user']); 
+            $obj->setName_user($row['name_user']);
+            $obj->setId_hotel($row['id_hotel']); 
+            $obj->setName_hotel($row['name_hotel']); 
+            $obj->setRating($row['rating']);
+            $obj->setComment($row['comment']);
+            $arr[] = $obj;
+        }
+        return $arr;
+    }
+
     public function __construct()
     {
     }
 
     public static function staticInit()
     {
-        Booking::setColumns();
+        Review::setColumns();
     }
 
     public function getId()
@@ -30,6 +56,16 @@ class Review extends Model
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    public function getId_booking()
+    {
+        return $this->id_booking;
+    }
+
+    public function setId_booking($id_booking)
+    {
+        $this->id_booking = $id_booking;
     }
 
     public function getId_user()

@@ -1,6 +1,7 @@
 <?php
 require_once __SITE_PATH . '/util/starHotelUtil.php';
 require_once __SITE_PATH . '/util/reviewUtil.php';
+require __SITE_PATH . "/service/HotelService.php";
 
 //TODO: Ovaj i sve ostale controllere i viewove treba promijeniti
 class HotelsController extends BaseController
@@ -40,7 +41,7 @@ class HotelsController extends BaseController
         $this->registry->template->show("hotel");
     }
 
-    function visited()
+    function userBookings()
     {
         $_SESSION['bookings']= Booking::where("id_user", $_SESSION["user"]->getId());
         $_SESSION['hotels'] = [];
@@ -48,7 +49,7 @@ class HotelsController extends BaseController
             $hotel = Hotel::find($booking->getId_hotel());
             $_SESSION['hotels'][]= $hotel;
         }
-        $this->registry->template->show("visited");
+        $this->registry->template->show("userBookings");
     }
 
     function info()
@@ -73,5 +74,13 @@ class HotelsController extends BaseController
         $_SESSION["hotel_id"] = "hotel_" . $_POST["hotel_id"];
         Booking::save($booking);
         header('Location: ' . __SITE_URL . '/hotels/hotel');
+    }
+
+    function addReview(){
+        $rating = $_POST["rating"];
+        $comment = $_POST["comment"] ?? "";
+        HotelService::updateReview($_POST["bookingId"],$_POST["hotelId"],$rating,$comment);
+        $_SESSION['commentMessage']="Review updated";
+        header('Location: ' . __SITE_URL . '/hotels/userBookings');
     }
 }
