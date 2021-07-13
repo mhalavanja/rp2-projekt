@@ -9,7 +9,6 @@ class Room extends Model
     private $capacity;
     private $room_type;
     private $price;
-    private $image;
     protected static $table = "projekt_rooms";
     protected static $columns = [];
 
@@ -78,16 +77,6 @@ class Room extends Model
     public function setPrice($price): void
     {
         $this->price = $price;
-    }
-
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    public function setImage($image): void
-    {
-        $this->image = $image;
     }
 
     public static function getColumns(): array

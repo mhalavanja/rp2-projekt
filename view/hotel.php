@@ -31,26 +31,22 @@ foreach ($rooms as $room) {
 <div class="container">
   <div class="row">
     <div class="col">
-<div class=" card mb-3" style="max-width: 540px">
-    <div>
-        <div >
-            <img src="' . $room->getImage() . '" class="img-fluid rounded-start" alt="Slika">
-        </div>
-        <div>
-            <div class="card-body">
-                <p class="card-text">Room type: ' . $room->getRoom_type() . '</p>
-                <p class="card-title">Capacity: ' . $room->getCapacity() . '</p>
-                <p class="card-text">Price: ' . $room->getPrice() . '</p>
-                <form method="get" action="' . __SITE_URL . '/room/processBookRoom">
-                    <input name="roomId" type="hidden" value="' . $room->getId() . '">
-                    <input name="roomType" type="hidden" value="' . $room->getRoom_type() . '">
-                    <input name="hotelId" type="hidden" value="' . $hotel->getId() . '">
-                    <button type="submit" class="btn btn-primary">Book</button>
-                </form>
+        <div class=" card mb-3" style="max-width: 540px">
+            <div>
+                <div class="card-body">
+                    <p class="card-text">Room type: ' . $room->getRoom_type() . '</p>
+                    <p class="card-title">Capacity: ' . $room->getCapacity() . '</p>
+                    <p class="card-text">Price: ' . $room->getPrice() . '</p>
+                    <form method="get" action="' . __SITE_URL . '/room/processBookRoom">
+                        <input name="roomId" type="hidden" value="' . $room->getId() . '">
+                        <input name="roomType" type="hidden" value="' . $room->getRoom_type() . '">
+                        <input name="hotelId" type="hidden" value="' . $hotel->getId() . '">
+                        <button type="submit" class="btn btn-primary">Book</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 ';
@@ -60,17 +56,17 @@ if (!isset($reviews)) exit(1);
 foreach ($reviews as $review) {
     echo '
 <div class="col">
-<div class=" card mb-3" style="max-width: 540px">
-    <div>
+    <div class=" card mb-3" style="max-width: 540px">
         <div>
-            <div class="card-body">
-                <p class="card-text">Room type: ' . $review->getName_user() . '</p>
-                <p class="card-title">Capacity: ' . $review->getRating() . '</p>
-                <p class="card-text">Price: ' . $room->getComment() . '</p>
+            <div>
+                <div class="card-body">
+                    <p class="card-text">Room type: ' . $review->getName_user() . '</p>
+                    <p class="card-title">Capacity: ' . $review->getRating() . '</p>
+                    <p class="card-text">Price: ' . $room->getComment() . '</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 </div>
 </div>
