@@ -1,3 +1,4 @@
+<!--View za prikaz pojedinog hotela na koji se dođe nakon što se sa početne stranice pretraže hoteli i odabere se neki-->
 <?php
 require_once __SITE_PATH . '/view/_header.php';
 require_once __SITE_PATH . '/view/_navBar.php';
@@ -6,6 +7,8 @@ if (isset($error)) {
             ' . $error . '
           </div>';
 }
+
+//prikazemo  informacije o hotelu
 if (!isset($hotel)) exit(1);
 echo '
 <div class="container">
@@ -25,6 +28,7 @@ echo '
         </div>
     </div>';
 
+//prikazemo  informacije o svim sobama u tom hotelu te se one mogu bookirati ako su dostupne
 if (!isset($rooms)) exit(1);
 foreach ($rooms as $room) {
     echo '
@@ -51,6 +55,7 @@ foreach ($rooms as $room) {
 ';
 }
 
+//prikazemo  komentare i ocjene svih usera koji su ih ostavili za dani hotel
 if (!isset($reviews)) exit(1);
 foreach ($reviews as $review) {
     echo '

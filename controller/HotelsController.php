@@ -11,6 +11,8 @@ class HotelsController extends BaseController
         $this->registry->template->show("landing");
     }
 
+    #Metoda za prikaz jednog hotela na kojeg se klikne nakon sto se obavi search sa početne stranice.
+    #Dohvatimo reviewove i sobe za dani hotel, spremimo ih u session i proslijedimo u view
     function hotel()
     {
         if (isset($_GET['hotelId'])) {
@@ -26,12 +28,14 @@ class HotelsController extends BaseController
         $_SESSION['hotel'] = $hotel;
         $_SESSION['rooms'] = $rooms;
         $_SESSION['reviews'] = $reviews;
+
         $this->registry->template->hotel = $hotel;
         $this->registry->template->rooms = $rooms;
         $this->registry->template->reviews = $reviews;
         $this->registry->template->show("hotel");
     }
 
+    #Metoda koja za danog usera prosljeduje viewu njegove bookinge
     function userBookings()
     {
         $_SESSION['bookings']= Booking::where("id_user", $_SESSION["user"]->getId());
@@ -43,30 +47,16 @@ class HotelsController extends BaseController
         $this->registry->template->show("userBookings");
     }
 
+    #Metoda koja dohvaca i prosljeduje potrebne informacije za admine hotela
     function info()
     {
         $_SESSION['hotelInfo'] = Hotel::where("id", $_SESSION["user"]->getisAdmin());
         $_SESSION['hotelRooms'] = Room::where("id_hotel", $_SESSION["user"]->getisAdmin());
         $_SESSION['hotelBookings'] = Booking::where("id_hotel", $_SESSION["user"]->getisAdmin());
-        //$hotelComments = Cooments::where("id_hotel",$_SESSION["user"]->getisAdmin());
         $this->registry->template->show("info");
     }
 
-    function processReview()
-    {
-        $rating = $_POST["rating"] ?? null;
-        $comment = $_POST["comment"] ?? null;
-        $booking = new Booking();
-        $booking->setId_user($_SESSION["user"]->getId());
-        $booking->setId($_POST["bookingId"]);
-        $booking->setId_hotel($_POST["hotel_id"]);
-        $booking->setRating($rating);
-        $booking->setComment($comment);
-        $_SESSION["hotel_id"] = "hotel_" . $_POST["hotel_id"];
-        Booking::save($booking);
-        header('Location: ' . __SITE_URL . '/hotels/hotel');
-    }
-
+    #Metoda za dodavanje reviewa i updateanje ocjene hotela i broja komentara za dani hotel
     function addReview(){
         $rating = $_POST["rating"];
         $comment = $_POST["comment"] ?? "";

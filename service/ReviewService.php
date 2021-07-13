@@ -4,6 +4,7 @@ require_once __SITE_PATH . '/app/database/db.class.php';
 
 class ReviewService
 {
+    #Metoda za dodavanje reviewa i updateanje ocjene hotela i broja komentara za dani hotel
     static function addReview($bookingId, $hotelId, $rating, $comment)
     {
         $db = DB::getConnection();
@@ -22,6 +23,7 @@ class ReviewService
         }
     }
 
+    #Dohvati sve reviewove za dani hotel
     static function getReviewForHotelId($hotelId): array
     {
         $db = DB::getConnection();

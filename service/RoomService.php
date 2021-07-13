@@ -4,6 +4,7 @@ require_once __SITE_PATH . '/app/database/db.class.php';
 
 class RoomService
 {
+    #Dohvacanje sobe po tipu sobe koji je vec definiran, za dani hotel
     static function getRoomByTypeFromHotel($type, $hotelId)
     {
         $db = DB::getConnection();
@@ -21,6 +22,7 @@ class RoomService
         }
     }
 
+    #Spremanje sobe za dani hotel
     static function saveRoom($hotelId, $type, $capacity, $number_of_rooms, $price)
     {
         $db = DB::getConnection();
@@ -30,8 +32,9 @@ class RoomService
         } catch (PDOException $e) {
             exit("PDO error [INSERT projekt_rooms]: " . $e->getMessage());
         }
-    } 
+    }
 
+    #Azuriranje informacija o sobi za dani hotel
     static function updateRoom($room)
     {
         $db = DB::getConnection();
@@ -50,6 +53,7 @@ class RoomService
         }
     }
 
+    #Brisanje dane rezervacije
     static function deleteReservation($booking){
         $db = DB::getConnection();
         try {

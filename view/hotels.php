@@ -1,3 +1,4 @@
+<!--View za prikaz svih hotela dobivenih iz searcha s početne stranice-->
 <?php
 require_once __SITE_PATH . '/view/_header.php';
 require_once __SITE_PATH . '/view/_navBar.php';
@@ -9,7 +10,7 @@ function cmp($hotel1, $hotel2)
     return strcmp($hotel1->getCity(), $hotel2->getCity());
 }
 
-//print_r( $hotels[0]->getPrice ());
+//sortiranje i prikaz svakog pojedinog hotela sa svojom slikom koja se odreduje prema id-u
 usort($hotels, "cmp");
 
 for ($i = 0; $i < sizeof($hotels); ++$i) {
@@ -37,6 +38,8 @@ for ($i = 0; $i < sizeof($hotels); ++$i) {
 ';
 }
 ?>
+
+<!--skripta koja sluzi za sortiranje hotela po danom kriteriju-->
 <script>
     let src = "<?php echo __SITE_URL . '/static/images/hotel'; ?>"
     function getComboA(selectObject) {

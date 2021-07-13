@@ -4,6 +4,7 @@ require __SITE_PATH . "/service/RoomService.php";
 
 class RoomController extends BaseController
 {
+    #Metoda koja dodaje novu sobu za dani hotel koju koristi admin danog hotela
     function save(){
         if( RoomService::getRoomByTypeFromHotel($_POST["type"], $_SESSION["hotelInfo"][0]->getId() ) ){
             $_SESSION["roomErrorMessage"] = "Room type already exist!";           
@@ -17,6 +18,7 @@ class RoomController extends BaseController
         return;
     }
 
+    #Metoda koja azurira informacije o sobi za dani hotel koju koristi admin danog hotela
     function changeInfo(){
         $room = null;
         foreach($_SESSION["hotelRooms"] as $rooms)
@@ -37,6 +39,7 @@ class RoomController extends BaseController
         return;
     }
 
+    #Metoda koja procesuira bookiranje sobe za dani hotel, sobu i usera koji mora biti ulogiran
     function processBookRoom()
     {
         $hotelId = $_GET['hotelId'];
@@ -69,6 +72,7 @@ class RoomController extends BaseController
         header('Location: ' . __SITE_URL);
     }
 
+    #Metoda za brisanje rezervacije
     function deleteBooking()
     {
         $booking = null;
@@ -77,9 +81,9 @@ class RoomController extends BaseController
         RoomService::deleteReservation($booking);
         $_SESSION["bookingDeleteMessage"] = "Booking deleted successfully!";
         header('Location: ' . __SITE_URL .'/hotels/info');
-        return;
     }
 
+    #Metoda za brisanje rezervacije
     function userDeleteBookings()
     {
         $booking = null;
