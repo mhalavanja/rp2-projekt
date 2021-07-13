@@ -9,6 +9,7 @@ class Hotel extends Model
     private $distance_from_city_centre;
     private $price;
     private $rating;
+    private $number_of_comments;
     protected static $table = "projekt_hotels";
     protected static $columns = [];
 
@@ -92,6 +93,15 @@ class Hotel extends Model
     public static function getColumns(): array
     {
         return self::$columns;
+    }
+    public function setNumber_of_comments($number): void
+    {
+        $this->number_of_comments = $number;
+    }
+
+    public static function getNumber_of_comments(): array
+    {
+        return self::$number_of_comments;
     }
 }
 

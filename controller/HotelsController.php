@@ -42,13 +42,12 @@ class HotelsController extends BaseController
 
     function visited()
     {
-        $bookings = Booking::where("id_user", $_SESSION["user"]->getId());
-        $hotels = [];
-        foreach ($bookings as $booking) {
+        $_SESSION['bookings']= Booking::where("id_user", $_SESSION["user"]->getId());
+        $_SESSION['hotels'] = [];
+        foreach ($_SESSION['bookings'] as $booking) {
             $hotel = Hotel::find($booking->getId_hotel());
-            $hotels[] = $hotel;
+            $_SESSION['hotels'][]= $hotel;
         }
-        $this->registry->template->starHotels = getStarHotels($hotels);
         $this->registry->template->show("visited");
     }
 

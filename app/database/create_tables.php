@@ -77,7 +77,8 @@ function create_table_hotels()
             'city VARCHAR(100) NOT NULL,' .
             'distance_from_city_centre DECIMAL(4,2) NOT NULL,'.
             'price INT NOT NULL,'.
-            'rating DECIMAL(2,2) NOT NULL)'
+            'rating DECIMAL(2,2) NOT NULL,'.
+            'number_of_comments INT DEFAULT 0 NOT NULL)'
         );
 
         $st->execute();
@@ -148,6 +149,7 @@ function create_table_reviews()
         $st = $db->prepare(
             'CREATE TABLE IF NOT EXISTS projekt_reviews (' .
             'id int NOT NULL PRIMARY KEY AUTO_INCREMENT,' .
+            'id_booking INT NOT NULL,' .
             'id_user INT NOT NULL,' .
             'name_user VARCHAR(50) NOT NULL,' .
             'id_hotel INT NOT NULL,' .
