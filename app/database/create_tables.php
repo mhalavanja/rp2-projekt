@@ -77,7 +77,7 @@ function create_table_hotels()
             'city VARCHAR(100) NOT NULL,' .
             'distance_from_city_centre DECIMAL(4,2) NOT NULL,'.
             'price INT NOT NULL,'.
-            'rating DECIMAL(2,2) NOT NULL,'.
+            'rating DECIMAL(10,2) NOT NULL,'.
             'number_of_comments INT DEFAULT 0 NOT NULL)'
         );
 

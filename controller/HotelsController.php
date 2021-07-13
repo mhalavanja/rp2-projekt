@@ -70,7 +70,7 @@ class HotelsController extends BaseController
     function addReview(){
         $rating = $_POST["rating"];
         $comment = $_POST["comment"] ?? "";
-        ReviewService::updateReview($_POST["bookingId"],$_POST["hotelId"],$rating,$comment);
+        ReviewService::addReview($_POST["bookingId"],$_POST["hotelId"],$rating,$comment);
         $_SESSION['commentMessage']="Review updated";
         header('Location: ' . __SITE_URL . '/hotels/userBookings');
     }
