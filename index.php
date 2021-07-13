@@ -9,7 +9,7 @@ define( '__SITE_URL', dirname( $_SERVER['PHP_SELF'] ) );
 // Inicijaliziraj aplikaciju (učitava bazne klase, autoload klasa iz modela).
 require_once 'app/init.php';
 
-// Započnemo/nastavimo session
+// Započnemo/nastavimo session.
 session_start();
 
 // Stvori zajednički registry podataka u aplikaciji.

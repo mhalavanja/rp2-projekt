@@ -1,10 +1,14 @@
 <?php
+// Uključujemo header i navigacijsku traku.
 require_once __SITE_PATH . '/view/_header.php';
 require_once __SITE_PATH . '/view/_navBar.php';
+// Provjeravamo je li korisnik ulogiran.
 if (!isset($_SESSION["user"])) return;
 else $user = $_SESSION["user"];
 ?>
     <?php
+    // Provjeravamo kako je prošlo procesiranje i ovisno o tome što je ono vratilo,
+    // ispisujemo odgovarajuću poruku o (ne)uspjehu.
     if (isset($_SESSION["proccessErrorMessage"])) {
         echo '<div class="alert alert-danger" role="alert">
                 ' . $_SESSION["proccessErrorMessage"] . '
@@ -25,6 +29,7 @@ else $user = $_SESSION["user"];
     }
     ?>
     <div class="justify-content-center d-flex">
+        <!-- Mogućnost promjene podataka za korisnika: ime, prezime, korisničko ime i e-pošta uz gumb za slanje tih promjena. -->
         <form method="post" class="w-25" action="<?php echo __SITE_URL . '/user/processProfile' ?>">
             <div class="form-group">
                 <label for="name">Name:</label>
@@ -60,4 +65,5 @@ else $user = $_SESSION["user"];
         </form>
     </div>
 <?php
+// Uključujemo footer.
 require_once __SITE_PATH . '/view/_footer.php'; ?>

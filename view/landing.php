@@ -1,6 +1,8 @@
 <?php
+// Uključujemo header i navigacijsku traku.
 require_once __SITE_PATH . '/view/_header.php';
 require_once __SITE_PATH . '/view/_navBar.php';
+// Provjeravamo jesu li podaci koji trebaju biti postavljeni postavljeni, a isto tako je li neka skripta javila error.
 if (isset($error)) {
     echo '<div class="alert alert-danger" role="alert">
             ' . $error . '
@@ -14,6 +16,8 @@ if (isset($_SESSION["booked"])) {
 }
 ?>
 <br>
+<!-- Funkcionalnost za pretragu hotela prema gradu, cijeni i ratingu i to zadani vremenski raspon. -->
+<!-- Unos grada po kojem pretražujemo je nužan, po uzoru na npr. https://www.hilton.com/. -->
 <form class="d-flex justify-content-center" method="post" action="<?php echo __SITE_URL . '/search/processSearch' ?>">
     <div class="col-auto me-1">
         <label class="form-label" for="city">City:</label>
@@ -45,13 +49,14 @@ if (isset($_SESSION["booked"])) {
     </div>
 </form>
 <br>
+<!-- Rotirajući niz slika koji prolazi po trenutno dostupnim hotelima, korisnik ih također može pregledavati u oba smjera. -->
 <div class="d-flex justify-content-center">
     <div id="carousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
+        <!-- Indikatori. -->
         <ol class="carousel-indicators"></ol>
-        <!-- Wrapper for slides -->
+        <!-- Wrapper za sliedove. -->
         <div class="carousel-inner">
-            <!-- Controls -->
+            <!-- Kontrole za lijevo i desno. -->
             <a id="prev" class="carousel-control-prev" href="#demo" data-slide="prev">
                 <span class="carousel-control-prev-icon"></span>
             </a>
@@ -64,6 +69,9 @@ if (isset($_SESSION["booked"])) {
 </div>
 <script>
     $(document).ready(function () {
+        // Predstojeći dio JS koda brine se za funkcionalnosti carousela, konkretno za
+        // njegovo dohvaćanje slika, njihov prikaz uz automatsko gibanje kroz niz, ali i
+        // mogućnost korisnika da pomoću dvije kontrole ide lijevo i desno po tom nizu.
         let number = 10;
         let activeLi = 0;
         for (let j = 0; j < number; j++) {
@@ -103,25 +111,7 @@ if (isset($_SESSION["booked"])) {
 
         });
     });
-
-    $("#city").get(0).addEventListener('click', function (event) {
-        event.preventDefault();
-        $.ajax(
-            {
-                // url: "city",
-                url: "ajax/sort",
-                type: "GET",
-                dataType: "json",
-                success: function (arr) {
-                    console.log(arr);
-                },
-                error: function (xhr, status, errorThrown) {
-                    console.log(xhr, status, errorThrown);
-                },
-                complete: function (xhr, status) {
-                }
-            });
-    });
 </script>
 
+<!-- Uključujemo footer. -->.
 <?php require_once __SITE_PATH . '/view/_footer.php'; ?>

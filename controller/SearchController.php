@@ -1,10 +1,14 @@
 <?php
+// Includeamo usluge za hotele.
 require_once __SITE_PATH . '/service/HotelService.php';
-
+// Naslijeđujemo od baznog controllera.
 class SearchController extends BaseController
 {
+    // Obrađujemo search.
     function processSearch()
     {
+        // Prvo provjeravamo jesu li svi relevantni podaci za pretragu uneseni,
+        // a u suprotnom prikazujemo prikladnu poruku.
         if(!isset($_POST["city"]) || $_POST["city"] === null || empty($_POST["city"])){
             $this->registry->template->error = "You have to select a city!";
             $this->registry->template->show("landing");
@@ -15,6 +19,8 @@ class SearchController extends BaseController
         $toDate = $_POST["toDate"] ?? null;
         $price = isset($_POST["price"]) && !empty($_POST["price"]) ? $_POST["price"] : null;
         $rating = $_POST["rating"] ?? null;
+        // Iz baze podataka dohvaćamo hotele koji imaju karakteristike unesene u pretragu
+        // i ako ih nema ispisujemo prikladnu poruku, a u suprotnom prikazujemo listu hotela i njihova obilježja.
         $hotels = HotelService::searchHotels($city, $fromDate, $toDate, $price, $rating);
         if (empty($hotels)){
             $this->registry->template->error = "There is no such hotel!";
@@ -26,14 +32,15 @@ class SearchController extends BaseController
         $_SESSION["toDate"] = $toDate;
         header('Location: ' . __SITE_URL . '/search/hotels');
     }
-
+    // Funkcionalnost za prikaz hotela koji su u sessionu.
     function hotels()
     {
         $hotels = $_SESSION["hotels"];
         $this->registry->template->hotels = $hotels;
         $this->registry->template->show("hotels");
     }
-
+    // Funckionalnost za sortiranje hotela na popisu koji se prikazuje i to po jednom od četiri kriterija:
+    // grada, cijene, udaljenosti od centra i dobivenih ocjena (sort po gradu je defaultni i ne koristi se jer pretraga zahtijeva grad).
     public function sort()
     {
         $hotels = $_SESSION["hotels"];
@@ -57,19 +64,13 @@ class SearchController extends BaseController
                 return strcmp($hotel1->getCity(), $hotel2->getCity());
             }
         }
-
+        // Koristimo built-in funkcionalnost za sortiranje.
         usort($hotels, "cmp");
 
-        $message = [$_GET["sortBy"], ];
+        $message = [$_GET["sortBy"]];
         $this->sendJSONandExit($hotels);
     }
-
-    function city()
-    {
-//        $this->sendJSONandExit(CityService::getAllCities());
-        $this->sendJSONandExit("A");
-    }
-
+    // Standardna funkcija za slanje JSON-a preuzeta s materijala dostupnih na kolegiju.
     private function sendJSONandExit($message)
     {
         header('Content-type:application/json;charset=utf-8');

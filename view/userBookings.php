@@ -1,10 +1,12 @@
 <?php
+// Uključujemo header i navigacijsku traku.
 require_once __SITE_PATH . '/view/_header.php';
 require_once __SITE_PATH . '/view/_navBar.php';
 
 $bookings= $_SESSION['bookings'];
 ?>
 <div class="justify-content-around d-flex pb-4 flex-wrap">
+    <!-- Prikazujemo popis korisnikovih rezervacija i ovisno o tome je li ostavio recenziju, nudimo mogćnost ostavljanja ili je samo prikažemo. -->
     <?php foreach($bookings as $booking){
         $review =Review::getByBookingId($booking->getId());
         if (empty($review)){
@@ -14,6 +16,7 @@ $bookings= $_SESSION['bookings'];
         }
             if(date('Y-m-d') >= $booking->getFrom_date()){ 
         ?>
+        <!-- Detalji prikaza mogućnosti za ostavljenje recenzije ili pregleda dosad ostavljenih, ovisno o tome što je korisnik dosad napravio. -->
                 <div class="card w-25 m-2" >
                     <h2 class="card-header"> <?php echo Hotel::find($booking->getId_hotel()) ->getName() ?> </h2>
                     <div class="card-body">
@@ -66,6 +69,7 @@ $bookings= $_SESSION['bookings'];
     <?php }
 } ?>
 </div>
+<!-- Prikaz popisa predstojećih rezervacija korisnika i to sa svim relevantnim podacima: hotelom, sobom i vremenskim rasponom rezervacije.-->
 <hr style="height:3px">
     <div class="d-flex">
         <h2 class="justify-content-center d-flex w-100"> Future reservations </h2>
@@ -97,6 +101,7 @@ $bookings= $_SESSION['bookings'];
 </form>
 
 <script>
+// JS dio koda koji kontrolira prikazivanje/nestajanje prozora s podacima o rezervacijama.
 function openModal(id){
         var modalName = "review"+id;
         var btnName = "btn"+id;
@@ -117,5 +122,6 @@ function openModal(id){
     }
 </script>
 <?php
+// Uključujemo footer.
 require_once __SITE_PATH . '/view/_footer.php'; ?>
 

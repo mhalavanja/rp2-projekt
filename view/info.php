@@ -1,7 +1,9 @@
 <?php
+// Uključujemo header i navigacijsku traku.
 require_once __SITE_PATH . '/view/_header.php';
 require_once __SITE_PATH . '/view/_navBar.php';
-
+// U idućih četrnaest linija provjeravamo jesu li podaci koji se trebaju prikazati u sessionu,
+// u suprotnom prekidamo izvođenje.
 if (!isset($_SESSION["user"])) return;
 else $user = $_SESSION["user"];
 
@@ -16,6 +18,8 @@ else $hotelBookings = $_SESSION["hotelBookings"];
 
 
 $imeHotela = "hotel". $hotelInfo->getId() .".jpg"; ?>
+<!-- Prikaz informacija o hotelu: ime, grad u kojem se nalazi, udaljenost od centra grada, prosječna ocjena i njegova slika -->
+<!-- i mogućnosti dodavanja novih doba ovisno je li korisnik administrator. -->
 <div class="justify-content-center d-flex pb-4">
     <div class="card w-25 p-2" >
         <h2 class="card-header">Hotel <?php echo $hotelInfo->getName() ?> </h2>
@@ -34,7 +38,7 @@ $imeHotela = "hotel". $hotelInfo->getId() .".jpg"; ?>
         <button class="btn btn-outline-primary me-1" id="newRoombtn">Create</button>
     </div>
 <hr>
-
+<!-- Ovisno o tome je li dodavanje nove sobe uspjelo, šalje se odgovarajuća poruka. -->
 <?php if (isset($_SESSION['roomSuccessMessage'])){ 
     echo '<p class="alert alert-success">' . $_SESSION['roomSuccessMessage'] . "</p>"; 
     $_SESSION['roomSuccessMessage']=null;
@@ -43,7 +47,7 @@ $imeHotela = "hotel". $hotelInfo->getId() .".jpg"; ?>
     echo '<p class="alert alert-info">' . $_SESSION['roomInfoMessage'] . "</p>"; 
     $_SESSION['roomInfoMessage']=null;
     }?>
-
+<!-- Prikaz informacija o sobama u danom hotelu: tip, kapacitet, brojnost, cijena. -->
 <div class="justify-content-around d-flex pb-4 flex-wrap">
     <?php foreach($hotelRooms as $room){ ?>
                 <div class="card w-25 m-2" >
@@ -92,7 +96,7 @@ $imeHotela = "hotel". $hotelInfo->getId() .".jpg"; ?>
                 </div>
     <?php } ?>
 </div>
-
+<!-- Prikaz informacija o svim bookinzima korisnika: sobe u pojedinim hotelima te vremenski intervali u kojima su rezervirane. -->
 <hr style="height:3px">
     <div class="d-flex">
         <h2 class="justify-content-center d-flex w-100"> BOOKINGS </h2>
@@ -121,10 +125,7 @@ $imeHotela = "hotel". $hotelInfo->getId() .".jpg"; ?>
         <?php } ?>
     </div>
 </form>
-
-
-
-
+<!-- Funkcionalnost dodavanja nove sobe sa zadanim svi relevantnim podacima: tip, kapacitet, brojnost i cijena. -->
 <div id="newRoom" class="modal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -184,7 +185,7 @@ $imeHotela = "hotel". $hotelInfo->getId() .".jpg"; ?>
             }
         }
     }
-
+    // Kao i prije, prethodne i predstojeće linije koda upravljaju iskakanjem i nestajanjem prozora za sve od gore navedenih funkcionalnosti.
     var createModal = document.getElementById("newRoom");
     var createBtn = document.getElementById("newRoombtn");
     var createCloseBtn = document.getElementById("closeNewRoom");

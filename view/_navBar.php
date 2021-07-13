@@ -1,3 +1,4 @@
+<!-- Navigacijska traka za korisnika s mogućnostima bookinga, poviješću bookinga i podacima o profilu. -->
 <style>
 .navbar-nav .nav-item:hover .nav-link {
     background-color: SkyBlue;
@@ -12,6 +13,7 @@
         <li class="nav-item"><a class="nav-link" href="<?php echo __SITE_URL; ?>/hotels/bookings">Bookings</a></li>
         <li class="nav-item"><a class="nav-link" href="<?php echo __SITE_URL; ?>/hotels/userBookings">Your bookings</a></li>
         <li class="nav-item"><a class="nav-link" href="<?php echo __SITE_URL; ?>/user">Profile</a></li>
+        <!-- U slučaju da je korisnik ujedno i administrator, dodajemo mu mogućnost uređivanja informacija o hotelima. -->
         <li class="nav-item" <?php if ($_SESSION["user"]->getisAdmin() == null) echo "hidden"?> >
             <a class="nav-link" href="<?php echo __SITE_URL; ?>/hotels/info">Add new information about hotel</a>
         </li>

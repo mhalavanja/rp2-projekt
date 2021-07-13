@@ -1,17 +1,19 @@
 <?php
-
+// Includeamo usluge za usere.
 require __SITE_PATH . "/service/UserService.php";
-
+// Naslijeđujemo od baznog controllera.
 class UserController extends BaseController
 {
-
+    // Defaultni index provjerava je li ulogiran postojeći korisnik
+    // i ako jest, prikazuje njegov korisnički profil.
     function index()
     {
         $user = $_SESSION["user"];
         $this->registry->template->user = $user;
         $this->registry->template->show("profile");
     }
-
+    // Korisniku dajemo mogućnost updateanja svojih korisničkih podataka te ovisno o tome što se mijenja
+    // i jesu li izmjene u konfliktu s nekim od postojećih podataka, vraćamo odgovarajuće poruke.
     function processProfile()
     {
         $user = $_SESSION["user"];
@@ -36,6 +38,5 @@ class UserController extends BaseController
         $_SESSION["proccessSuccessMessage"] = "Profile updated successfully!";
         header('Location: ' . __SITE_URL .'/user');
         return;
-        //header('Location: ' . __SITE_URL . '/user');
     }
 }

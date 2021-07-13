@@ -1,9 +1,10 @@
 <?php
-
+// Includeamo usluge za usere.
 require_once(__SITE_PATH . "/service/UserService.php");
-
+// Naslijeđujemo od baznog controllera.
 class loginController extends BaseController
 {
+    // Defaultni index provjerava je li ulogiran postojeći korisnik.
     function index()
     {
         if (!isset($_SESSION["user"])) {
@@ -14,13 +15,15 @@ class loginController extends BaseController
             header('Location: ' . __SITE_URL);
         }
     }
-
+    // Granamo se ovisno želi li se neulogirani korisnik ulogirati ili tek registrirati.
     function processLoginForm()
     {
         if (isset($_POST["register"])) $this->processRegister();
         if (isset($_POST["login"])) $this->processLogin();
     }
-
+    // Ako se korisnik želi ulogirati, provjeravamo odgovara li kriptirana zaporka i username
+    // nečemu što imamo u bazi (također kriptirani pass),
+    // a u suprotnom se ispisuje odgovarajuća poruka.
     function processLogin()
     {
         $username = $_POST["username"];
@@ -43,16 +46,20 @@ class loginController extends BaseController
             header('Location: ' . __SITE_URL);
         }
     }
-
+    // Ako je odabran logout, brišemo tekuće podatke o loginu u sessionu.
     function processLogout()
     {
         $_SESSION["user"] = null;
         header('Location: ' . __SITE_URL);
     }
-
+    // Ako je odabrana registracija, korisnik na uneseni mail dobija
+    // poveznicu za potvrdu računa i ako to provede uspješno i po uputama,
+    // može se ulogirati.
+    // Za svaku mogućnost neuspjeha ili nepravilnog unosa, korisnik dobija prikladnu poruku.
     function processRegister()
     {
         $email = $_POST["email"] ?? null;
+        // Koristimo built-in funkcionalnosti da se riješimo eventualnog smeća u unosu.
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
         $username = $_POST["username"] ?? null;
         $password = $_POST["password"] ?? null;
@@ -69,13 +76,13 @@ class loginController extends BaseController
             $user->setPassword_hash(password_hash($password, PASSWORD_DEFAULT));
             $link = '<a href = "http://' . $_SERVER["HTTP_HOST"] . __SITE_URL . "/login/finishRegistration&sequence=";
             $sequence = "";
-
+            // U svrhu sigurnosti, niz za potvrdu registracije generira se nasumično.
             for ($i = 0; $i < random_int(10, 20); $i++) $sequence .= chr(random_int(97, 122));
             $link .= $sequence . '">link</a>';
             $user->setRegistration_sequence($sequence);
             User::save($user);
             $subject = "Registration for hotelChain";
-            $body = "Click on the followinng " . $link . " to finish your registration for hotelChain!";
+            $body = "Click on the following " . $link . " to finish your registration for hotelChain!";
             $headers = "Content-type: text/html\r\n";
             $headers .= "To: " . $email . "\r\n";
             $headers .= 'From: HotelChain <hotel@chain.com>' . "\r\n";
@@ -85,7 +92,8 @@ class loginController extends BaseController
             } else "Something's wrong: " . var_dump(error_get_last());
         }
     }
-
+    // Ako su koraci registracije prošli uspješno, dodajemo korisnika u bazu,
+    // odnosno postaje registrirani korisnik naše službe.
     function finishRegistration()
     {
         $sequence = $_GET["sequence"] ?? null;
