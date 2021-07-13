@@ -35,8 +35,14 @@ $imeHotela = "hotel". $hotelInfo->getId() .".jpg"; ?>
     </div>
 <hr>
 
-<?php if (isset($roomSuccess) && isset($roomSuccessMessage) && $roomSuccess) echo '<p class="alert alert-success">' . $roomSuccessMessage . "</p>"; ?>
-<?php if (isset($roomInfo) && isset($roomInfoMessage) && $roomInfo) echo '<p class="alert alert-info">' . $roomInfoMessage . "</p>"; ?>
+<?php if (isset($_SESSION['roomSuccessMessage'])){ 
+    echo '<p class="alert alert-success">' . $_SESSION['roomSuccessMessage'] . "</p>"; 
+    $_SESSION['roomSuccessMessage']=null;
+    }?>
+<?php if (isset($_SESSION['roomInfoMessage'])){ 
+    echo '<p class="alert alert-info">' . $_SESSION['roomInfoMessage'] . "</p>"; 
+    $_SESSION['roomInfoMessage']=null;
+    }?>
 
 <div class="justify-content-around d-flex pb-4 flex-wrap">
     <?php foreach($hotelRooms as $room){ ?>
@@ -92,7 +98,10 @@ $imeHotela = "hotel". $hotelInfo->getId() .".jpg"; ?>
         <h2 class="justify-content-center d-flex w-100"> BOOKINGS </h2>
     </div>
 <hr>
-<?php if (isset($bookingSuccess) && isset($bookingSuccessMessage) && $bookingSuccess) echo '<p class="alert alert-success">' . $bookingSuccessMessage . "</p>"; ?>
+<?php if (isset($_SESSION['bookingDeleteMessage'])){ 
+    echo '<p class="alert alert-success">' . $_SESSION['bookingDeleteMessage'] . "</p>"; 
+    $_SESSION['bookingDeleteMessage']=null;
+    }?>
 <form method="post" action="<?php echo __SITE_URL . '/room/deleteBooking' ?>">
     <div class="justify-content-around pb-4 d-flex flex-wrap">
         <?php foreach($hotelBookings as $booking){ ?>
@@ -124,10 +133,10 @@ $imeHotela = "hotel". $hotelInfo->getId() .".jpg"; ?>
                 <button type="button" class="btn-close" id="closeNewRoom" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <?php if (isset($roomError) && isset($roomErrorMessage) && $roomError) {
-                    echo '<p class="alert alert-danger">' . $roomErrorMessage . "</p>";
-                ?>
-                <script>document.getElementById("newRoom").style.display = "block";</script><?php } ?>
+                <?php if (isset($_SESSION['roomErrorMessage'])){ 
+                    echo '<p class="alert alert-danger">' . $_SESSION['roomErrorMessage'] . "</p>"; 
+                    $_SESSION['roomErrorMessage']=null; ?>
+                    <script>document.getElementById("newRoom").style.display = "block";</script><?php } ?>
                 <form method="post" action="<?php echo __SITE_URL . '/room/save' ?>">
                     <div class="form-group">
                         <label for="room_type">Type:</label>

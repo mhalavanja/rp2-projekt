@@ -27,17 +27,17 @@ class loginController extends BaseController
         $password = $_POST["password"];
         $user = User::where("username", $username);
         if (!$user || sizeof($user) > 1) {
-            $this->registry->template->error = "Wrong username or password!";
-            $this->registry->template->show("landing");
+            $_SESSION["loginErrorMessage"] = "Wrong username or password!";
+            header('Location: ' . __SITE_URL .'/hotels');
             return;
         }
         $user = $user[0];
         if (!password_verify($password, $user->getPassword_hash())) {
-            $this->registry->template->error = "Wrong username or password!";
-            $this->registry->template->show("landing");
+            $_SESSION["loginErrorMessage"] = "Wrong username or password!";
+            header('Location: ' . __SITE_URL .'/hotels');
         } elseif (!$user->getHas_registered()) {
-            $this->registry->template->error = "You have to finish the registration first!";
-            $this->registry->template->show("landing");
+            $_SESSION["loginErrorMessage"] = "You have to finish the registration first!";
+            header('Location: ' . __SITE_URL .'/hotels');
         } else {
             $_SESSION["user"] = $user;
             header('Location: ' . __SITE_URL);
@@ -57,12 +57,11 @@ class loginController extends BaseController
         $username = $_POST["username"] ?? null;
         $password = $_POST["password"] ?? null;
         if (!$email || !$username || !$password) {
-            $this->registry->template->error = "Enter all the fields!";
-            $this->registry->template->show("landing");
-
+            $_SESSION["registerErrorMessage"] = "Enter all the fields!";
+            header('Location: ' . __SITE_URL .'/hotels');
         } elseif (User::where("username", $username)) {
-            $this->registry->template->error = "Username already exists!";
-            $this->registry->template->show("landing");
+            $_SESSION["registerErrorMessage"] = "Username already exists!";
+            header('Location: ' . __SITE_URL .'/hotels');
         } else {
             $user = new User();
             $user->setUsername($username);

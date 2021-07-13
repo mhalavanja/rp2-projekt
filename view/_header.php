@@ -33,8 +33,9 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <?php if (isset($loginError) && isset($loginErrorMessage) && $loginError) {
-                                    echo '<p class="alert alert-danger">' . $loginErrorMessage . "</p>";
+                                <?php if (isset($_SESSION['loginErrorMessage'])) {
+                                    echo '<p class="alert alert-danger">' . $_SESSION['loginErrorMessage'] . "</p>";
+                                    $_SESSION['loginErrorMessage'] = null;
                                 ?>
                                 <script>document.getElementById("login").style.display = "block";</script><?php } ?>
                                 <form method="post" action="<?php echo __SITE_URL . '/login/processLogin' ?>">
@@ -68,8 +69,9 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <?php if (isset($registerError) && isset($registerErrorMessage) && $registerError) {
-                                    echo '<p class="alert alert-danger">' . $registerErrorMessage . "</p>";
+                                <?php if (isset($_SESSION['registerErrorMessage'])) {
+                                    echo '<p class="alert alert-danger">' . $_SESSION['registerErrorMessage'] . "</p>";
+                                    $_SESSION['registerErrorMessage'] = null;
                                 ?>
                                 <script>document.getElementById("join").style.display = "block";</script><?php } ?>
                                 <form method="post" action="<?php echo __SITE_URL . '/login/processRegister' ?>">

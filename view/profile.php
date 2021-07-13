@@ -4,9 +4,26 @@ require_once __SITE_PATH . '/view/_navBar.php';
 if (!isset($_SESSION["user"])) return;
 else $user = $_SESSION["user"];
 ?>
-    <?php if (isset($proccessError) && isset($proccessErrorMessage) && $proccessError) echo '<p class="alert alert-danger">' . $proccessErrorMessage . "</p>"; ?>
-    <?php if (isset($proccessSuccess) && isset($proccessSuccessMessage) && $proccessSuccess) echo '<p class="alert alert-success">' . $proccessSuccessMessage . "</p>"; ?>
-    <?php if (isset($proccessInfo) && isset($proccessInfoMessage) && $proccessInfo) echo '<p class="alert alert-info">' . $proccessInfoMessage . "</p>"; ?>
+    <?php
+    if (isset($_SESSION["proccessErrorMessage"])) {
+        echo '<div class="alert alert-danger" role="alert">
+                ' . $_SESSION["proccessErrorMessage"] . '
+            </div>';
+        $_SESSION["proccessErrorMessage"] = null;
+    }
+    if (isset($_SESSION["proccessSuccessMessage"])) {
+        echo '<div class="alert alert-success" role="alert">
+                ' . $_SESSION["proccessSuccessMessage"] . '
+            </div>';
+        $_SESSION["proccessSuccessMessage"] = null;
+    }
+    if (isset($_SESSION["proccessInfoMessage"])) {
+        echo '<div class="alert alert-info" role="alert">
+                ' . $_SESSION["proccessInfoMessage"] . '
+            </div>';
+        $_SESSION["proccessInfoMessage"] = null;
+    }
+    ?>
     <div class="justify-content-center d-flex">
         <form method="post" class="w-25" action="<?php echo __SITE_URL . '/user/processProfile' ?>">
             <div class="form-group">
@@ -24,14 +41,14 @@ else $user = $_SESSION["user"];
             <br>
             <div class="form-group">
                 <label for="username">Username:</label>
-                <input class="form-control" id="username" type="text"
+                <input class="form-control" id="username" type="text" required
                     name="username"
                     value="<?php echo $user->getUsername() ?>">
             </div>
             <br>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input class="form-control" id="email" type="email" name="email"
+                <input class="form-control" id="email" type="email" name="email" required
                     value="<?php echo $user->getEmail() ?>">
             </div>
             <br>

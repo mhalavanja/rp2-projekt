@@ -6,16 +6,14 @@ class RoomController extends BaseController
 {
     function save(){
         if( RoomService::getRoomByTypeFromHotel($_POST["type"], $_SESSION["hotelInfo"][0]->getId() ) ){
-            $this->registry->template->roomError = true;
-            $this->registry->template->roomErrorMessage = "Room type already exist!";
-            $this->registry->template->show("info");
+            $_SESSION["roomErrorMessage"] = "Room type already exist!";           
+            header('Location: ' . __SITE_URL .'/hotels/info');
             return;
         }
         RoomService::saveRoom($_SESSION["hotelInfo"][0]->getId() ,$_POST["type"],$_POST["capacity"],$_POST["number_of_rooms"],$_POST["price"]);
         $_SESSION['hotelRooms'] = Room::where("id_hotel", $_SESSION["user"]->getisAdmin());
-        $this->registry->template->roomSuccess = true;
-        $this->registry->template->roomSuccessMessage = "Room created successfully!";
-        $this->registry->template->show("info");
+        $_SESSION["roomSuccessMessage"] = "Room created successfully!";
+        header('Location: ' . __SITE_URL .'/hotels/info');
         return;
     }
 
@@ -25,9 +23,8 @@ class RoomController extends BaseController
             if(isset($_POST[$rooms->getId()])) $room = $rooms;
 
         if($room->getCapacity() === $_POST["capacity"] && $room->getNum_of_rooms() === $_POST["number_of_rooms"] && $room->getPrice() === $_POST["price"] ){
-            $this->registry->template->roomInfo = true;
-            $this->registry->template->roomInfoMessage = "No new information added!";
-            $this->registry->template->show("info");
+            $_SESSION["roomInfoMessage"] = "No new information added!";        
+            header('Location: ' . __SITE_URL .'/hotels/info');
             return;
         }
         $room->setCapacity($_POST["capacity"]);
@@ -35,9 +32,8 @@ class RoomController extends BaseController
         $room->setPrice($_POST["price"]);
 
         RoomService::updateRoom($room);
-        $this->registry->template->roomSuccess = true;
-        $this->registry->template->roomSuccessMessage = "Room info updated successfully!";
-        $this->registry->template->show("info");
+        $_SESSION["roomSuccessMessage"] = "Room info updated successfully!";        
+        header('Location: ' . __SITE_URL .'/hotels/info');
         return;
     }
 
@@ -79,10 +75,8 @@ class RoomController extends BaseController
         foreach($_SESSION["hotelBookings"] as $bookings)
             if(isset($_POST[$bookings->getId()])) $booking = $bookings;
         RoomService::deleteReservation($booking);
-        $_SESSION['hotelBookings'] = Booking::where("id_hotel", $_SESSION["user"]->getisAdmin());
-        $this->registry->template->bookingSuccess = true;
-        $this->registry->template->bookingSuccessMessage = "Booking deleted successfully!";
-        $this->registry->template->show("info");
+        $_SESSION["bookingDeleteMessage"] = "Booking deleted successfully!";
+        header('Location: ' . __SITE_URL .'/hotels/info');
         return;
     }
 }
