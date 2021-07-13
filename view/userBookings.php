@@ -41,7 +41,7 @@ $bookings= $_SESSION['bookings'];
                                                 value=<?php if($review) echo $review->getRating() ?>>
                                         </div>
                                         <div class="form-group">
-                                            <label for="rating">Rating:</label>
+                                            <label for="comment">Comment:</label>
                                             <input class="form-control" id="comment" type="text" name="comment"
                                                 value="<?php if(isset($review)) echo $review->getComment() ?>" >
                                         </div>

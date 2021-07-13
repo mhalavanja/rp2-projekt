@@ -132,6 +132,10 @@ class Review extends Model
     {
         return self::$columns;
     }
+
+    public function jsonSerialize() {
+        return (object) get_object_vars($this);
+    }
 }
 
 Booking::staticInit();

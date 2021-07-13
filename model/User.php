@@ -111,6 +111,10 @@ class User extends Model
     {
         $this->has_registered = $has_registered;
     }
+
+    public function jsonSerialize() {
+        return (object) get_object_vars($this);
+    }
 }
 
 User::staticInit();

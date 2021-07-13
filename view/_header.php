@@ -128,14 +128,14 @@
         }
     }
 
-    if(loginSpan !== null){
+    if(loginSpan !== null && loginSpan !== undefined){
         loginSpan.onclick = function () {
             loginModal.style.display = "none";
             <?php unset($loginError); ?>
         }
     }
     
-    if(joinSpan !== null){
+    if(joinSpan !== null && joinSpan !== undefined){
         joinSpan.onclick = function () {
             joinModal.style.display = "none";
             <?php unset($registerError); ?>

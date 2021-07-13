@@ -83,6 +83,10 @@ class Room extends Model
     {
         return self::$columns;
     }
+
+    public function jsonSerialize() {
+        return (object) get_object_vars($this);
+    }
 }
 
 Room::staticInit();

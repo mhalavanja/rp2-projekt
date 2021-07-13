@@ -104,23 +104,24 @@ if (isset($_SESSION["booked"])) {
         });
     });
 
-    //$("#city").get(0).addEventListener('click', function (event) {
-    //    event.preventDefault();
-    //    $.ajax(
-    //        {
-    //            url: "<?php //echo $_SERVER["HTTP_HOST"] . __SITE_URL . '/controller/CityController.php' ?>//",
-    //            type: "GET",
-    //            dataType: "json",
-    //            success: function (arr) {
-    //                console.log(arr);
-    //            },
-    //            error: function (json, xhr, status, errorThrown) {
-    //                console.log(json,xhr, status, errorThrown);
-    //            },
-    //            complete: function (xhr, status) {
-    //            }
-    //        });
-    //});
+    $("#city").get(0).addEventListener('click', function (event) {
+        event.preventDefault();
+        $.ajax(
+            {
+                // url: "city",
+                url: "ajax/sort",
+                type: "GET",
+                dataType: "json",
+                success: function (arr) {
+                    console.log(arr);
+                },
+                error: function (xhr, status, errorThrown) {
+                    console.log(xhr, status, errorThrown);
+                },
+                complete: function (xhr, status) {
+                }
+            });
+    });
 </script>
 
 <?php require_once __SITE_PATH . '/view/_footer.php'; ?>

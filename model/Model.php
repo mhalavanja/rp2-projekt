@@ -9,7 +9,7 @@ spl_autoload_register(function ($class_name) {
     return true;
 });
 
-abstract class Model
+abstract class Model implements JsonSerializable
 {
     // Tablica u bazi podataka pridružena modelu. Svaka izvedena klase će definirati svoju.
     protected static $table = null;

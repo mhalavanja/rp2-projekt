@@ -103,6 +103,10 @@ class Hotel extends Model
     {
         return self::$number_of_comments;
     }
+
+    public function jsonSerialize() {
+        return (object) get_object_vars($this);
+    }
 }
 
 Hotel::staticInit();

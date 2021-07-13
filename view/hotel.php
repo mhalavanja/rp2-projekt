@@ -60,9 +60,9 @@ foreach ($reviews as $review) {
         <div>
             <div>
                 <div class="card-body">
-                    <p class="card-text">Room type: ' . $review->getName_user() . '</p>
-                    <p class="card-title">Capacity: ' . $review->getRating() . '</p>
-                    <p class="card-text">Price: ' . $room->getComment() . '</p>
+                    <p class="card-text">Username: ' . $review->getName_user() . '</p>
+                    <p class="card-title">Rating: ' . $review->getRating() . '</p>
+                    <p class="card-text">Comment: ' . $review->getComment() . '</p>
                 </div>
             </div>
         </div>
