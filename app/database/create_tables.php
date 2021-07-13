@@ -7,6 +7,7 @@ create_table_users();
 create_table_hotels();
 create_table_rooms();
 create_table_bookings();
+create_table_reviews();
 
 exit( 0 );
 
@@ -148,7 +149,9 @@ function create_table_reviews()
             'CREATE TABLE IF NOT EXISTS projekt_reviews (' .
             'id int NOT NULL PRIMARY KEY AUTO_INCREMENT,' .
             'id_user INT NOT NULL,' .
+            'name_user VARCHAR(50) NOT NULL,' .
             'id_hotel INT NOT NULL,' .
+            'name_hotel VARCHAR(100) NOT NULL,' .
             'rating INT,' .
             'comment VARCHAR(1000))'
         );

@@ -6,9 +6,12 @@ if (isset($error)) {
             ' . $error . '
           </div>';
 }
+if (!isset($hotel)) exit(1);
 echo '
-<div>
-        <div >
+<div class="container">
+  <div class="row">
+    <div class="col">
+        <div>
             <img src="' . __SITE_URL . '/static/images/hotel' . $hotel->getId() . '.jpg" class="">
         </div>
         <div>
@@ -18,13 +21,20 @@ echo '
                 <p class="">Price: ' . $hotel->getPrice() . '</p>
                 <p class="">Rating: ' . $hotel->getRating() . '</p>
         </div>
+        </div>
+        </div>
     </div>';
 
+if (!isset($rooms)) exit(1);
 foreach ($rooms as $room) {
-    echo '<div class=" card mb-3" style="max-width: 540px">
+    echo '
+<div class="container">
+  <div class="row">
+    <div class="col">
+<div class=" card mb-3" style="max-width: 540px">
     <div>
         <div >
-            <img src="'.$room->getImage() . '" class="img-fluid rounded-start" alt="Slika">
+            <img src="' . $room->getImage() . '" class="img-fluid rounded-start" alt="Slika">
         </div>
         <div>
             <div class="card-body">
@@ -41,10 +51,32 @@ foreach ($rooms as $room) {
         </div>
     </div>
 </div>
+</div>
+
+';
+}
+
+if (!isset($reviews)) exit(1);
+foreach ($reviews as $review) {
+    echo '
+<div class="col">
+<div class=" card mb-3" style="max-width: 540px">
+    <div>
+        <div>
+            <div class="card-body">
+                <p class="card-text">Room type: ' . $review->getName_user() . '</p>
+                <p class="card-title">Capacity: ' . $review->getRating() . '</p>
+                <p class="card-text">Price: ' . $room->getComment() . '</p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
 ';
 }
 ?>
-
 
 
 <?php

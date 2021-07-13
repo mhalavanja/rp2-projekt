@@ -16,15 +16,14 @@ class HotelsController extends BaseController
 
     function hotel()
     {
-        $hotel = null;
-        $rooms = null;
         if (isset($_GET['hotelId'])) {
             $hotelId = $_GET['hotelId'];
             $hotel = Hotel::find($hotelId);
             $rooms = Room::where("id_hotel", $hotelId);
+            $reviews = Review::where("id_hotel", $hotelId);
         }
         else {
-            echo "AAAAAAAAAA";
+            echo "[ERROR] hotelId nije bio postavljen.";
             exit(1);
         }
 //        else if (isset($_SESSION['hotel']) && isset($_SESSION['rooms'])) {
@@ -34,8 +33,10 @@ class HotelsController extends BaseController
 //        }
         $_SESSION['hotel'] = $hotel;
         $_SESSION['rooms'] = $rooms;
+        $_SESSION['reviews'] = $reviews;
         $this->registry->template->hotel = $hotel;
         $this->registry->template->rooms = $rooms;
+        $this->registry->template->reviews = $reviews;
         $this->registry->template->show("hotel");
     }
 
