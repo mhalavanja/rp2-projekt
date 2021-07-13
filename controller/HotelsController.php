@@ -1,17 +1,13 @@
 <?php
-require_once __SITE_PATH . '/util/starHotelUtil.php';
-require_once __SITE_PATH . '/util/reviewUtil.php';
 require __SITE_PATH . "/service/HotelService.php";
+require __SITE_PATH . "/service/ReviewService.php";
 
-//TODO: Ovaj i sve ostale controllere i viewove treba promijeniti
 class HotelsController extends BaseController
 {
     function index()
     {
-//        if(!$_SESSION["user"]) header('Location: ' . __SITE_URL . 'login');
         $hotels = Hotel::all();
         $this->registry->template->hotels = $hotels;
-//        $this->registry->template->starHotels = getStarHotels($hotels);
         $this->registry->template->show("landing");
     }
 
@@ -21,17 +17,12 @@ class HotelsController extends BaseController
             $hotelId = $_GET['hotelId'];
             $hotel = Hotel::find($hotelId);
             $rooms = Room::where("id_hotel", $hotelId);
-            $reviews = Review::where("id_hotel", $hotelId);
+            $reviews = ReviewService::getReviewForHotelId($hotelId);
         }
         else {
             echo "[ERROR] hotelId nije bio postavljen.";
             exit(1);
         }
-//        else if (isset($_SESSION['hotel']) && isset($_SESSION['rooms'])) {
-//            $hotel = $_SESSION['hotel'];
-//            $rooms = $_SESSION['rooms'];
-////            $_SESSION['hotel'] = null;
-//        }
         $_SESSION['hotel'] = $hotel;
         $_SESSION['rooms'] = $rooms;
         $_SESSION['reviews'] = $reviews;
@@ -79,7 +70,7 @@ class HotelsController extends BaseController
     function addReview(){
         $rating = $_POST["rating"];
         $comment = $_POST["comment"] ?? "";
-        HotelService::updateReview($_POST["bookingId"],$_POST["hotelId"],$rating,$comment);
+        ReviewService::updateReview($_POST["bookingId"],$_POST["hotelId"],$rating,$comment);
         $_SESSION['commentMessage']="Review updated";
         header('Location: ' . __SITE_URL . '/hotels/userBookings');
     }

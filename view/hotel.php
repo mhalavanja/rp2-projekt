@@ -47,7 +47,6 @@ foreach ($rooms as $room) {
             </div>
         </div>
     </div>
-</div>
 
 ';
 }

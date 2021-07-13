@@ -9,7 +9,6 @@ class HotelService
     {
         $db = DB::getConnection();
         try {
-//            $db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
             $execArray = array(":city" => $city);
             $sql = "SELECT DISTINCT h1.* FROM projekt_hotels h1";
             if ($fromDate != null && $toDate != null) {
@@ -42,26 +41,9 @@ class HotelService
             }
             $st = $db->prepare($sql);
             $st->execute($execArray);
-            $ret = propToModel($st, "Hotel");
-//            echo "<pre>";
-//            print_r($st->debugDumpParams());
-//            print_r($ret);
-//            echo "<pre>";
-//            exit();
-            return $ret;
+            return propToModel($st, "Hotel");
         } catch (PDOException $e) {
             exit("PDO error [select projekt_hotels]: " . $e->getMessage());
         }
     }
-
-    function updateReview($bookingId,$hotelId,$rating,$comment){
-        $db = DB::getConnection();
-    try {
-        $st = $db->prepare('INSERT INTO projekt_reviews(id_booking, id_user, name_user, id_hotel, name_hotel, rating, comment) VALUES (:id_booking, :id_user, :name_user, :id_hotel, :name_hotel, :rating, :comment)');
-        $st->execute(array('id_booking'=>$bookingId, 'id_user'=> $_SESSION['user']->getId(), 'name_user'=> $_SESSION['user']->getName(), 'id_hotel'=>$hotelId, 'name_hotel'=>Hotel::find($hotelId)->getName(), 'rating'=>$rating, 'comment'=>$comment));
-    } catch (PDOException $e) {
-        exit("PDO error [insert projekt_users]: " . $e->getMessage());
-    }
-    }
 }
-
