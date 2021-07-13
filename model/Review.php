@@ -14,7 +14,7 @@ class Review extends Model
     protected static $table = "projekt_reviews";
     protected static $columns = [];
 
-    public function getByBookingId($bookingId){
+    public static function getByBookingId($bookingId){
         $db = DB::getConnection();
         try{
             $sql = "SELECT * FROM projekt_reviews WHERE id_booking = :val;";
