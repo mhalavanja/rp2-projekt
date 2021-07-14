@@ -30,10 +30,15 @@ echo '
 
 //prikazemo  informacije o svim sobama u tom hotelu te se one mogu bookirati ako su dostupne
 if (!isset($rooms)) exit(1);
-foreach ($rooms as $room) {
-    echo '
-<div class="container">
-  <div class="row">
+if (!isset($reviews)) exit(1);
+
+echo '<div class="container">';
+for ($i = 0; $i < max(sizeof($rooms), sizeof($reviews)); ++$i) {
+    $room = $i < sizeof($rooms) ? $rooms[$i] : null;
+    $review = $i < sizeof($reviews)? $reviews[$i] : null;
+    if ($room || $review) echo '<div class="row">';
+    if ($review && !$room) echo '<div class="col"></div>';
+    if($room) echo '
     <div class="col">
         <div class=" card mb-3" style="max-width: 540px">
             <div>
@@ -50,16 +55,8 @@ foreach ($rooms as $room) {
                 </div>
             </div>
         </div>
-    </div>
-
-';
-}
-
-//prikazemo  komentare i ocjene svih usera koji su ih ostavili za dani hotel
-if (!isset($reviews)) exit(1);
-foreach ($reviews as $review) {
-    echo '
-<div class="col">
+    </div>';
+    if($review) echo '
     <div class=" card mb-3" style="max-width: 540px">
         <div>
             <div>
@@ -71,9 +68,7 @@ foreach ($reviews as $review) {
             </div>
         </div>
     </div>
-</div>
-</div>
-</div>
+    </div>
 ';
 }
 ?>
